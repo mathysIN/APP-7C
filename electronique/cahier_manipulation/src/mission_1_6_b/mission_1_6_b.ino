@@ -7,6 +7,6 @@ void setup() {
 
 void loop() {
   int etatBouton = digitalRead(BUTTON_PIN);
-  Serial.println(etatBouton == HIGH ? "Non pressé" : "Press");
-  delay(500);
+  Serial.println(etatBouton == HIGH ? "Non pressé" : "Pressé");
+  delay(200);
 }
