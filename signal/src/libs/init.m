@@ -5,5 +5,4 @@ function init()
     workspace;
     format long g;
     format compact;
-    fontSize = 18;
 end
