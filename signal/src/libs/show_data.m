@@ -1,44 +1,37 @@
-function show_data(y, fs)
+function show_data(y, fs, seuilDetectionDBm, invalidList, step)
+    
     fontSize = 18;
-    threshold = 50;
-    sensitivity         = -48;
-    gain                = 30;
-    seuilDetectionSPL   = 80;
-    dB_RMS              = seuilDetectionSPL + sensitivity - 94;
-    V_RMS               = 10^(dB_RMS/20);
-    seuilDetectionDBm   = 10*log10(V_RMS^2/1e-3)+gain;
-
-    % Calcul de la durée totale du signal
+    threshold = 0.50;
     duration = length(y) / fs;
-
-    % Affichage du signal dans le domaine temporel
+    
     t = linspace(0, duration, length(y));
     plot(t, y, 'b-', 'LineWidth', 2);
+    hold on;
+    temp = find(y > seuilDetectionDBm);
+    plot(t(temp), y(temp), 'red', 'LineWidth', 2);
     grid on;
     xlabel('t (seconds)', 'FontSize', fontSize);
     ylabel('Amplitude', 'FontSize', fontSize);
 
-    invalid = 0;
-    buffer_invalid = 0;
-    for i = 1:length(y)
-        if y(i) > seuilDetectionDBm
-            buffer_invalid = buffer_invalid + 1;
-        else
-            buffer_invalid = buffer_invalid - 1;
-        end
-        
-        if (buffer_invalid == fs)
-            buffer_invalid = 0;
-            invalid = invalid + 1;
-        end
+    for i = 1:length(invalidList)
+        disp("Son invalide à la seconde " + invalidList(i));
     end
 
-    pourcentageInvalid = (invalid/length(y))*100;
-    disp(invalid + "/" + (length(y)/fs) + " invalid" );
-    if threshold < pourcentageInvalid
-        disp("Ce son est trop fort");
-    else
-        disp("Mon gars ca va👍");
+    invalid = length(invalidList)*step;
+
+    disp(invalid + "/" + duration + " secondes invalides " );
+
+    if invalid > duration*threshold
+        disp("Le son est très désagréable");
+    else 
+        if invalid > duration*threshold*0.5
+            disp("Le son est désagréable parfois");
+        else 
+            if invalid ~= 0
+                disp("Le son est très peu désagréable");
+            else 
+                disp("Le son est acceptable");
+            end
+        end
     end
-    fprintf("%s/%s", invalid, length(y));
 end
