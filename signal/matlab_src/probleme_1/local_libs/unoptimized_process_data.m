@@ -2,8 +2,6 @@
 % Groupe :      7C
 % Description : Cette fonction traite le signal audio fourni avec readaudio 
 %               en le convertissant en dBm et identifie les segments invalides.
-%               Elle a été optimisée pour réduire la consommation mémoire.
-%
 % Entrées :
 %   y               Vecteur      Signal audio d'entrée
 %   fs              Double       Fréquence d'échantillonnage du signal
@@ -21,16 +19,11 @@
 %   seuilDetectionSPL  Double   Seuil de détection en SPL
 %   dB_RMS          Double      Niveau en dB RMS
 %   V_RMS           Double      Niveau RMS en Volts
-%   invalidList     Matrice     Liste des segments invalides [début, fin]
-%   skipFor         Entier      Variable de saut pour l'analyse des segments invalides
 %   buffer          Vecteur     Tampon pour l'analyse des segments invalides
-%   bufferIndex     Vecteur     Indices de tampon pour la gestion mémoire optimisée
-%   j               Entier      Indice pour la gestion mémoire optimisée
-%   i               Entier      Indice principal
-%   value           Double      Valeur courante du signal audio
-%   average         Double      Moyenne du tampon pour la détection des segments invalides
-%   second          Double      Seconde correspondante à l'indice i
+%   skipFor         Entier      Variable de saut pour l'analyse des segments invalides
+%
 %------------------------------------------
+
 
 function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
     sensitivity = -48;
@@ -44,16 +37,8 @@ function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
 
     invalidList = [];
     skipFor = 0;
-    buffer = [];
-    bufferIndex = zeros(1, length(y));
-    j = 1;
 
     for i = 1:length(y)
-        if not(isempty(buffer))
-            if(bufferIndex(i) == 2)
-                buffer = buffer(2:end);
-            end
-        end
         if skipFor > 0
             skipFor = skipFor - 1;
             continue;
@@ -62,23 +47,18 @@ function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
             continue
         end
         if y(i) >= seuilDetectionDBm
-            if(j < i) 
-                j = i;
-            end
-            while (j - i) < fs && length(y) > j
+            buffer = [];
+            for j = 1+i:fs+i
+                if length(y) < j
+                    continue
+                end
                 value = y(j);
                 if value == Inf || value == -Inf
-                    bufferIndex(j) = 1;
-                else
-                    bufferIndex(j) = 2;
-                    buffer = [buffer value];
+                    continue
                 end
-                j = j + 1;
+                buffer = [buffer; value];
             end
-            average = mean(buffer);
-            if average >= seuilDetectionDBm
-                second = i / fs;
-                buffer = [];
+            if mean(buffer) >= seuilDetectionDBm
                 skipFor = j - i;
                 invalidList = [invalidList; [i, j]];
             end

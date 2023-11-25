@@ -29,8 +29,6 @@ addpath('../libs');
 addpath('./local_libs');
 init();
 
-step = 1;
-
 [y, fs] = generate_input_data("../../files/MarteauPiqueur01.mp3");
-[new_y, seuilDetectionDBm, invalidList] = process_data(y, fs, step);
-show_data(y, new_y, fs, seuilDetectionDBm, invalidList, step)
+[new_y, seuilDetectionDBm, invalidList] = process_data(y, fs);
+show_data(y, new_y, fs, seuilDetectionDBm, invalidList)

@@ -1,34 +1,36 @@
 %------------------------------------------
-% Groupe :      Groupe 7C
-% Description : Cette fonction affiche les tracés des valeurs d'amplitude et de dBm
-%               en fonction du temps, mettant en surbrillance les échantillons qui
-%               dépassent le seuil de détection en dBm. Elle fournit également un
-%               rapport sur les secondes considérées invalides et évalue le statut
-%               global du son en fonction de la proportion d'échantillons invalides.
+% Groupe :      7C
+% Description : Cette fonction affiche les données d'une manière lisible 
+%               des résultats des fonctions précédentes.
+%
 % Entrées :
-%   y                   Vecteur     Signal audio original en amplitude
-%   new_y               Vecteur     Signal audio en dBm après traitement
-%   fs                  Double      Fréquence d'échantillonnage du signal audio
-%   seuilDetectionDBm  Double      Seuil de détection en dBm
-%   invalidList         Vecteur     Liste des secondes considérées invalides
-%   step                Double      Pas de temps en secondes pour l'analyse
+%   y                   Vecteur      Signal audio d'origine
+%   new_y               Vecteur      Signal audio traité en dBm
+%   fs                  Double       Fréquence d'échantillonnage du signal
+%   seuilDetectionDBm  Double       Seuil de détection en dBm
+%   invalidList         Matrice      Liste des segments invalides [début, fin]
 %
-% Sorties :
-%   Aucune
+% Sorties :            Aucune
 %
-% Modifiées :   Aucune
+% Modifiées :          Aucune
 %
 % Locales :
-%   fontSize            Double      Taille de police pour les étiquettes d'axes
-%   threshold           Double      Seuil pour évaluer le statut global du son
-%   duration            Double      Durée totale du signal audio en secondes
-%   t                   Vecteur     Vecteur temporel pour les tracés
-%   temp                Vecteur     Indices des échantillons dépassant le seuil
-%   i                   Entier      Indice de boucle
-%   invalid             Double      Durée totale des échantillons invalides
+%   fontSize            Entier       Taille de police pour le graphique
+%   threshold           Double       Seuil pour l'évaluation de la désagréabilité du son
+%   duration            Double       Durée totale du signal audio
+%   t                   Vecteur      Vecteur temporel
+%   temp                Vecteur      Indices des valeurs dépassant le seuil
+%   invalid             Double       Durée totale des segments invalides
+%   skipFor             Entier       Variable de saut pour l'analyse des segments invalides
+%   i                   Entier       Indice principal pour l'analyse des segments invalides
+%   invalidStart        Entier       Début du segment invalide courant
+%   invalidEnd          Entier       Fin du segment invalide courant
+%   y                   Entier       Variable de boucle pour l'analyse des segments invalides
+%   invalidDuration     Double       Durée totale des segments invalides en secondes
+%
 %------------------------------------------
 
-function show_data(y, new_y, fs, seuilDetectionDBm, invalidList, step)
+function show_data(y, new_y, fs, seuilDetectionDBm, invalidList)
     fontSize = 18;
     threshold = 0.50;
     duration = length(y) / fs;
@@ -38,7 +40,7 @@ function show_data(y, new_y, fs, seuilDetectionDBm, invalidList, step)
     plot(t, new_y, 'b-', 'LineWidth', 2);
     hold on;
     temp = find(new_y > seuilDetectionDBm);
-    % Dépassement du seuil en rouge (représentation graphique non-précise)
+    % Dépassement du seuil en rouge (représentation non-précise)
     plot(t(temp), new_y(temp), 'red', 'LineWidth', 2);
     grid on;
     xlabel('t (seconds)', 'FontSize', fontSize);
@@ -49,13 +51,27 @@ function show_data(y, new_y, fs, seuilDetectionDBm, invalidList, step)
     xlabel('t (seconds)', 'FontSize', fontSize);
     ylabel('Amplitude', 'FontSize', fontSize);
 
+    invalid = 0;
+    skipFor = 0;
     for i = 1:length(invalidList)
-        disp("Son invalide de la seconde " + (invalidList(i, 1)/fs) + " à " + (invalidList(i, 2)/fs) + ".");
+        if skipFor > 0
+            skipFor = skipFor - 1;
+            continue;
+        end
+        invalidStart = invalidList(i, 1);
+        invalidEnd = invalidList(i, 2);
+        y = i;
+        while y < length(invalidList) && (invalidList(y + 1, 1) - invalidEnd) == 1
+            invalidEnd = invalidList(y + 1, 2);
+            y = y + 1;
+            skipFor = skipFor + 1;
+        end
+        invalid = invalid + (invalidEnd - invalidStart);
+        disp("Son invalide de la seconde " + (invalidStart/fs) + " à " + (invalidEnd/fs));
     end
 
-    invalid = length(invalidList)*step;
-
-    disp(invalid + "/" + duration + " secondes invalides " );
+    invalidDuration = invalid/fs;
+    disp(invalidDuration + "/" + duration + " secondes invalides " );
 
     if invalid > duration*threshold
         disp("Le son est très désagréable");
