@@ -1,5 +1,5 @@
 %------------------------------------------
-% Groupe :      7C
+% Groupe :      Groupe 7C
 % Description : Cette fonction traite le signal audio fourni avec readaudio 
 %               en le convertissant en dBm et identifie les segments invalides.
 %               Elle a été optimisée pour réduire la consommation mémoire.

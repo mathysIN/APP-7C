@@ -1,5 +1,5 @@
 %------------------------------------------
-% Groupe :      7C
+% Groupe :      Groupe 7C
 % Description : Cette fonction affiche les données d'une manière lisible 
 %               des résultats des fonctions précédentes.
 %
@@ -38,6 +38,7 @@ function show_data(y, new_y, fs, seuilDetectionDBm, invalidList)
     t = linspace(0, duration, length(y));
     
     plot(t, new_y, 'b-', 'LineWidth', 2);
+    title("Signal en puissance dBm");
     hold on;
     temp = find(new_y > seuilDetectionDBm);
     % Dépassement du seuil en rouge (représentation non-précise)
@@ -48,6 +49,7 @@ function show_data(y, new_y, fs, seuilDetectionDBm, invalidList)
     figure;
     
     plot(t, y, 'b-', 'LineWidth', 2);
+    title("Signal de l'audio");
     xlabel('t (seconds)', 'FontSize', fontSize);
     ylabel('Amplitude', 'FontSize', fontSize);
 
