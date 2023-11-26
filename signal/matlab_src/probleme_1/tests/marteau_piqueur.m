@@ -7,5 +7,4 @@
 % Locales : Aucune
 %------------------------------------------
 
-
 run_test("../../../files/MarteauPiqueur01.mp3");

@@ -7,5 +7,4 @@
 % Locales : Aucune
 %------------------------------------------
 
-
 run_test("../../../files/FluteNote01.mp3");

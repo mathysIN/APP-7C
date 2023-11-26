@@ -9,6 +9,8 @@
 %   fs                  Double       Fréquence d'échantillonnage du signal
 %   seuilDetectionDBm  Double       Seuil de détection en dBm
 %   invalidList         Matrice      Liste des segments invalides [début, fin]
+%   fileName         String     Le chemin vers le fichier
+%
 %
 % Sorties :            Aucune
 %
@@ -27,34 +29,49 @@
 %   invalidEnd          Entier       Fin du segment invalide courant
 %   y                   Entier       Variable de boucle pour l'analyse des segments invalides
 %   invalidDuration     Double       Durée totale des segments invalides en secondes
+%   fileName            String          L'extension du fichier
 %
 %------------------------------------------
 
-function show_data(y, new_y, fs, seuilDetectionDBm, invalidList)
+function show_data(y, new_y, fs, seuilDetectionDBm, invalidList, fileName)
     fontSize = 18;
     threshold = 0.50;
     duration = length(y) / fs;
+    [~, fileName, fileExtension] = fileparts(fileName);
+    fileName = fileName + fileExtension;
     
     t = linspace(0, duration, length(y));
+    invalidIntervals = invalidList/fs;
     
     plot(t, new_y, 'b-', 'LineWidth', 2);
     title("Signal en puissance dBm");
     hold on;
-    temp = find(new_y > seuilDetectionDBm);
-    % Dépassement du seuil en rouge (représentation non-précise)
-    plot(t(temp), new_y(temp), 'red', 'LineWidth', 2);
-    grid on;
+    exceedIndices = new_y > seuilDetectionDBm;
+    plot(t(exceedIndices), new_y(exceedIndices), 'r', 'LineWidth', 2);
     xlabel('t (seconds)', 'FontSize', fontSize);
     ylabel('dBm', 'FontSize', fontSize);
+    legend('Signal', 'Échantillons excédent le seuil');
+    hold off;
     figure;
-    
+
     plot(t, y, 'b-', 'LineWidth', 2);
-    title("Signal de l'audio");
+    title("Signal de l'audio " + fileName);
     xlabel('t (seconds)', 'FontSize', fontSize);
     ylabel('Amplitude', 'FontSize', fontSize);
+    hold on;
+    if not(isempty(invalidIntervals))
+        start_times = invalidIntervals(:, 1);
+        end_times = invalidIntervals(:, 2);
+        for i = 1:size(invalidIntervals, 1)
+            patch([start_times(i), end_times(i), end_times(i), start_times(i)], [min(y), min(y), max(y), max(y)], 'r', 'FaceAlpha', 0.2, 'EdgeColor', 'none');
+        end
+    end
+    legend('Signal', 'Secondes pénibles');
+    hold off;
 
     invalid = 0;
     skipFor = 0;
+    
     for i = 1:length(invalidList)
         if skipFor > 0
             skipFor = skipFor - 1;
@@ -69,20 +86,20 @@ function show_data(y, new_y, fs, seuilDetectionDBm, invalidList)
             skipFor = skipFor + 1;
         end
         invalid = invalid + (invalidEnd - invalidStart);
-        disp("Son invalide de la seconde " + (invalidStart/fs) + " à " + (invalidEnd/fs));
+        disp("Son pénible de la seconde " + (invalidStart/fs) + " à " + (invalidEnd/fs));
     end
 
     invalidDuration = invalid/fs;
-    disp(invalidDuration + "/" + duration + " secondes invalides " );
+    disp(invalidDuration + "/" + duration + " secondes pénibles" );
 
     if invalid > duration*threshold
-        disp("Le son est très désagréable");
+        disp("Le son est très pénible");
     else 
         if invalid > duration*threshold*0.5
-            disp("Le son est désagréable parfois");
+            disp("Le son est pénible parfois");
         else 
             if invalid ~= 0
-                disp("Le son est très peu désagréable");
+                disp("Le son est très peu pénible");
             else 
                 disp("Le son est acceptable");
             end

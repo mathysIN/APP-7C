@@ -23,15 +23,16 @@
 %   new_y               Vecteur     Signal audio en dBm après traitement
 %   seuilDetectionDBm  Double      Seuil de détection en dBm
 %   invalidList         Vecteur     Liste des secondes considérées invalides
+%   fileName         String     Le chemin vers le fichier
 %------------------------------------------
 
 function run_test(fileName)
-    addpath('.../libs');
+    addpath('../../libs');
     addpath('../local_libs');
     init();
     
     [y, fs] = generate_input_data(fileName);
     [new_y, seuilDetectionDBm, invalidList] = process_data(y, fs);
-    show_data(y, new_y, fs, seuilDetectionDBm, invalidList)
+    show_data(y, new_y, fs, seuilDetectionDBm, invalidList, fileName)
 end
 
