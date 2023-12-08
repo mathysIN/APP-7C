@@ -4,5 +4,5 @@ function init()
     workspace;
     format long g;
     format compact;
-    fprintf('Beginning to run %s.m.\n', mfilename);
+    fprintf('Beginning to run script...\n');
 end

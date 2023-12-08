@@ -24,7 +24,6 @@
 %
 %------------------------------------------
 
-
 function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
     sensitivity = -48;
     gain = 30;

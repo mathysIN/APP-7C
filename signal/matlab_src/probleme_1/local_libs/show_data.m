@@ -34,75 +34,75 @@
 %------------------------------------------
 
 function show_data(y, new_y, fs, seuilDetectionDBm, invalidList, fileName)
-fontSize = 18;
-threshold = 0.50;
-duration = length(y) / fs;
-[~, fileName, fileExtension] = fileparts(fileName);
-fileName = fileName + fileExtension;
+    fontSize = 18;
+    threshold = 0.50;
+    duration = length(y) / fs;
+    [~, fileName, fileExtension] = fileparts(fileName);
+    fileName = fileName + fileExtension;
 
-t = linspace(0, duration, length(y));
-invalidIntervals = invalidList/fs;
+    t = linspace(0, duration, length(y));
+    invalidIntervals = invalidList/fs;
 
-plot(t, new_y, 'b-', 'LineWidth', 2);
-title("Signal en puissance dBm " + fileName);
-hold on;
-exceedIndices = new_y > seuilDetectionDBm;
-plot(t(exceedIndices), new_y(exceedIndices), 'r', 'LineWidth', 2);
-xlabel('t (seconds)', 'FontSize', fontSize);
-ylabel('dBm', 'FontSize', fontSize);
-legend('Signal', 'Échantillons excédent le seuil');
-hold off;
-figure;
+    plot(t, new_y, 'b-', 'LineWidth', 2);
+    title("Signal en puissance dBm " + fileName);
+    hold on;
+    exceedIndices = new_y > seuilDetectionDBm;
+    plot(t(exceedIndices), new_y(exceedIndices), 'r', 'LineWidth', 2);
+    xlabel('t (seconds)', 'FontSize', fontSize);
+    ylabel('dBm', 'FontSize', fontSize);
+    legend('Signal', 'Échantillons excédent le seuil');
+    hold off;
+    figure;
 
-plot(t, y, 'b-', 'LineWidth', 2);
-title("Signal de l'audio " + fileName);
-xlabel('t (seconds)', 'FontSize', fontSize);
-ylabel('Amplitude', 'FontSize', fontSize);
-hold on;
-if not(isempty(invalidIntervals))
-    start_times = invalidIntervals(:, 1);
-    end_times = invalidIntervals(:, 2);
-    for i = 1:size(invalidIntervals, 1)
-        patch([start_times(i), end_times(i), end_times(i), start_times(i)], [min(y), min(y), max(y), max(y)], 'r', 'FaceAlpha', 0.2, 'EdgeColor', 'none');
-    end
-end
-legend('Signal', 'Secondes pénibles');
-hold off;
-
-invalid = 0;
-skipFor = 0;
-
-for i = 1:length(invalidList)
-    if skipFor > 0
-        skipFor = skipFor - 1;
-        continue;
-    end
-    invalidStart = invalidList(i, 1);
-    invalidEnd = invalidList(i, 2);
-    y = i;
-    while y < length(invalidList) && (invalidList(y + 1, 1) - invalidEnd) == 1
-        invalidEnd = invalidList(y + 1, 2);
-        y = y + 1;
-        skipFor = skipFor + 1;
-    end
-    invalid = invalid + (invalidEnd - invalidStart);
-    disp("Son pénible de la seconde " + (invalidStart/fs) + " à " + (invalidEnd/fs));
-end
-
-invalidDuration = invalid/fs;
-disp(invalidDuration + "/" + duration + " secondes pénibles" );
-
-if invalid > duration*threshold
-    disp("Le son est très pénible");
-else
-    if invalid > duration*threshold*0.5
-        disp("Le son est pénible parfois");
-    else
-        if invalid ~= 0
-            disp("Le son est très peu pénible");
-        else
-            disp("Le son est acceptable");
+    plot(t, y, 'b-', 'LineWidth', 2);
+    title("Signal de l'audio " + fileName);
+    xlabel('t (seconds)', 'FontSize', fontSize);
+    ylabel('Amplitude', 'FontSize', fontSize);
+    hold on;
+    if not(isempty(invalidIntervals))
+        start_times = invalidIntervals(:, 1);
+        end_times = invalidIntervals(:, 2);
+        for i = 1:size(invalidIntervals, 1)
+            patch([start_times(i), end_times(i), end_times(i), start_times(i)], [min(y), min(y), max(y), max(y)], 'r', 'FaceAlpha', 0.2, 'EdgeColor', 'none');
         end
     end
-end
+    legend('Signal', 'Secondes pénibles');
+    hold off;
+
+    invalid = 0;
+    skipFor = 0;
+
+    for i = 1:length(invalidList)
+        if skipFor > 0
+            skipFor = skipFor - 1;
+            continue;
+        end
+        invalidStart = invalidList(i, 1);
+        invalidEnd = invalidList(i, 2);
+        y = i;
+        while y < length(invalidList) && (invalidList(y + 1, 1) - invalidEnd) == 1
+            invalidEnd = invalidList(y + 1, 2);
+            y = y + 1;
+            skipFor = skipFor + 1;
+        end
+        invalid = invalid + (invalidEnd - invalidStart);
+        disp("Son pénible de la seconde " + (invalidStart/fs) + " à " + (invalidEnd/fs));
+    end
+
+    invalidDuration = invalid/fs;
+    disp(invalidDuration + "/" + duration + " secondes pénibles" );
+
+    if invalid > duration*threshold
+        disp("Le son est très pénible");
+    else
+        if invalid > duration*threshold*0.5
+            disp("Le son est pénible parfois");
+        else
+            if invalid ~= 0
+                disp("Le son est très peu pénible");
+            else
+                disp("Le son est acceptable");
+            end
+        end
+    end
 end
