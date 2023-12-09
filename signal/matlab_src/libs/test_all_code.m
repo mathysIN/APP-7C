@@ -18,7 +18,7 @@
 function test_all_code(tests)
     disp(" ");
     if isempty(tests)
-        disp("Pas de tests à effectuer")
+        disp("Pas de tests à effectuer");
     else
         disp(sum(tests) + "/" + (length(tests)) + " tests réussis");
     end
