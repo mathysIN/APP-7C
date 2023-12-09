@@ -20,5 +20,5 @@ function init()
     workspace;
     format long g;
     format compact;
-    fprintf('Beginning to run script...\n');
+    disp('Beginning to run script...\n');
 end
