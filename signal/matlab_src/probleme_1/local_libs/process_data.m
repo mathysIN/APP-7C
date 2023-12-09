@@ -40,7 +40,8 @@ function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
     V_RMS = 10^(dB_RMS/20);
 
     seuilDetectionDBm = 10*log10(V_RMS^2/1e-3)+gain;
-    y = 10*log10((y.^2)/1e-3);
+    y = 10*log10((y.^2)/1e-3)+gain;
+    bruh = (mean(y( ~any( isnan( y ) | isinf( y ), 2 ),: )));
 
     invalidList = [];
     skipFor = 0;
