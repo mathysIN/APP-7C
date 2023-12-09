@@ -1,6 +1,6 @@
 %------------------------------------------
 % Groupe :      Groupe 7C
-% Description : Script de test pour la fonction calculate_bits.
+% Description : Script de test pour la fonction calculate_gain.
 %
 % Entrées :
 %   Aucune
