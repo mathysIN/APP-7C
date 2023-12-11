@@ -27,7 +27,9 @@
 %------------------------------------------
 
 addpath('../libs');
-addpath('./local_libs');
+addpath('./local_libs/generate_input_data');
+addpath('./local_libs/process_data');
+addpath('./local_libs/show_data');
 init();
 fileName = "MarteauPiqueur01.mp3";
 
