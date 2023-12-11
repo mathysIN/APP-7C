@@ -27,11 +27,13 @@
 %------------------------------------------
 
 function run_test(fileName)
-    addpath('../../libs');
-    addpath('../local_libs');
+    addpath('../../../libs');
+    addpath('../../local_libs/generate_input_data');
+    addpath('../../local_libs/process_data');
+    addpath('../../local_libs/show_data');
     init();
     
-    [y, fs] = generate_input_data(fileName);
+    [y, fs] = generate_input_data(get_resource_path(fileName));
     [new_y, seuilDetectionDBm, invalidList] = process_data(y, fs);
     show_data(y, new_y, fs, seuilDetectionDBm, invalidList, fileName)
 end
