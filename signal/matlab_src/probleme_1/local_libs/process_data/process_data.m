@@ -41,7 +41,6 @@ function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
 
     seuilDetectionDBm = 10*log10(V_RMS^2/1e-3)+gain;
     y = 10*log10((y.^2)/1e-3)+gain;
-    bruh = (mean(y( ~any( isnan( y ) | isinf( y ), 2 ),: )));
 
     invalidList = [];
     skipFor = 0;
@@ -78,7 +77,6 @@ function [y, seuilDetectionDBm, invalidList] = process_data(y, fs)
             end
             average = mean(buffer);
             if average >= seuilDetectionDBm
-                second = i / fs;
                 buffer = [];
                 skipFor = j - i;
                 invalidList = [invalidList; [i, j]];
