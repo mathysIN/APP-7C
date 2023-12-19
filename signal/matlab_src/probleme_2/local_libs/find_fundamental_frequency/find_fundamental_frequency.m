@@ -22,7 +22,7 @@
 %   high_freq_index Entier    Indice de la fréquence haute dans le spectre
 %------------------------------------------
 
-function [f0, power_dbm, high_freq] = findFundamentalFrequencyAndAnalyze(audio, fs)
+function [f0, power_dbm, high_freq] = find_fundamental_frequency(audio, fs)
     spectrum = fft(audio);
     [~, f0_index] = max(abs(spectrum));
     f0 = f0_index * fs / length(audio);

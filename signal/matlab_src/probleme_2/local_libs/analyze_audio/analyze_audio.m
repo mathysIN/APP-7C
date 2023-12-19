@@ -20,12 +20,12 @@
 %   window_width Entier      Largeur de la fenêtre pour trouver les harmoniques
 %------------------------------------------
 
-function [t_start, t_end, f0, power_dbm, high_freq, locs, amplitudes] = analyzeAudio(audio, fs)
+function [t_start, t_end, f0, power_dbm, high_freq, locs, amplitudes] = analyze_audio(audio, fs)
     t_start = 0;
     t_end = length(audio) / fs;
 
-    [f0, power_dbm, high_freq] = findFundamentalFrequencyAndAnalyze(audio, fs);
+    [f0, power_dbm, high_freq] = find_fundamental_frequency(audio, fs);
 
     window_width = 50;
-    [locs, amplitudes] = findHarmonics(audio, fs, f0, window_width);
+    [locs, amplitudes] = find_harmonics(audio, fs, f0, window_width);
 end

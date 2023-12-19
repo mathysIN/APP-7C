@@ -23,7 +23,7 @@
 %   t                      Vecteur     Vecteur de temps pour les signaux audio
 %------------------------------------------
 
-function show_data(y,y_filtered, Fs, PDBm)
+function show_data(y, y_filtered, Fs, PDBm)
     puissance_totale = sum(y.^2);
     puissance_sup_2kHz = sum(y_filtered.^2);
     pourcentage_sup_2kHz = (puissance_sup_2kHz / puissance_totale) * 100;

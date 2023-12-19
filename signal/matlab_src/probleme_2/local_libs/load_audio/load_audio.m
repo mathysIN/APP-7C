@@ -13,6 +13,6 @@
 % Locales :      Aucune
 %------------------------------------------
 
-function [audio, fs] = loadAudio(filename)
+function [audio, fs] = load_audio(filename)
     [audio, fs] = audioread(filename);
 end

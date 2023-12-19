@@ -20,7 +20,7 @@
 %   time         Vecteur      Vecteur temps pour le graphique
 %------------------------------------------
 
-function plotResults(audio, fs, t_start, t_end, f0, power_dbm, high_freq, locs, amplitudes)
+function show_data(audio, fs, t_start, t_end, f0, power_dbm, high_freq, locs, amplitudes)
     time = (0:length(audio)-1) / fs;
     figure;
 

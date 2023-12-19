@@ -28,7 +28,7 @@
 %   falling_edges      Vecteur   Indices des bords descendants
 %------------------------------------------
 
-function [locs, amplitudes] = findHarmonics(audio, fs, f0, window_width)
+function [locs, amplitudes] = find_harmonics(audio, fs, f0, window_width)
     spectrum = fft(audio);
     power_spectrum = abs(spectrum).^2;
     dsp = power_spectrum / length(audio);
