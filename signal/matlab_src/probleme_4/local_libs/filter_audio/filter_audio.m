@@ -1,5 +1,4 @@
 %------------------------------------------
-% Nom du fichier : filter_audio.m
 % Groupe :          Groupe 7C
 % Description :     Cette fonction filtre un signal audio en utilisant un filtre passe-haut Butterworth.
 %

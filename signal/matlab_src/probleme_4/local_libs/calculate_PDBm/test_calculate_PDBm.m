@@ -1,5 +1,4 @@
 %------------------------------------------
-% Nom du fichier : test_calculate_PDBm.m
 % Groupe :          Groupe 7C
 % Description :     Ce script de test évalue la fonction calculate_PDBm avec des cas de test spécifiques.
 %

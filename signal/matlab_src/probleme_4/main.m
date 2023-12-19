@@ -1,5 +1,4 @@
 %------------------------------------------
-% Nom du fichier : main.m
 % Groupe :          Groupe 7C
 % Description :     Ce script principal utilise les fonctions du projet pour analyser un fichier audio.
 %

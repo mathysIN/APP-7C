@@ -1,5 +1,4 @@
 %------------------------------------------
-% Nom du fichier : get_resource_path.m
 % Groupe :          Groupe 7C
 % Description :     Cette fonction génère le chemin d'accès complet à une ressource spécifiée,
 %                   en utilisant le nom de la ressource et la structure du projet.

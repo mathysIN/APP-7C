@@ -1,5 +1,4 @@
 %------------------------------------------
-% Nom du fichier : calculate_PDBm.m
 % Groupe :          Groupe 7C
 % Description :     Cette fonction calcule la Puissance en dBm à partir de la sensibilité,
 %                   du gain et du seuil en dB SPL (Sound Pressure Level).

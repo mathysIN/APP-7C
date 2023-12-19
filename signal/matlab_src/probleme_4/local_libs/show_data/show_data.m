@@ -1,5 +1,4 @@
 %------------------------------------------
-% Nom du fichier : show_data.m
 % Groupe :          Groupe 7C
 % Description :     Cette fonction analyse un signal audio et affiche des informations sur sa puissance,
 %                   en indiquant si le signal est considéré comme pénible. Elle affiche également le signal
