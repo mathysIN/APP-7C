@@ -2,7 +2,9 @@
 module.exports = {
   content: ["./src/**/*.php"],
   theme: {
-    extend: {},
+    extend: {
+      "elitech": "#4FC6CB",
+    },
   },
   plugins: [],
 }
