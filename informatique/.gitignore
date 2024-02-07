@@ -1,0 +1,4 @@
+src/public/resources/style.css
+.cache/*
+.vercel/
+.build/

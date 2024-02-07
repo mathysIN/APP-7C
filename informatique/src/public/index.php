@@ -1,11 +1,20 @@
 <?php
 // MAIN ROUTER
+
+// Cette fonction permet la compatibilité avec Vercel
+function getFullPath($path)
+{
+    $currentDir = __DIR__;
+    $fullPath = $currentDir . '/' . $path;
+    return $fullPath;
+}
+
 $request_uri = $_SERVER['REQUEST_URI'];
 
 $request_uri = strtok($request_uri, '?');
 
-$header_path = '../components/header.php';
-$footer_path = '../components/footer.php';
+$header_path = getFullPath('../components/header.php');
+$footer_path = getFullPath('../components/footer.php');
 
 $page_title = "EVENT - IT";
 
@@ -36,7 +45,7 @@ switch ($request_uri) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title ?></title>
-    <link href="style.css" rel="stylesheet">
+    <link href="resources/style.css" rel="stylesheet">
 </head>
 
 <body class="flex flex-col items-center h-screen font-[Montserrat]">

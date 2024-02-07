@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
+
 OS=$(uname)
 
 case "$OS" in
@@ -27,6 +29,6 @@ if [ ! -f "$FILE" ]; then
 fi
 
 (cd ./src/public/ && php -S 127.0.0.1:3000) &
-"$FILE" -i ./src/css/input.css -o ./src/public/style.css -c ./tailwind.config.js --watch
+"$FILE" -i ./src/css/input.css -o ./src/resources/style.css -c ./tailwind.config.js --watch
 
 wait
