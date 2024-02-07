@@ -3,16 +3,16 @@
         <!-- <img src="/resources/placeholder.svg" alt="Background" class="absolute inset-0 object-cover w-full h-full" /> -->
         <div class="absolute inset-0 "></div>
         <div class="relative z-10 flex flex-col items-center justify-center px-4 text-center h-[600px]">
-            <h1 class="text-4xl font-bold md:text-5xl lg:text-6xl text-teal-500">EVENT - IT</h1>
-            <p class="mt-4 text-lg  md:text-xl lg:text-2xl text-teal-700">
+            <h1 class="text-4xl font-bold md:text-5xl lg:text-6xl text-eventit-500">EVENT - IT</h1>
+            <p class="mt-4 text-lg  md:text-xl lg:text-2xl ">
                 Experience the best sound quality with our products.
             </p>
-            <a class="inline-flex mt-8 px-8 py-3 text-sm font-medium text-white bg-teal-500 rounded-md hover:bg-teal-500" href="#">
+            <a class="inline-flex mt-8 px-8 py-3 text-sm font-medium text-white bg-eventit-500 rounded-md hover:bg-eventit-500" href="#">
                 Explore Products
             </a>
         </div>
     </section>
-    <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-teal-500">
+    <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-eventit-500">
         <h2 class="text-3xl font-bold text-white md:text-4xl lg:text-5xl">Featured Products</h2>
         <div class="grid mt-8 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div class="flex flex-col items-center text-center">
