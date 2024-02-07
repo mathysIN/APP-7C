@@ -6,7 +6,7 @@
         <a href="/login">
             <p class="text-sm">Se connecter</p>
         </a>
-        <a href="/login">
+        <a href="/create_account">
             <p class="p-4 bg-white text-eventit-500 rounded-xl">S'inscrire</p>
         </a>
     </div>

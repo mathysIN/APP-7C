@@ -17,6 +17,10 @@ switch ($request_uri) {
         $page_path = 'login.php';
         $page_title = 'Connexion';
         break;
+    case '/create_account':
+        $page_path = 'create_account.php';
+        $page_title = 'Création de compte';
+        break;
     case '/contact':
         $page_path = 'contact.php';
         break;

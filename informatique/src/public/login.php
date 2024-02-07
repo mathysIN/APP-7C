@@ -11,6 +11,6 @@
             </div>
             <button type="submit" class="w-full bg-eventit-500 text-white py-2 px-4 rounded-xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Login</button>
         </form>
-        <p class="mt-4 text-center text-eventit-800">Create an account</p>
+        <a href="create_account" class="mt-4 text-center text-eventit-800">Create an account</p></a>
     </div>
 </div>
