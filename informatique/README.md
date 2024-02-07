@@ -10,4 +10,8 @@ Le contenu est réparti en 1 dossiers
 
 ## Execution
 
-Utiliser le script `run.sh` pour lancer l'application.
+Le site se génère et s'exécute à l'aide des scripts "run" fournis. Il est nécessaire d'installer **PHP** (et donc d'avoir le CLI `php`) pour exécuter l'application.
+
+- **Linux/MacOS** - Utilisez le script `run.sh` pour lancer l'application.
+
+- **Windows** - Utilisez le script `run.bat` pour lancer l'application.
