@@ -1,9 +1,10 @@
 #!/bin/bash
 
+# Change to the directory of the script
 cd "$(dirname "$0")"
 
+# Determine the correct TailwindCSS binary to use
 OS=$(uname)
-
 case "$OS" in
     Linux*)
         FILE="./.cache/tailwindcss-linux-x64"
@@ -19,6 +20,7 @@ case "$OS" in
         ;;
 esac
 
+# Download Tailwind if not already downloaded
 if [ ! -f "$FILE" ]; then
     echo "Tailwind is not downloaded, initiating download..."
     mkdir -p "./.cache"
@@ -28,7 +30,10 @@ if [ ! -f "$FILE" ]; then
     echo "Download complete!"
 fi
 
-(cd ./src/public/ && php -S 127.0.0.1:3000) &
-"$FILE" -i ./src/css/input.css -o ./src/resources/style.css -c ./tailwind.config.js --watch
 
+# Load the env var, and start the PHP server and TailwindCSS watcher
+(export $(cat .env | xargs) && cd ./src/public/ && php -S 127.0.0.1:3000) &
+"$FILE" -i ./src/css/input.css -o ./src/public/resources/style.css -c ./tailwind.config.js --watch
+
+# Wait for the PHP server to finish
 wait

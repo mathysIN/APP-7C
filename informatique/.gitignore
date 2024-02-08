@@ -1,4 +1,4 @@
-src/public/resources/style.css
+.env
 .cache/*
 .vercel/
 .build/
