@@ -1,5 +1,8 @@
 <?php
 // MAIN ROUTER
+// if user logged var
+session_start();
+$logged = isset($_SESSION['username']);
 
 // Cette fonction permet la compatibilité avec Vercel
 function getFullPath($path)
