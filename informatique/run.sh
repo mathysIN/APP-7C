@@ -32,7 +32,7 @@ fi
 
 
 # Load the env var, and start the PHP server and TailwindCSS watcher
-(export $(cat .env | xargs) && cd ./api/public/ && php -S 127.0.0.1:3000) &
+(export $(cat .env | xargs) && cd ./api/public/ && php -S 127.0.0.1:3000 index.php) &
 "$FILE" -i ./api/css/input.css -o ./api/public/resources/style.css -c ./tailwind.config.js --watch
 
 # Wait for the PHP server to finish

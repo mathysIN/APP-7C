@@ -12,7 +12,7 @@ if not exist "%FILE%" (
     echo Download complete!
 )
 
-(cd .\api\public\ && php -S 127.0.0.1:3000) ^
+(cd .\api\public\ && php -S 127.0.0.1:3000 index.php) ^
 start "" /B .\.cache\tailwindcss-win-x64.exe -i .\api\css\input.css -o .\api\public\style.css -c .\tailwind.config.js --watch 
 
 timeout /t -1 >nul
