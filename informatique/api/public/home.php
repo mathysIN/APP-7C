@@ -33,3 +33,16 @@
         </div>
     </section>
 </div>
+
+<!-- Here's how you can set page specific scripts and styles -->
+<!-- Be careful! Everything here is client-sided, even comments -->
+
+<script>
+    console.log("Hello from home.php!")
+</script>
+
+<style>
+    body {
+        background-color: #f3f4f6;
+    }
+</style>
