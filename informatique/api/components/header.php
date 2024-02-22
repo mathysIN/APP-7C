@@ -1,6 +1,6 @@
 <header class="flex p-4 flex-row items-center w-full bg-eventit-500 shadow-md text-white">
     <a href="/">
-        <h1 class="text-3xl font-bold">EVENT - IT</h1>
+        <h1 class="text-3xl font-bold text-white">EVENT - IT</h1>
     </a>
     <div class="ml-auto flex flex-row items-center font-bold text-sm space-x-5">
         <?php

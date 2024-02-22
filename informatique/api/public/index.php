@@ -63,10 +63,10 @@ if (!isset($page_path)) {
         switch ($i) {
             case 0:
                 $potential_page_page = substr($request_uri, 1);
-            case 2:
+            case 1:
                 $potential_page_page = substr($request_uri, 1) . ".php";
                 break;
-            case 1:
+            case 2:
                 $potential_page_page = substr($request_uri, 1) . "/index.php";
                 break;
         }
@@ -104,9 +104,11 @@ $footer_path = getFullPath('../components/footer.php');
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
-<body class="flex flex-col items-center h-screen font-[Montserrat]">
+<body class="flex flex-col min-h-screen font-[Montserrat]">
     <?php include $header_path; ?>
-    <?php include $page_path; ?>
+    <div class="content w-full">
+        <?php include $page_path; ?>
+    </div>
     <?php include $footer_path; ?>
 </body>
 
