@@ -2,7 +2,7 @@
     <a href="/">
         <h1 class="text-3xl font-bold text-white">EVENT - IT</h1>
     </a>
-    <div class="ml-auto flex flex-row items-center font-bold text-sm space-x-5">
+    <div class="ml-auto flex flex-row gap-7 items-center font-bold text-sm space-x-5">
         <?php
         if (isset($_SESSION['username'])) {
         ?>
@@ -15,11 +15,14 @@
         <?php
         } else {
         ?>
+            <a href="/devis">
+                <p class="text-sm">Faire un devis</p>
+            </a>
             <a href="/login">
                 <p class="text-sm">Se connecter</p>
             </a>
             <a href="/create_account">
-                <p class="p-4 bg-white text-eventit-500 rounded-xl">S'inscrire</p>
+                <p class="p-4 bg-white text-eventit-500 rounded-3xl">S'inscrire</p>
             </a>
         <?php
         }
