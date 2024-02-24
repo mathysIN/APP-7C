@@ -22,7 +22,7 @@
                 <p class="text-sm">Se connecter</p>
             </a>
             <a href="/create_account">
-                <p class="p-4 bg-white text-eventit-500 rounded-3xl">S'inscrire</p>
+                <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">S'inscrire</p>
             </a>
         <?php
         }
