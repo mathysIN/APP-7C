@@ -1,18 +1,18 @@
+:: I legit don't know how to make a bat script
+
 @echo off
+setlocal
 
-set "FILE=./.cache/tailwindcss"
+:: Change to the directory of the script
+cd /d "%~dp0"
 
-if not exist "%FILE%" (
-    echo Tailwind is not downloaded, initiating download...
-    mkdir ".\.cache"
+:: Load the env var, and start the PHP server and TailwindCSS watcher
+cd api\public\
+start /b php -S 127.0.0.1:3000 index.php
+cd ..\..
 
-    pushd ".\.cache"
-    curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.1/tailwindcss-win-x64.exe
-    popd
-    echo Download complete!
-)
+start /b tailwindcss.exe -i .\api\css\input.css -o .\api\public\resources\style.css -c .\tailwind.config.js --watch
 
-(cd .\api\public\ && php -S 127.0.0.1:3000 index.php) ^
-start "" /B .\.cache\tailwindcss-win-x64.exe -i .\api\css\input.css -o .\api\public\style.css -c .\tailwind.config.js --watch 
-
-timeout /t -1 >nul
+:: Wait for the PHP server to finish
+timeout /t 1 /nobreak >nul
+exit

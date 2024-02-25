@@ -12,8 +12,25 @@ function getFullPath($path)
 function serveStaticResource($uri)
 {
     if (file_exists($uri) && is_readable($uri)) {
-        $mime = mime_content_type($uri);
-        header("Content-Type: $mime");
+
+        $filename = basename($uri);
+        $file_extension = strtolower(substr(strrchr($filename, "."), 1));
+
+        switch ($file_extension) {
+            case "gif":
+            case "png":
+            case "jpeg":
+            case "jpg":
+            case "webp":
+            case "svg":
+                $ctype = "image/" . $file_extension;
+                break;
+            case "css":
+                $ctype = "text/" . $file_extension;
+            default:
+        }
+
+        header('Content-type: ' . $ctype);
         readfile($uri);
         return true;
     }
@@ -73,7 +90,7 @@ if (!isset($page_path)) {
         if (file_exists(getFullPath($potential_page_page))) {
             $page_path = $potential_page_page;
             break;
-        };
+        }
     }
 }
 
@@ -97,11 +114,15 @@ $footer_path = getFullPath('../components/footer.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title ?></title>
+    <title>
+        <?php echo $page_title ?>
+    </title>
     <link href="/resources/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/resources/favicon.png">
 </head>
 
 <body class="flex flex-col min-h-screen font-[Montserrat]">
