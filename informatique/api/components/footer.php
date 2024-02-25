@@ -2,10 +2,10 @@
     <div class="container grid gap-6 px-4 ml-7 text-center md:px-6 md:grid-cols-3 md:justify-center lg:gap-10">
         <div class="flex flex-col items-left text-left space-y-3">
             <p class=" text-2xl text-white font-bold" >EVENT-IT</p>
-            <a class=" text-sm text-white">À propos de nous</a>
-            <a class=" text-sm text-white">Mentions légales</a>
-            <a class=" text-sm text-white">FAQ</a>
-            <a class=" text-sm text-white">CGU</a>
+            <a href="/home" class=" text-sm text-white">À propos de nous</a>
+            <a href="/mentions_legales" class=" text-sm text-white">Mentions légales</a>
+            <a href="/faq" class=" text-sm text-white">FAQ</a>
+            <a href="/cgu" class=" text-sm text-white">CGU</a>
         </div>
         <div class="grid gap-2 pt-11 text-sm text-left leading-none md:justify-self-start md:gap-1">
             <p class="text-sm text-white font-semibold">Contact</p>
