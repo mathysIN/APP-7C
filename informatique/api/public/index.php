@@ -75,11 +75,11 @@ if (strpos($request_uri, '/resources') === 0) {
 }
 
 if (!isset($page_path)) {
-    $max = 3;
-    for ($i = 0; $i < $max; $i++) {
+    for ($i = 0; $i < 3; $i++) {
         switch ($i) {
             case 0:
                 $potential_page_page = substr($request_uri, 1);
+                break;
             case 1:
                 $potential_page_page = substr($request_uri, 1) . ".php";
                 break;
