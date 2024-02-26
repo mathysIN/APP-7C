@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full">
 
 
-    <section class="relative h-[500px] md:h-[700px] lg:h-[650px]">
+    <section class="relative h-[500px] md:h-[700px] lg:h-[580px]">
         <div class="background-animation"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-black from opacity-50 to-transparent "></div>
         <div class="relative z-10 flex flex-col justify-center pl-24 text-left h-[600px]    ">
