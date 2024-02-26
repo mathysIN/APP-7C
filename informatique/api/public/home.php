@@ -82,9 +82,9 @@
             </div>
         </div>
     </section>
-    <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-eventit-100">
+    <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-20 bg-eventit-100">
         <h2 class="text-3xl font-bold text-center text-eventit-500 md:text-4xl lg:text-5xl">Notre équipe</h2>
-        <div class="grid mt-8 gap-6 px-32 pt-20 justify-items-center md:grid-cols-2 lg:grid-cols-4">
+        <div class="grid mt-8 gap-6 pt-10 justify-items-center md:grid-cols-2 lg:grid-cols-4">
             <div class="flex flex-row justify-left px-8 w-full h-44 text-center bg-eventit-500 rounded-3xl">
                 <img class="w-5/12  self-center" src="/resources/photo.webp" alt="Instagram">
                 <div class="self-center pl-4">
@@ -114,7 +114,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid mt-8 px-72 pt-20 justify-items-center md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid mt-8 px-36 pt-10 justify-items-center md:grid-cols-2 lg:grid-cols-3">
             <div class="flex flex-row justify-left px-8 w-11/12 h-44 text-center bg-eventit-500 rounded-3xl">
                 <img class="w-5/12  self-center" src="/resources/photo.webp" alt="Instagram">
                 <div class="self-center pl-4">
