@@ -1,7 +1,6 @@
 <?php
 // MAIN ROUTER
 
-// Cette fonction permet la compatibilité avec Vercel
 function getFullPath($path)
 {
     $currentDir = __DIR__;
@@ -38,8 +37,6 @@ function serveStaticResource($uri)
 }
 
 session_start();
-$logged = isset($_SESSION['username']);
-
 $request_uri = $_SERVER['REQUEST_URI'];
 
 $request_uri = strtok($request_uri, '?');
@@ -120,8 +117,7 @@ $footer_path = getFullPath('../components/footer.php');
     <link href="/resources/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/resources/favicon.png">
 </head>
 

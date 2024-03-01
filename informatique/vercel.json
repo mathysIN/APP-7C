@@ -7,6 +7,10 @@
 
   "rewrites": [
     { "source": "/", "destination": "/api/public/index.php" },
+    {
+      "source": "/cacert.pem",
+      "destination": "/api/public/index.php"
+    },
     { "source": "/:path*", "destination": "/api/public/index.php" },
     { "source": "/:path*/", "destination": "/api/public/index.php" },
     { "source": "/resource/:path*", "destination": "/resource/:path*" }

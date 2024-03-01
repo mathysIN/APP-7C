@@ -1,7 +1,15 @@
 #!/bin/bash
 
+echo -e "\nStarting script...\n"
+
 # Change to the directory of the script
 cd "$(dirname "$0")"
+
+cd .cache
+
+sh ../cert.sh
+
+cd ..
 
 # Determine the correct TailwindCSS binary to use
 OS=$(uname)
@@ -32,7 +40,7 @@ fi
 
 
 # Load the env var, and start the PHP server and TailwindCSS watcher
-(export $(cat .env | xargs) && cd ./api/public/ && php -S 127.0.0.1:3000 index.php) &
+(if [ -s ".env" ]; then export $(cat .env | xargs); echo -e "Loaded .env file!\n"; else echo -e "WARNING: No valid .env file\n">&2; fi && cd ./api/public/ && php -S 127.0.0.1:3000 index.php) &
 "$FILE" -i ./api/css/input.css -o ./api/public/resources/style.css -c ./tailwind.config.js --watch
 
 # Wait for the PHP server to finish
