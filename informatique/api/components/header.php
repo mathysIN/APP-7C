@@ -4,12 +4,18 @@
     </a>
     <div class="ml-auto flex flex-row gap-7 items-center font-bold text-sm space-x-5">
         <?php
-        if (isset($_SESSION['username'])) {
+        require_once __DIR__ . "/../entities/users.php";
+        $session_token = $_COOKIE['session'] ?? null;
+        $currentUser = null;
+        if ($session_token) {
+            $currentUser = $user->getUserByToken($session_token);
+        }
+        if ($currentUser) {
         ?>
-            <a href="/login">
+            <a href="/mes_capteurs">
                 <p class="text-sm">Mon compte</p>
             </a>
-            <a href="/login">
+            <a href="/">
                 <p class="text-sm">Bruh</p>
             </a>
         <?php

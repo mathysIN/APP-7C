@@ -1,6 +1,8 @@
 <?php
 // MAIN ROUTER
 
+require_once __DIR__ . "/../utils/helpers.php";
+
 function getFullPath($path)
 {
     $currentDir = __DIR__;
@@ -42,11 +44,12 @@ $request_uri = $_SERVER['REQUEST_URI'];
 $request_uri = strtok($request_uri, '?');
 $request_uri = rtrim($request_uri, '/');
 $request_uri = '/' . ltrim($request_uri, '/');
+$need_auth = false;
 error_log("Requesting at $request_uri");
 
 if (strpos($request_uri, '/resources') === 0) {
     if (serveStaticResource(substr($request_uri, 1))) {
-        exit;
+        exit();
     } else {
         http_response_code(404);
         $page_path = 'not_found.php';
@@ -65,6 +68,10 @@ if (strpos($request_uri, '/resources') === 0) {
             break;
         case '/contact':
             $page_title = 'Contact';
+            break;
+        case '/mes_capteurs':
+            $need_auth = true;
+            $page_title = 'Mes capteurs';
             break;
         default:
             break;
@@ -104,6 +111,16 @@ if (!isset($page_title)) {
 
 $header_path = getFullPath('../components/header.php');
 $footer_path = getFullPath('../components/footer.php');
+
+
+
+if ($need_auth) {
+
+    require_once __DIR__ . "/../entities/users.php";
+    $currentUser = $user->getUserByToken($_COOKIE['session']);
+    if (!$currentUser) redirect('/login');
+}
+
 ?>
 
 <!DOCTYPE html lang="fr">

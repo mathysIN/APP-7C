@@ -2,6 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     require_once __DIR__ . "/../entities/users.php";
+    require_once __DIR__ . "/../utils/helpers.php";
 
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
@@ -13,11 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $createdUser = $user->getUserById($createdUser);
 
-    echo "<script>window.location='/?msg=account_created';</script>";
+    if ($createdUser) {
+        redirect('/?msg="user_created"');
+    } else {
+        redirect('/create_account?msg="cannot_create_user"');
+    }
     exit();
 }
 ?>
-<div class="h-[100vh] flex flex-col items-center justify-top">
+
+<div class="flex flex-col items-center justify-top">
     <div class="max-w-md mx-auto p-6">
         <img class="w-80" src="/resources/logo-event-it.webp">
         <form method="post">

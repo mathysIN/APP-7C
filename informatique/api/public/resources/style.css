@@ -719,10 +719,6 @@ h5 {
   display: grid;
 }
 
-.contents {
-  display: contents;
-}
-
 .h-10 {
   height: 2.5rem;
 }

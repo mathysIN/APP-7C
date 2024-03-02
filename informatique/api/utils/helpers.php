@@ -26,3 +26,15 @@ function markdown_to_html($markdown)
 
     return $markdown;
 }
+
+function redirect($path)
+{
+    // Another Vercel fix ¯\_(ツ)_/¯ 
+    echo "<script>window.location='$path';</script>";
+}
+
+function set_cookie($name, $value)
+{
+    // this can really be unsafe
+    echo "<script>document.cookie = \"$name = $value;path=/\"</script>";
+}
