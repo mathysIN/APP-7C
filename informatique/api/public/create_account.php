@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $createdUser = $user->getUserById($createdUser);
 
     if ($createdUser) {
-        redirect('/?msg="user_created"');
+        redirect('/login?msg="user_created"');
     } else {
         redirect('/create_account?msg="cannot_create_user"');
     }

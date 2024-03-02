@@ -2,37 +2,67 @@
     <a href="/">
         <h1 class="text-3xl font-bold text-white">EVENT - IT</h1>
     </a>
-    <div class="ml-auto flex flex-row gap-7 items-center font-bold text-sm space-x-5">
-        <?php
-        require_once __DIR__ . "/../entities/users.php";
-        $session_token = $_COOKIE['session'] ?? null;
-        $currentUser = null;
-        if ($session_token) {
-            $currentUser = $user->getUserByToken($session_token);
-        }
-        if ($currentUser) {
-        ?>
-            <a href="/mes_capteurs">
-                <p class="text-sm">Mon compte</p>
-            </a>
-            <a href="/">
-                <p class="text-sm">Bruh</p>
-            </a>
-        <?php
-        } else {
-        ?>
-            <a href="/devis">
-                <p class="text-sm">Faire un devis</p>
-            </a>
-            <a href="/login">
-                <p class="text-sm">Se connecter</p>
-            </a>
-            <a href="/create_account">
-                <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">S'inscrire</p>
-            </a>
-        <?php
-        }
-        ?>
-
+    <!-- Hamburger Menu Button -->
+    <button id="hamburger-menu" class="block ml-auto md:hidden focus:outline-none">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
+    <!-- Desktop Menu -->
+    <div id="desktop-menu" class="hidden ml-auto md:flex md:flex-row md:gap-7 md:items-center font-bold text-sm md:space-x-5">
+        <?php echo generateMenuItems(); ?>
     </div>
 </header>
+
+<!-- Mobile Menu Container -->
+<div id="mobile-menu-container" class="hidden md:hidden bg-white w-full shadow-md">
+    <div id="mobile-menu" class="flex flex-col items-center font-bold text-sm space-y-3 py-4">
+        <?php echo generateMenuItems(); ?>
+    </div>
+</div>
+
+<?php
+function generateMenuItems()
+{
+    global $user;
+    require_once __DIR__ . "/../entities/users.php";
+    $session_token = $_COOKIE['session'] ?? null;
+    $currentUser = null;
+    if ($session_token) {
+        $currentUser = $user->getUserByToken($session_token);
+    }
+    ob_start();
+    if ($currentUser) {
+?>
+        <a href="/mes_capteurs">
+            <p class="text-sm">Mon compte</p>
+        </a>
+        <a href="/">
+            <p class="text-sm">Bruh</p>
+        </a>
+    <?php
+    } else {
+    ?>
+        <a href="/devis">
+            <p class="text-sm">Faire un devis</p>
+        </a>
+        <a href="/login">
+            <p class="text-sm">Se connecter</p>
+        </a>
+        <a href="/create_account">
+            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">S'inscrire</p>
+        </a>
+<?php
+    }
+    return ob_get_clean();
+}
+?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle mobile menu visibility
+        document.getElementById('hamburger-menu').addEventListener('click', function() {
+            document.getElementById('mobile-menu-container').classList.toggle('hidden');
+        });
+    });
+</script>
