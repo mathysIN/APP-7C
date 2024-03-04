@@ -24,21 +24,27 @@
 <?php
 function generateMenuItems()
 {
-    global $user;
-    require_once __DIR__ . "/../entities/users.php";
+    global $userAPI;
+    require_once __DIR__ . "/../entities/all_entites.php";
     $session_token = $_COOKIE['session'] ?? null;
     $currentUser = null;
     if ($session_token) {
-        $currentUser = $user->getUserByToken($session_token);
+        $currentUser = $userAPI->getUserByToken($session_token);
     }
     ob_start();
     if ($currentUser) {
 ?>
-        <a href="/mes_capteurs">
-            <p class="text-sm">Mon compte</p>
+        <a href="/devis">
+            <p class="text-sm">Mes devis</p>
+
         </a>
-        <a href="/">
-            <p class="text-sm">Bruh</p>
+        <a href="/mes_capteurs">
+            <p class="text-sm">Mes capteurs</p>
+
+        </a>
+        <a href="/mon_profil">
+            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte
+            </p>
         </a>
     <?php
     } else {

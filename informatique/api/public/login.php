@@ -1,17 +1,16 @@
 <?php
+require __DIR__ . "/../entities/all_entites.php";
+require_once __DIR__ . "/../utils/helpers.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once __DIR__ . "/../entities/users.php";
-    require_once __DIR__ . "/../entities/tokens.php";
-    require_once __DIR__ . "/../utils/helpers.php";
 
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $foundUser = $user->getUserByEmailPass($email, $password);
+    $foundUser = $userAPI->getUserByEmailPass($email, $password);
     if (!$foundUser) {
         redirect('/login?msg=invalid_credentials');
     } else {
-        $token = $authToken->createAuthToken($foundUser->user_id, "login");
+        $token = $tokenAPI->createAuthToken($foundUser->user_id, "login");
         set_cookie('session', $token);
         redirect('/?msg=logged_in');
     }

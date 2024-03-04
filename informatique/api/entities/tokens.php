@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../utils/db.php';
-
 class AuthTokenModel
 {
     public $token;
@@ -71,8 +69,6 @@ class AuthTokenAPI
         $stmt->execute(['user_id' => $user_id]);
     }
 }
-
-$authToken = new AuthTokenAPI($mysql);
 
 const QUERY_CREATE_TABLE_AUTH_TOKEN = "CREATE TABLE IF NOT EXISTS AuthTokens (
     token VARCHAR(64) PRIMARY KEY,

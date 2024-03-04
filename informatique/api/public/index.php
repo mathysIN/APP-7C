@@ -115,9 +115,8 @@ $footer_path = getFullPath('../components/footer.php');
 
 
 if ($need_auth) {
-
-    require_once __DIR__ . "/../entities/users.php";
-    $currentUser = $user->getUserByToken($_COOKIE['session']);
+    require_once __DIR__ . "/../entities/all_entites.php";
+    $currentUser = $userAPI->getUserByToken($_COOKIE['session']);
     if (!$currentUser) redirect('/login');
 }
 

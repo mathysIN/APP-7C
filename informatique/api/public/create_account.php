@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $phone_number = $_POST['phone_number'];
 
-    $createdUser = $user->createUser($email, $phone_number, $first_name, $last_name, "", $password, "user");
+    $createdUser = $userAPI->createUser($email, $phone_number, $first_name, $last_name, "", $password, "user");
 
-    $createdUser = $user->getUserById($createdUser);
+    $createdUser = $userAPI->getUserById($createdUser);
 
     if ($createdUser) {
         redirect('/login?msg="user_created"');
