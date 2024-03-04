@@ -73,6 +73,10 @@ if (strpos($request_uri, '/resources') === 0) {
             $need_auth = true;
             $page_title = 'Mes capteurs';
             break;
+        case '/mes_devis':
+            $need_auth = true;
+            $page_title = 'Mes devis';
+            break;
         default:
             break;
     }
@@ -117,7 +121,10 @@ $footer_path = getFullPath('../components/footer.php');
 if ($need_auth) {
     require_once __DIR__ . "/../entities/all_entites.php";
     $currentUser = $userAPI->getUserByToken($_COOKIE['session']);
-    if (!$currentUser) redirect('/login');
+    if (!$currentUser) {
+        redirect('/login');
+        exit();
+    }
 }
 
 ?>

@@ -3,14 +3,22 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-semibold">Capteur LOL</h1>
-                <p class="text-sm text-gray-500">Devis #1 • Salle n°1</p>
-                <p class="text-sm text-gray-500">Devis #1 • Salle n°1</p>
+                <p class="text-sm font-semibold">Devis #1</p>
+                <div class="flex flex-row items-center gap-2">
+                    <img src="/resources/location.png" class="w-4 h-4">
+                    <p class="text-sm text-gray-500">Salle n°1</p>
+                </div>
+
             </div>
-            <div class="flex space-x-2"><button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">7j</button><button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">24h</button><button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">1h</button></div>
+            <div class="flex space-x-2">
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">24h</button>
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">1h</button>
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">Live<div class="ml-2 h-2 w-2 bg-red-500 rounded-full animate-pulse"></div></button>
+            </div>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="text-center">
-                <p class="text-4xl font-bold text-green-500">13dB</p>
+                <p class="text-4xl font-bold">13dB</p>
                 <p class="text-sm text-gray-600">Volume Actuel</p>
             </div>
             <div class="text-center">
@@ -18,11 +26,11 @@
                 <p class="text-sm text-gray-600">Dépassement moyen</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold text-gray-800">96dB</p>
+                <p class="text-4xl font-bold">96dB</p>
                 <p class="text-sm text-gray-600">Volume moyen</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold text-blue-600">600Hz</p>
+                <p class="text-4xl font-bold">600Hz</p>
                 <p class="text-sm text-gray-600">Fréquence sonore</p>
             </div>
         </div>

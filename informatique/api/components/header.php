@@ -34,7 +34,7 @@ function generateMenuItems()
     ob_start();
     if ($currentUser) {
 ?>
-        <a href="/devis">
+        <a href="/mes_devis">
             <p class="text-sm">Mes devis</p>
 
         </a>
