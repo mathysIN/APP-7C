@@ -23,9 +23,10 @@
         </a>
     </section>
     <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-eventit-500">
-        <h2 class="text-3xl font-bold text-center text-white md:text-4xl lg:text-5xl">Nos produits</h2>
+        <h2 class="text-3xl font-bold text-center text-white md:text-4xl lg:text-5xl z-10">Nos produits</h2>
         <div class="grid mt-8 gap-6 justify-items-center md:grid-cols-2 lg:grid-cols-3">
             <div class="flex flex-col justify-center px-10 w-4/5 md:w-96 h-80 text-center bg-white rounded-3xl">
+                <div class="absolute -translate-y-32 -translate-x-32 h-[650px] w-[650px] hidden md:block"><img src="/resources/woman.png" height="650" width="650" /></div>
                 <h3 class="mt-4 text-lg font-medium text-eventit-500">Mise en place d’un système de capteurs sonores
                     modulaires. Ces capteurs seraient paramétrables selon le type d’événement organisé par le client.
                 </h3>
