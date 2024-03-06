@@ -5,7 +5,7 @@ $username = getenv('MYSQL_USER');
 $password = getenv('MYSQL_PASSWORD');
 
 if (getenv('VERCEL')) {
-    $path = __DIR__ . "/../../.build/cacert.pem";
+    $path = __DIR__ . "/../../cacert.pem";
 } else {
     $path = __DIR__ . "/../../.cache/cacert.pem";
 }

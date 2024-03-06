@@ -37,9 +37,10 @@
         <div>
             <div class="w-full">
                 <div style="width: 100%; height: 100%;">
+                    <div class="tooltip" id="tooltip" class="z-10"></div>
+
                     <div style="position: relative;">
                         <canvas id="graphCanvas" width="1000" height="500" class="w-full"></canvas>
-                        <div class="tooltip" id="tooltip"></div>
 
                         <script>
                             // Data for the graph
@@ -164,6 +165,11 @@
                             // Add event listener for mouse movement to display tooltips
                             // Add event listener for mouse movement to display tooltips
                             canvas.addEventListener("mousemove", function(event) {
+
+                                // if screen is mobile size, return
+                                if (window.innerWidth < 768) {
+                                    return;
+                                }
                                 var rect = canvas.getBoundingClientRect();
                                 var scaleX = canvas.width / rect.width;
                                 var scaleY = canvas.height / rect.height;
@@ -189,14 +195,15 @@
                                     if (distance <= radius) {
                                         tooltip.style.position = "absolute";
                                         tooltip.style.display = "block";
-                                        tooltip.style.left = mouseX;
+                                        tooltip.style.left = event.clientX;
                                         tooltip.style.padding = "10px";
                                         tooltip.style.backgroundColor = "#fff";
                                         tooltip.style.borderRadius = "5px";
                                         tooltip.style.boxShadow = "0 0 10px 0 rgba(0, 0, 0, 0.1)";
                                         tooltip.style.border = "1px solid #ddd";
-                                        tooltip.style.top = mouseY + 10 + "px"; // Adjusted based on canvas offsetTop
+                                        tooltip.style.top = event.clientY + window.scrollY + 10 + "px"; // Adjusted based on canvas offsetTop
                                         tooltip.innerHTML = `${data[i].value} - ${data[i].name}`;
+                                        tooltip.style.zIndex = 10;
                                         return;
                                     }
                                 }

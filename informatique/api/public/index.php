@@ -69,6 +69,8 @@ if (strpos($request_uri, '/resources') === 0) {
         case '/contact':
             $page_title = 'Contact';
             break;
+        case '/capteur':
+        case '/capteurs':
         case '/mes_capteurs':
             $need_auth = true;
             $page_title = 'Mes capteurs';
@@ -79,6 +81,12 @@ if (strpos($request_uri, '/resources') === 0) {
             break;
         default:
             break;
+    }
+
+    // starts with /sensor/
+    if (strpos($request_uri, "/capteurs/") === 0 && strlen($request_uri) > strlen("/capteurs/")) {
+        $need_auth = true;
+        $page_path = 'capteur.php';
     }
 }
 
