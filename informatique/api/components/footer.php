@@ -1,7 +1,7 @@
 <footer class="w-full py-6 bg-zinc-900 md:py-12 dark:bg-gray-950/90">
-    <div class="container grid gap-6 px-4 ml-7 text-center md:px-6 md:grid-cols-3 md:justify-center lg:gap-10">
+    <div class="grid gap-6 px-4 ml-7 text-center md:px-6 md:grid-cols-3 md:justify-center lg:gap-10">
         <div class="flex flex-col items-left text-left space-y-3">
-            <p class=" text-2xl text-white font-bold" >EVENT-IT</p>
+            <p class=" text-2xl text-white font-bold">EVENT-IT</p>
             <a href="/home" class=" text-sm text-white">À propos de nous</a>
             <a href="/mentions_legales" class=" text-sm text-white">Mentions légales</a>
             <a href="/faq" class=" text-sm text-white">FAQ</a>

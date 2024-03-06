@@ -113,18 +113,23 @@ if (!isset($page_title)) {
     $page_title = $page_title . " - EVENT-IT";
 }
 
+
+require_once __DIR__ . "/../entities/all_entites.php";
+
+$session_token = $_SESSION['session'] ?? null;
+
+global $_CURRENT_USER;
+$_CURRENT_USER = null;
+if ($session_token) {
+    $_CURRENT_USER = $userAPI->getUserByToken($session_token);
+}
+
 $header_path = getFullPath('../components/header.php');
 $footer_path = getFullPath('../components/footer.php');
 
-
-
-if ($need_auth) {
-    require_once __DIR__ . "/../entities/all_entites.php";
-    $currentUser = $userAPI->getUserByToken($_COOKIE['session']);
-    if (!$currentUser) {
-        redirect('/login');
-        exit();
-    }
+if ($need_auth && !$_CURRENT_USER) {
+    redirect('/login');
+    exit();
 }
 
 ?>

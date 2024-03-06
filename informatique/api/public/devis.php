@@ -1,5 +1,5 @@
-<div class="h-[100vh] flex flex-col items-center justify-top pt-10">
-    <p class="text-eventit-500 font-bold text-6xl"> Faire un devis</p>
+<div class="h-full py-20 flex flex-col justify-top">
+    <p class="text-eventit-500 text-center font-bold text-6xl">Faire un devis</p>
     <div class="max-w-md mx-auto p-6 text-center">
         <form>
             <div class="mb-4">

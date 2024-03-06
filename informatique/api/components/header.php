@@ -24,14 +24,10 @@
 <?php
 function generateMenuItems()
 {
-    global $userAPI;
-    require_once __DIR__ . "/../entities/all_entites.php";
-    $session_token = $_COOKIE['session'] ?? null;
-    $currentUser = null;
-    if ($session_token) {
-        $currentUser = $userAPI->getUserByToken($session_token);
-    }
-    ob_start();
+    extract($GLOBALS);
+    require_once __DIR__ . "/../utils/global_types.php";
+
+    $currentUser = $_CURRENT_USER;
     if ($currentUser) {
 ?>
         <a href="/mes_devis">

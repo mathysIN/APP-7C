@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect('/login?msg=invalid_credentials');
     } else {
         $token = $tokenAPI->createAuthToken($foundUser->user_id, "login");
-        set_cookie('session', $token);
+        $_SESSION["session"] = $token;
         redirect('/?msg=logged_in');
     }
     exit();
