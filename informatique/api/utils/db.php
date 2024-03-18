@@ -15,13 +15,8 @@ if (!file_exists($path)) {
     exit(1);
 }
 
-// planetscale compatibilty (temporary)
-$options = array(
-    PDO::MYSQL_ATTR_SSL_CA => $path,
-);
-
 try {
-    $mysql = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password, $options);
+    $mysql = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password);
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     error_log("Connected to mysql");
 } catch (PDOException $e) {
