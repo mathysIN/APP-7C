@@ -10,8 +10,16 @@ Le contenu est réparti en 1 dossiers
 
 ## Execution
 
-Le site se génère et s'exécute à l'aide des scripts "run" fournis. Il est nécessaire d'installer **PHP** (et donc d'avoir le CLI `php`) pour exécuter l'application. Sur **Windows**, il est également nécessaire d'installer l'executable de **TailwindCSS** puis de l'ajouter au variables d'environnement de chemin.
+Le site se génère et s'exécute à l'aide des scripts "run" fournis. Il est nécessaire d'installer **PHP** (et donc d'avoir le CLI `php`) pour exécuter l'application.
 
-- **Linux/MacOS** - Utilisez le script `run.sh` pour lancer l'application.
+- **Linux/MacOS** - Faites `sh run.sh` pour lancer l'application.
 
-- **Windows** - Utilisez le script `run.bat` pour lancer l'application.
+Pour intéragir avec la base de donnée, vous devez préparer le fichier de variables d'enviromnent `.env`, qui sont utilisées dans le fichier `api/utils/db.php`
+
+Egalement, sur certaines machines, le driver mysql-php n'est installé, il est possible de l'installer avec cette commande :
+
+```bash
+curl -L https://gist.githubusercontent.com/GitHub30/2d51bfa327a6eddbde33b77214511584/raw/install_pdo_mysql.gh-codespaces.sh | bash
+```
+
+
