@@ -27,15 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input name="email" type="email" id="email" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
             <div class="mb-4 pb-5">
-                <label for="password" class="block text-eventit-500">Password</label>
+                <label for="password" class="block text-eventit-500">Mot de passe</label>
                 <input name="password" type="password" id="password" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
             <div class="text-center">
-                <button type="submit" class="w-2/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Login</button>
+                <button type="submit" class="w-4/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Se connecter</button>
             </div>
         </form>
         <div class="text-center underline">
-            <a href="create_account" class="mt-4 text-center text-eventit-500">Create an account</a>
+            <a href="create_account" class="mt-2 text-center text-eventit-500">Créer un compte</a>
         </div>
     </div>
 </div>
