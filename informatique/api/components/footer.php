@@ -8,7 +8,7 @@
             <a href="/cgu" class=" text-sm text-white">CGU</a>
         </div>
         <div class="grid gap-2 pt-11 text-sm text-left leading-none md:justify-self-start md:gap-1">
-            <p class="text-sm text-white font-semibold">Contact</p>
+            <a href="/contact"><p class="text-sm text-white font-semibold">Contact</p></a>
             <p class="text-sm text-white">123 Street, City, Country</p>
             <p class="text-sm text-white">support@example.com</p>
             <p class="text-sm text-white">123-456-7890</p>
