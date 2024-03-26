@@ -24,7 +24,7 @@
       </div>
 
             <div class="text-center">
-                <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Envoyer ma demande</button>
+                <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Envoyer ma demande !</button>
             </div>
         </form>
     </div>
