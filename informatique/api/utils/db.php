@@ -4,17 +4,6 @@ $dbName = getenv('MYSQL_DATABASE');
 $username = getenv('MYSQL_USER');
 $password = getenv('MYSQL_PASSWORD');
 
-if (getenv('VERCEL')) {
-    $path = __DIR__ . "/../../cacert.pem";
-} else {
-    $path = __DIR__ . "/../../.cache/cacert.pem";
-}
-
-if (!file_exists($path)) {
-    error_log("File does not exist: $path");
-    exit(1);
-}
-
 try {
     $mysql = new PDO("mysql:host=$hostname;dbname=$dbName", $username, $password);
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
