@@ -5,12 +5,6 @@ echo -e "\nStarting script...\n"
 # Change to the directory of the script
 cd "$(dirname "$0")"
 
-cd .cache
-
-sh ../cert.sh
-
-cd ..
-
 # Determine the correct TailwindCSS binary to use
 OS=$(uname)
 case "$OS" in

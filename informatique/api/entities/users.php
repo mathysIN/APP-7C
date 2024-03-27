@@ -2,14 +2,47 @@
 
 class UserModel
 {
+    /**
+     * @var string
+     */
     public $user_id;
+
+
     public $created_at;
+
+    /**
+     * @var string
+     */
     public $email;
+
+    /**
+     * @var string
+     */
     public $phone_number;
+
+    /**
+     * @var string
+     */
     public $first_name;
+
+    /**
+     * @var string
+     */
     public $last_name;
+
+    /**
+     * @var string
+     */
     public $image_url;
+
+    /**
+     * @var string
+     */
     public $password_hash;
+
+    /**
+     * @var 'admin' | 'user'
+     */
     public $role;
 }
 
@@ -103,6 +136,19 @@ class UserAPI
             $currentUser = $this->getUserByToken($session_token);
         }
         return $currentUser;
+    }
+
+    public function getAllUsers()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Users");
+        $stmt->execute();
+        $users = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = $this->toUser($row);
+        }
+
+        return $users;
     }
 
     public function createUser($email, $phone_number, $first_name, $last_name, $image_url, $password, $role)

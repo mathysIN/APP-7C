@@ -38,3 +38,8 @@ function set_cookie($name, $value)
     // this can really be unsafe
     echo "<script>document.cookie = \"$name = $value;path=/\"</script>";
 }
+
+function starts_with($haystack, $needle)
+{
+    return strpos($haystack, $needle) === 0 && strlen($haystack) > strlen($needle);
+}

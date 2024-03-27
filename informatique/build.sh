@@ -30,6 +30,4 @@ mkdir -p .build/resources
 
 cp api/public/resources/* .build/resources/ -r
 
-sh ./cert.sh
-
 echo "Build completed successfully."

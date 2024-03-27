@@ -1,3 +1,29 @@
+<?php
+// Include the estimate.php file to access EstimateAPI class
+include __DIR__ . "/../entities/all_entities.php";
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $organization = $_POST['organization'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone_number = $_POST['phone_number'];
+    $num_rooms = $_POST['num_rooms'];
+    $area_size = $_POST['area_size'];
+    $message = $_POST['message'];
+
+    // You need to replace $estimateAPI with your actual instance of EstimateAPI
+    $estimate_id = $estimateAPI->createEstimate($organization, $name, $email, $phone_number, $num_rooms, $area_size, $message);
+
+    if ($estimate_id) {
+        echo "<p>Estimate submitted successfully! Estimate ID: $estimate_id</p>";
+    } else {
+        echo "<p>Error submitting estimate.</p>";
+    }
+}
+?>
+
 <div class="h-full py-20 flex flex-col justify-top">
     <p class="text-eventit-500 text-center font-bold text-6xl">Faire un devis</p>
     <div class="max-w-md mx-auto p-6 text-center">

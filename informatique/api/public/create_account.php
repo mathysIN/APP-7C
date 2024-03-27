@@ -1,8 +1,15 @@
 <?php
+require_once __DIR__ . "/../utils/global_types.php";
+require_once __DIR__ . "/../utils/helpers.php";
+
+if ($_CURRENT_USER) {
+    redirect('/');
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     require_once __DIR__ . "/../entities/users.php";
-    require_once __DIR__ . "/../utils/helpers.php";
 
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
