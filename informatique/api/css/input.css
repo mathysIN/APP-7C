@@ -64,3 +64,41 @@ body {
 .toast-fade-out {
   animation: fade-out 0.5s ease forwards;
 }
+
+.logout-popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.logout-popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+
+.logout-confirm, .logout-cancel {
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.logout-confirm {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.logout-cancel {
+  background-color: #f44336;
+  color: white;
+}
