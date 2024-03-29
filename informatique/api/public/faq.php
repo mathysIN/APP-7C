@@ -4,7 +4,6 @@ require_once __DIR__ . "/../utils/helpers.php";
 $questions = $faqQuestionAPI->getAllFAQQuestions();
 $sections = array_unique(array_column($questions, 'section'));
 ?>
-
 <div class="h-full py-20 flex flex-col justify-top">
     <p class="text-eventit-500 font-bold text-6xl self-center">Foire aux questions</p>
     <div class="pt-10 w-full flex justify-center">
@@ -50,7 +49,6 @@ $sections = array_unique(array_column($questions, 'section'));
         </div>
     </div>
 </div>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Votre code JavaScript ici
@@ -68,7 +66,6 @@ $sections = array_unique(array_column($questions, 'section'));
                 });
             });
         });
-
         var showAllButton = document.getElementById("showAllButton");
         if (showAllButton) { // Vérifiez si l'élément existe
             showAllButton.addEventListener("click", function () {
@@ -78,7 +75,6 @@ $sections = array_unique(array_column($questions, 'section'));
                 });
             });
         }
-
         var accordions = document.querySelectorAll(".accordion-content");
         accordions.forEach(function (accordion) {
             var button = accordion.previousElementSibling;
@@ -88,7 +84,6 @@ $sections = array_unique(array_column($questions, 'section'));
                 arrow.classList.toggle('rotate-180');
             });
         });
-
         var searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", function () {
             var searchTerm = this.value.trim().toLowerCase();
