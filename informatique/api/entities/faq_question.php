@@ -59,6 +59,6 @@ const QUERY_CREATE_TABLE_FAQ = "CREATE TABLE FAQ_Question (
     answer VARCHAR(255)
 );";
 
-const QUERY_DEFAULT_VALUE = "INSERT INTO FAQ_Question (section, question, answer) 
+const QUERY_DEFAULT_FAQ_VALUE = "INSERT INTO FAQ_Question (section, question, answer) 
 VALUES ('General', 'What is Lorem Ipsum?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.');
 ";

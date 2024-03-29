@@ -103,5 +103,5 @@ const QUERY_CREATE_TABLE_ESTIMATE = "CREATE TABLE Estimate (
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );";
 
-const QUERY_DEFAULT_VALUE = "INSERT INTO WebsiteData (cgu_content, legal_content, primary_color) 
+const QUERY_DEFAULT_ESTIMATE_VALUE = "INSERT INTO WebsiteData (cgu_content, legal_content, primary_color) 
 VALUES ('Terms and conditions content', 'Legal content', '#336699');";
