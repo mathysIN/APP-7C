@@ -1,10 +1,7 @@
 <?php
-// Include the estimate.php file to access EstimateAPI class
-include __DIR__ . "/../entities/all_entities.php";
+require __DIR__ . "/../entities/all_entities.php";
 
-// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
     $organization = $_POST['organization'];
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -13,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $area_size = $_POST['area_size'];
     $message = $_POST['message'];
 
-    // You need to replace $estimateAPI with your actual instance of EstimateAPI
     $estimate_id = $estimateAPI->createEstimate($organization, $name, $email, $phone_number, $num_rooms, $area_size, $message);
 
     if ($estimate_id) {
