@@ -1,5 +1,6 @@
 <?php
-require __DIR__ . "/../entities/all_entities.php";
+require __DIR__ . "/../entities/all_entites.php";
+require_once __DIR__ . "/../utils/helpers.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $organization = $_POST['organization'];
@@ -13,9 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $estimate_id = $estimateAPI->createEstimate($organization, $name, $email, $phone_number, $num_rooms, $area_size, $message);
 
     if ($estimate_id) {
-        echo "<p>Estimate submitted successfully! Estimate ID: $estimate_id</p>";
+        redirect("/merci?id=$estimate_id");
     } else {
-        echo "<p>Error submitting estimate.</p>";
+        redirect("/devis?msg=error_sending_estimate");
     }
 }
 ?>
@@ -23,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="h-full py-20 flex flex-col justify-top">
     <p class="text-eventit-500 text-center font-bold text-6xl">Faire un devis</p>
     <div class="max-w-md mx-auto p-6 text-center">
-        <form>
+        <form method="post">
             <div class="mb-4">
                 <label for="email" class="block text-left pl-1 text-eventit-500">Votre organisation</label>
                 <input type="text" id="email" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">

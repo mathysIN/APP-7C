@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . "/../entities/all_entites.php";
 require_once __DIR__ . "/../utils/helpers.php";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $email = $_POST['email'];

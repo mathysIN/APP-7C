@@ -2,6 +2,19 @@
 // MAIN ROUTER
 
 require_once __DIR__ . "/../utils/helpers.php";
+require_once __DIR__ . "/../utils/global_types.php";
+
+session_start();
+
+if (!isset($_SESSION['old_logo']) || !isset($_SESSION['color'])) {
+    require_once __DIR__ . "/../entities/all_entites.php";
+    $website_data = $websiteDataAPI->getWebsiteData();
+    $_SESSION['old_logo'] = $website_data->old_logo;
+    $_SESSION['color'] = $website_data->primary_color;
+}
+
+$color = $_SESSION['color'] ?: "#38a2a7";
+$old_logo = $_SESSION['old_logo'] ?: false;
 
 function getFullPath($path)
 {
@@ -10,12 +23,20 @@ function getFullPath($path)
     return $fullPath;
 }
 
-function serveStaticResource($uri)
+/**
+ * @param string $uri
+ * @param WebsiteData $website_data
+ */
+function serveStaticResource($uri, $old_logo)
 {
     if (file_exists($uri) && is_readable($uri)) {
 
         $filename = basename($uri);
         $file_extension = strtolower(substr(strrchr($filename, "."), 1));
+
+        if ($old_logo && $uri === 'resources/logo-event-it.webp') {
+            $uri = 'resources/logo-event-it-old.webp';
+        }
 
         switch ($file_extension) {
             case "gif":
@@ -38,7 +59,6 @@ function serveStaticResource($uri)
     return false;
 }
 
-session_start();
 $request_uri = $_SERVER['REQUEST_URI'];
 
 $request_uri = strtok($request_uri, '?');
@@ -49,7 +69,7 @@ $need_admin = false;
 error_log("Requesting at $request_uri");
 
 if (strpos($request_uri, '/resources') === 0) {
-    if (serveStaticResource(substr($request_uri, 1))) {
+    if (serveStaticResource(substr($request_uri, 1), $old_logo)) {
         exit();
     } else {
         http_response_code(404);
@@ -84,12 +104,10 @@ if (strpos($request_uri, '/resources') === 0) {
             break;
     }
 
-    // starts with /sensor/
     if (starts_with($request_uri, "/sensor/")) {
         $need_auth = true;
         $page_path = 'capteur.php';
     }
-    // starts with /admin/
     if (starts_with($request_uri, "/admin/")) {
         $need_auth = true;
         $need_admin = true;
@@ -129,15 +147,15 @@ if (!isset($page_title)) {
     $page_title = $page_title . " - EVENT-IT";
 }
 
-
-require_once __DIR__ . "/../entities/all_entites.php";
-
-$website_data = $websiteDataAPI->getWebsiteData();
-$session_token = $_SESSION['session'] ?? null;
-
 global $_CURRENT_USER;
 $_CURRENT_USER = null;
+
+$session_token = $_SESSION['session'] ?? null;
+
+
 if ($session_token) {
+    require_once __DIR__ . "/../entities/all_entites.php";
+
     $_CURRENT_USER = $userAPI->getUserByToken($session_token);
 }
 
@@ -151,9 +169,6 @@ if ($need_auth && !$_CURRENT_USER) {
         redirect('/login');
     }
     exit();
-}
-if ($website_data) {
-    $color = $website_data->primary_color;
 }
 ?>
 
@@ -200,30 +215,30 @@ if ($website_data) {
         <div class="content w-full">
             <div class="p-2">
                 <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
-                    <div class="hidden border- lg:block ">
+                    <div class="border- lg:block ">
                         <div class="flex h-full max-h-screen flex-col gap-2">
                             <div class="flex h-[60px] items-center border-b px-6"><a class="flex items-center gap-2 font-semibold" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
                                         <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
                                         <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
                                         <path d="M12 3v6"></path>
-                                    </svg><span class="">Back-office</span></a><button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground ml-auto h-8 w-8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-                                    </svg><span class="sr-only">Toggle notifications</span></button></div>
+                                    </svg><span class="">Back-office</span></a></div>
                             <div class="flex-1 overflow-auto py-2">
-                                <nav class="grid items-start px-4 text-sm font-medium"><a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                <nav class="grid items-start px-4 text-sm font-medium">
+                                    <a href="/admin/general" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                         </svg>
-                                        Home
-                                    </a><a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                        Général
+                                    </a>
+                                    <a href="/admin/users" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
                                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                         </svg>
-                                        Users
-                                    </a><a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                        Utilisateurs
+                                    </a>
+                                    <a href="/admin/faq" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
                                             <polyline points="14 2 14 8 20 8"></polyline>
                                             <line x1="16" x2="8" y1="13" y2="13"></line>
@@ -231,23 +246,26 @@ if ($website_data) {
                                             <line x1="10" x2="8" y1="9" y2="9"></line>
                                         </svg>
                                         FAQ
-                                    </a><a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                    </a>
+                                    <a href="/admin/cgu" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
                                             <polyline points="14 2 14 8 20 8"></polyline>
                                             <line x1="16" x2="8" y1="13" y2="13"></line>
                                             <line x1="16" x2="8" y1="17" y2="17"></line>
                                             <line x1="10" x2="8" y1="9" y2="9"></line>
                                         </svg>
-                                        Legal
-                                    </a><a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                        CGU
+                                    </a>
+                                    <a href="/admin/devis" class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
                                             <polyline points="14 2 14 8 20 8"></polyline>
                                             <line x1="16" x2="8" y1="13" y2="13"></line>
                                             <line x1="16" x2="8" y1="17" y2="17"></line>
                                             <line x1="10" x2="8" y1="9" y2="9"></line>
                                         </svg>
-                                        Terms &amp; Conditions
-                                    </a></nav>
+                                        Devis
+                                    </a>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -267,6 +285,7 @@ if ($website_data) {
         messages.set("logged_in", "Connecté avec succès !");
         messages.set("invalid_credentials", "Identifiants invalides.");
         messages.set("cannot_create_user", "Impossible de créer le compte.");
+        messages.set("error_sending_estimate", "Erreur lors de l'envoi du devis.");
 
         function getUrlParams(url) {
             const params = {};
@@ -281,7 +300,7 @@ if ($website_data) {
             const toastContainer = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.id = 'toast-default';
-            toast.className = 'z-50 flex items-center w-full max-w-xs p-4 text-gray-800 bg-gray-200 rounded-lg shadow toast-fade-in'; // lighter colors
+            toast.className = 'z-50 flex items-center w-full max-w-xs p-4 text-gray-800 bg-gray-200 rounded-lg shadow toast-fade-in';
             toast.role = 'alert';
             toast.innerHTML = `
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg">

@@ -91,6 +91,26 @@ class EstimateAPI
 
         return $stmt->rowCount() > 0;
     }
+
+    public function getAllEstimates()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM Estimate");
+        $estimates = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $estimate = new Estimate();
+            $estimate->estimate_id = $row['estimate_id'];
+            $estimate->user_id = $row['user_id'];
+            $estimate->created_at = $row['created_at'];
+            $estimate->name = $row['name'];
+            $estimate->price_amount = $row['price_amount'];
+            $estimate->is_payed = (bool) $row['is_payed'];
+
+            $estimates[] = $estimate;
+        }
+
+        return $estimates;
+    }
 }
 
 const QUERY_CREATE_TABLE_ESTIMATE = "CREATE TABLE Estimate (
@@ -102,6 +122,3 @@ const QUERY_CREATE_TABLE_ESTIMATE = "CREATE TABLE Estimate (
     is_payed BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );";
-
-const QUERY_DEFAULT_ESTIMATE_VALUE = "INSERT INTO WebsiteData (cgu_content, legal_content, primary_color) 
-VALUES ('Terms and conditions content', 'Legal content', '#336699');";
