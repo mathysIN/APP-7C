@@ -1,3 +1,11 @@
+<?php
+
+
+require __DIR__ . "/../entities/all_entites.php";
+require_once __DIR__ . "/../utils/helpers.php";
+$posts = $postsAPI->getAllPostsNotResponding(); // Assuming there's a method to get all posts
+?>
+
 <div class="grid gap-4 lg:grid-cols-[300px_1fr] py-4">
     <div class="hidden lg:block">
         <div class="flex h-full max-h-screen flex-col gap-2">
@@ -47,61 +55,30 @@
                 A place for general discussions and introductions.
             </p>
         </header>
+
         <main class="flex-1 flex flex-col gap-4 p-4 lg:gap-8 lg:p-6">
             <div class="grid gap-4">
-                <div class="border rounded-lg p-4">
-                    <div class="flex items-start gap-4"><img src="/resources/pdp.webp" width="48" height="48" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
-                        <div class="grid gap-1.5">
-                            <div class="flex items-center gap-2">
-                                <h2 class="font-semibold text-base">Olivia Davis</h2><span class="text-xs text-gray-500 dark:text-gray-400">
-                                    2 hours ago
-                                </span>
+                <?php
+                foreach ($posts as $post) {
+                ?>
+                    <div class="border rounded-lg p-4">
+                        <div class="flex items-start gap-4">
+                            <img src="/resources/pdp.webp" width="48" height="48" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
+                            <div class="grid gap-1.5">
+                                <div class="flex items-center gap-2">
+                                    <h2 class="font-semibold text-base"><?php echo $post->user->first_name . " " . $post->user->last_name; ?></h2>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"><?php echo date('F j, Y, g:i a', strtotime($post->created_at)); ?></span>
+                                </div>
+                                <p>
+                                    <?php echo $post->content; ?>
+                                </p>
                             </div>
-                            <p>
-                                Welcome to the forum! We're excited to have everyone here.
-                                Feel free to introduce yourself in this thread.
-                            </p>
                         </div>
                     </div>
-                </div>
-                <div class="border rounded-lg p-4">
-                    <div class="flex items-start gap-4"><img src="/resources/pdp.webp" width="48" height="48" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
-                        <div class="grid gap-1.5">
-                            <div class="flex items-center gap-2">
-                                <h2 class="font-semibold text-base">Lucas Moore</h2><span class="text-xs text-gray-500 dark:text-gray-400">
-                                    1 day ago
-                                </span>
-                            </div>
-                            <p>
-                                I'm new here! Just wanted to say hi to everyone. I'm
-                                interested in discussing technology and gaming. What are
-                                your favorite games?
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="border rounded-lg p-4">
-                    <div class="flex items-start gap-4"><img src="/resources/pdp.webp" width="48" height="48" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
-                        <div class="grid gap-1.5">
-                            <div class="flex items-center gap-2">
-                                <h2 class="font-semibold text-base">Ella Johnson</h2><span class="text-xs text-gray-500 dark:text-gray-400">
-                                    1 week ago
-                                </span>
-                            </div>
-                            <p>
-                                I'm interested in discussing books and literature. What are
-                                you currently reading? Any recommendations?
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                }
+                ?>
             </div>
-            <form class="grid gap-4">
-                <div class="flex items-center gap-4"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 w-[100px] text-right" for="name">
-                        Your Name
-                    </label><input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" id="name" required=""></div>
-                <div class="flex flex-col gap-2"><label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="comment">Comment</label><textarea class="flex rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[100px] w-full" id="comment" placeholder="Enter your comment..." required=""></textarea></div><button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" type="submit">Submit</button>
-            </form>
         </main>
     </div>
 </div>
