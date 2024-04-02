@@ -23,7 +23,7 @@ class contactform {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $form = new ContactForm($_POST['email']);
+    $form = new contactform($_POST['email']);
     if ($form->send($_POST)) {
         echo "Message envoyé avec succès.";
     } else {
