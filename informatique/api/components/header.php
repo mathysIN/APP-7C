@@ -51,10 +51,10 @@ function generateMenuItems()
     elseif ($currentUser) {
     ?>
         <a href="/mes_devis">
-            <p class="text-sm">Mes devis</p>
+            <p class="text-sm"data-lang="Mes devis|My quotes">Mes devis</p>
         </a>
         <a href="/mes_capteurs">
-            <p class="text-sm">Mes capteurs</p>
+            <p class="text-sm"data-lang="Mes capteurs|My sensors">Mes capteurs</p>
         </a>
         <a href="/mon_profil">
             <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte</p>
@@ -63,24 +63,22 @@ function generateMenuItems()
     } else {
     ?>
         <a href="/devis">
-            <p class="text-sm">Faire un devis</p>
+            <p class="text-sm" data-lang="Faire un devis|Get a quote">Faire un devis</p>
         </a>
         <a href="/login">
-            <p class="text-sm">Se connecter</p>
+            <p class="text-sm"data-lang="Se connecter|Login">Se connecter</p>
         </a>
 
         <a href="#" class="text-sm" onclick="openLanguageModal()">Language</a>
 
         <a href="/create_account">
-            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">S'inscrire</p>
+            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500" data-lang="S'inscrire|Sign up">S'inscrire</p>
         </a>
 <?php
     }
     return ob_get_clean();
 }
 ?>
-
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -109,16 +107,20 @@ function generateMenuItems()
     const elementsToTranslate = document.querySelectorAll('[data-lang]');
     elementsToTranslate.forEach(element => {
         const translations = element.getAttribute('data-lang').split('|');
-        element.textContent = language === 'fr' ? translations[0] : translations[1];
+        if (element.tagName.toLowerCase() === 'textarea') {
+            element.placeholder = language === 'fr' ? translations[0] : translations[1];
+        } else {
+            element.textContent = language === 'fr' ? translations[0] : translations[1];
+        }
     });
+    localStorage.setItem('selectedLanguage', language); // Sauvegarde la langue choisie
     const previousLanguage = localStorage.getItem('selectedLanguage');
     if (language !== previousLanguage) {
         displayLanguageMessage(language);
     }
-    // Sauvegarde la nouvelle langue sélectionnée dans le localStorage
-    localStorage.setItem('selectedLanguage', language);
     closeLanguageModal();
 }
+
 
 
 function displayLanguageMessage(language) {

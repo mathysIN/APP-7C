@@ -94,7 +94,7 @@
             </div>
         </div>
             <div class="flex flex-row justify-left px-8 w-full h-44 text-center bg-eventit-500 rounded-3xl">
-                <img class="w-36 self-center" src="/resources/photo.webp" alt="Instagram">
+                <img class="w-36 self-center" src="/resources/Angelique.png" alt="Instagram">
                 <div class="self-center pl-4">
                     <h3 class="mt-4 text-lg text-left font-bold text-white"> Angélique Vallon</h3>
                     <h1 class="mt-4 text-lg text-left font-medium text-white" data-lang="Directrice qualité|Quality Director">Directrice qualité</h1>
@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="flex flex-row justify-left px-8 w-full h-44 text-center bg-eventit-500 rounded-3xl">
-                <img class="w-36  self-center" src="/resources/photo.webp" alt="Instagram">
+                <img class="w-36  self-center" src="/resources/Hamallah.png" alt="Instagram">
                 <div class="self-center pl-4">
                     <h3 class="mt-4 text-lg text-left font-bold text-white"> Ibrahim Diagana</h3>
                     <h1 class="mt-4 text-lg text-left font-medium text-white" data-lang="Directeur qualité|Quality Director">Directeur qualité</h1>
