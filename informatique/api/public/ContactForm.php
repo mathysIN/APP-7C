@@ -1,5 +1,5 @@
 <?php
-class ContactForm {
+class contactform {
     private $to = 'teobernard2300@gmail.com';
     private $subject = 'Nouveau message du formulaire de contact';
     private $headers = [];
