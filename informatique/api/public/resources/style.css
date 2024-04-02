@@ -1786,12 +1786,12 @@ body {
 }
 
 .logout-confirm {
-  background-color: #4CAF50;
+  background-color: #50c3b8;
   color: white;
 }
 
 .logout-cancel {
-  background-color: #f44336;
+  background-color: #197169;
   color: white;
 }
 

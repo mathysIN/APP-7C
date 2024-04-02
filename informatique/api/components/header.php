@@ -31,20 +31,20 @@ function generateMenuItems()
     $currentUser = $_CURRENT_USER;
      if ($currentUser->role == 'admin') {
 ?>
-        <a href="/mes_devis">
-            <p class="text-sm">Mes devis</p>
-        </a>
-        <a href="/admin">
-            <p class="text-sm">Administration</p>
-        </a>
-        <a href="/mes_capteurs">
-            <p class="text-sm">Mes capteurs</p>
-        </a>
+       <a href="/mes_devis">
+    <p class="text-sm" data-lang="Mes devis|My quotes">Mes devis</p>
+</a>
+<a href="/admin">
+    <p class="text-sm" data-lang="Administration|Administration">Administration</p>
+</a>
+<a href="/mes_capteurs">
+    <p class="text-sm" data-lang="Mes capteurs|My sensors">Mes capteurs</p>
+</a>
 
-        <a href="#" class="text-sm" onclick="openLanguageModal()">Langue</a>
+        <a href="#" class="text-sm" onclick="openLanguageModal()" data-lang="Langue | Language">Langue</a>
 
         <a href="/mon_profil">
-            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte</p>
+            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500" data-lang="Mon compte | My account"> Mon compte</p>
         </a>
     <?php
     }
