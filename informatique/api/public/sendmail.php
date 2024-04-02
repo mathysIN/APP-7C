@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Appelle la méthode send
     if ($form->send($data)) {
         // Si l'envoi réussit, vous pouvez rediriger l'utilisateur ou afficher un message de succès
-        echo "Message envoyé avec succès.";
+        echo "Message envoyé avec succès. En attente ...";
     } else {
         // Gérer l'erreur d'envoi
         echo "Erreur lors de l'envoi du message.";
