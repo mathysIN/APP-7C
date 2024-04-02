@@ -13,7 +13,6 @@ class ContactForm {
     }
 
     public function validate($data) {
-        // Vérifier si les champs essentiels sont présents et non vides
         $requiredFields = ['nom', 'email', 'message']; // Ajoutez ou enlevez des champs selon le formulaire
         foreach ($requiredFields as $field) {
             if (empty($data[$field])) {
