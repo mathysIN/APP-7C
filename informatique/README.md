@@ -22,4 +22,7 @@ Egalement, sur certaines machines, le driver mysql-php n'est installé, il est p
 curl -L https://gist.githubusercontent.com/GitHub30/2d51bfa327a6eddbde33b77214511584/raw/install_pdo_mysql.gh-codespaces.sh | bash
 ```
 
+NOTE : 
 
+installation wsl il faut php avk 
+sudo apt-get install php-mysql 

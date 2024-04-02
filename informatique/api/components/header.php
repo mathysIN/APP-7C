@@ -26,21 +26,35 @@ function generateMenuItems()
 {
     extract($GLOBALS);
     require_once __DIR__ . "/../utils/global_types.php";
+    ob_start();
 
     $currentUser = $_CURRENT_USER;
-    if ($currentUser) {
+     if ($currentUser->role == 'admin') {
 ?>
         <a href="/mes_devis">
             <p class="text-sm">Mes devis</p>
-
+        </a>
+        <a href="/admin">
+            <p class="text-sm">Administration</p>
         </a>
         <a href="/mes_capteurs">
             <p class="text-sm">Mes capteurs</p>
-
         </a>
         <a href="/mon_profil">
-            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte
-            </p>
+            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte</p>
+        </a>
+    <?php
+    }
+    elseif ($currentUser) {
+    ?>
+        <a href="/mes_devis">
+            <p class="text-sm">Mes devis</p>
+        </a>
+        <a href="/mes_capteurs">
+            <p class="text-sm">Mes capteurs</p>
+        </a>
+        <a href="/mon_profil">
+            <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte</p>
         </a>
     <?php
     } else {
@@ -59,6 +73,8 @@ function generateMenuItems()
     return ob_get_clean();
 }
 ?>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
