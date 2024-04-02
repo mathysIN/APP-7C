@@ -40,6 +40,9 @@ function generateMenuItems()
         <a href="/mes_capteurs">
             <p class="text-sm">Mes capteurs</p>
         </a>
+
+        <a href="#" class="text-sm" onclick="openLanguageModal()">Langue</a>
+
         <a href="/mon_profil">
             <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">Mon compte</p>
         </a>
@@ -65,6 +68,9 @@ function generateMenuItems()
         <a href="/login">
             <p class="text-sm">Se connecter</p>
         </a>
+
+        <a href="#" class="text-sm" onclick="openLanguageModal()">Language</a>
+
         <a href="/create_account">
             <p class="w-32 h-9 px-2 py-2 text-center border rounded-3xl bg-white text-eventit-500">S'inscrire</p>
         </a>
@@ -84,3 +90,88 @@ function generateMenuItems()
         });
     });
 </script>
+
+<!-- La popup de sélection de langue -->
+<div id="languageModal" class="language-modal" style="display:none;">
+    <div class="language-modal-content">
+        <span class="close" onclick="closeLanguageModal()">&times;</span>
+        <p class="text-lg font-bold mb-4">Choisissez votre langue :</p>
+        <a href="javascript:void(0);" onclick="translatePage('fr')" class="language-link">Français</a>
+        <a href="javascript:void(0);" onclick="translatePage('en')" class="language-link">Anglais</a>
+    </div>
+</div>
+
+<!-- Message de confirmation du changement de langue -->
+<div id="languageMessage" class="language-message hidden">Langue choisie</div>
+
+<script>
+ function translatePage(language) {
+    const elementsToTranslate = document.querySelectorAll('[data-lang]');
+    elementsToTranslate.forEach(element => {
+        const translations = element.getAttribute('data-lang').split('|');
+        element.textContent = language === 'fr' ? translations[0] : translations[1];
+    });
+    const previousLanguage = localStorage.getItem('selectedLanguage');
+    if (language !== previousLanguage) {
+        displayLanguageMessage(language);
+    }
+    // Sauvegarde la nouvelle langue sélectionnée dans le localStorage
+    localStorage.setItem('selectedLanguage', language);
+    closeLanguageModal();
+}
+
+
+function displayLanguageMessage(language) {
+    const message = language === 'fr' ? "Langue choisie : Français." : "Language chosen: English.";
+    const messageElement = document.getElementById("languageMessage");
+    messageElement.textContent = message;
+    messageElement.style.display = "block"; // Affiche le message
+    setTimeout(() => {
+        messageElement.style.display = "none"; 
+    }, 3000);
+}
+
+
+function closeLanguageModal() {
+    document.getElementById("languageModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+    var modal = document.getElementById("languageModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function loadSelectedLanguage() {
+    // Récupère la langue choisie ou définit 'fr' comme langue par défaut
+    const savedLanguage = localStorage.getItem('selectedLanguage') || 'fr';
+    translatePage(savedLanguage);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadSelectedLanguage(); // Charge la langue sélectionnée au chargement de la page
+    
+    // Votre code existant pour le menu hamburger, etc.
+    document.getElementById('hamburger-menu').addEventListener('click', function() {
+        document.getElementById('mobile-menu-container').classList.toggle('hidden');
+    });
+});
+
+
+</script>
+
+<script>
+function openLanguageModal() {
+    document.getElementById("languageModal").style.display = "block";
+}
+
+window.onclick = function(event) {
+    var modal = document.getElementById("languageModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+
