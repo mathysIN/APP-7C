@@ -1,5 +1,6 @@
 <?php
-require_once 'ContactForm.php'; 
+require_once __DIR__ . '/../public/ContactForm.php';
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $organisation = $_POST['organisation'];
