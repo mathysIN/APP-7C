@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = $_POST['message'];
 
     // Crée une instance de votre classe ContactForm
-    $form = new contactform($email);
+    $form = new ContactForm($email);
 
     // Prépare les données à envoyer
     $data = [
@@ -20,11 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'message' => $message
     ];
 
-    // Appelle la méthode send
-    if ($form->send($data)) {
-        echo "Message envoyé avec succès. En attente ...";
+    // Vérifiez les données avant l'envoi
+    if ($form->validate($data)) {
+        // Si les données sont valides, tentez d'envoyer l'email
+        if ($form->send($data)) {
+            echo "Message formaté avec succès.";
+        } else {
+            echo "Erreur lors de l'envoi du message.";
+        }
     } else {
-        echo "Erreur lors de l'envoi du message.";
+        // Les données ne sont pas valides
+        echo "Erreur de validation. Assurez-vous que tous les champs sont correctement remplis et que l'email est valide.";
     }
 }
 ?>
+
