@@ -171,6 +171,21 @@ class UserAPI
 
         return $user_id;
     }
+
+    public function updateUser($user)
+    {
+        $stmt = $this->pdo->prepare("UPDATE Users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, image_url = :image_url, role = :role WHERE user_id = :user_id");
+        $stmt->execute([
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+            'image_url' => $user->image_url,
+            'role' => $user->role,
+            'user_id' => $user->user_id
+        ]);
+    }
+    
 }
 
 const QUERY_CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS Users (
