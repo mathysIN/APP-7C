@@ -7,7 +7,7 @@
         <input type="text" name="organisation" id="organisation" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
     </div>
     <div class="mb-4">
-        <label for="nom" class="block text-left pl-1 text-eventit-500">Nom et Prénom</label>
+        <label for="nom" class="block text-left pl-1 text-eventit-500">Nom et Prénom utilisateur</label>
         <input type="text" name="nom" id="nom" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
     </div>
     <div class="mb-4">
