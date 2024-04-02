@@ -44,11 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="h-full flex flex-col justify-top pt-20 pb-96">
     <h3 class="pl-24 text-left font-bold text-eventit-500 text-6xl">Mon profil</h3>
-    <div class="flex flex-row gap-16 items-center pt-10 pl-16">
-        <img src="/resources/pdp.webp" alt="">
-        <div class="">
+    <div class="flex flex-row gap-16 items-start pt-10 pl-16">
+        <div class="flex flex-col items-center">
+            <img src="/resources/pdp.webp" alt="">
+            <button onclick="showLogoutPopup()" class="mt-5 px-4 py-2 bg-eventit-500 text-white font-bold rounded-lg">Déconnexion</button>
+        </div>
+
+        <div>
             <div class="pb-3 flex flex-row space-x-2 items-center">
-                <p class="text-3xl font-bold flex flex-row">
+                <p class="text-3xl font-bold">
                     <?php echo $_CURRENT_USER->first_name . " " . $_CURRENT_USER->last_name ?>
                 </p>
                 <?php
@@ -63,16 +67,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 ?>
             </div>
-            <p class="pb-3"><?php echo $_CURRENT_USER->email ?></p>
+            <p class="pb-3">Mail : <?php echo $_CURRENT_USER->email ?></p>
+            <p class="pb-3">Numéro : <?php echo $_CURRENT_USER->phone_number ?></p>
 
-            <p class="pb-3"><?php echo $_CURRENT_USER->phone_number ?></p>
+            
+            <!-- Le bouton et le formulaire de modification restent ici -->
             <a>
                 <button id="modifyButton" class="flex w-40 h-9 px-4 py-2 items-center text-center font-bold rounded-3xl bg-eventit-200 text-eventit-500">
                     <img class="w-1/6" src="/resources/modifier.webp" alt="">
                     <p class="pl-4">Modifier</p>
                 </button>
-                <!-- Formulaire de modification -->
-                <form id="modifyForm" method="post" enctype="multipart/form-data" class="hidden">
+            </a>
+            <!-- Formulaire de modification -->
+            <form id="modifyForm" method="post" enctype="multipart/form-data" class="hidden">
                     <div class="mb-4">
                         <label for="first_name" class="block text-eventit-500">Nom</label>
                         <input name="first_name" type="text" id="first_name" value="<?php echo $_CURRENT_USER->first_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
@@ -94,22 +101,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input name="photo" type="file" id="photo" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Modifier</button>
-                    </div>
-                </form>
-            </a>
+                    <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Modifier</button>
+                </div>
+            </form>
         </div>
-        <div class="pl-16 pt-5">
-            <button onclick="showLogoutPopup()" class="inline-block px-4 py-2 bg-eventit-500 text-white font-bold rounded-lg">Déconnexion</button>
-        </div>
+    </div>
 
-        <!-- Popup de déconnexion -->
-        <div id="logoutPopup" class="logout-popup">
-            <div class="logout-popup-content">
-                <p>Êtes-vous sûr de vouloir vous déconnecter ?</p>
-                <button onclick="window.location.href='/disconnect'" class="logout-confirm">Oui</button>
-                <button onclick="hideLogoutPopup()" class="logout-cancel">Non</button>
-            </div>
+    <!-- Popup de déconnexion -->
+    <div id="logoutPopup" class="logout-popup">
+        <div class="logout-popup-content">
+            <p>Êtes-vous sûr de vouloir vous déconnecter ?</p>
+            <button onclick="window.location.href='/disconnect'" class="logout-confirm">Oui</button>
+            <button onclick="hideLogoutPopup()" class="logout-cancel">Non</button>
         </div>
     </div>
 </div>
