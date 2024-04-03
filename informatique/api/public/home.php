@@ -25,7 +25,6 @@
         DU TEXTE
     </a>
 </section>
-
 <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-eventit-500">
     <h2 class="text-3xl font-bold text-center text-white md:text-4xl lg:text-5xl z-10" data-lang="Nos produits|Our Products">Nos produits</h2>
     <div class="grid mt-8 gap-6 justify-items-center md:grid-cols-2 lg:grid-cols-3">
@@ -34,8 +33,7 @@
             <h3 class="mt-4 text-lg font-medium text-eventit-500" data-lang="Mise en place d’un système de capteurs sonores modulaires. Ces capteurs seraient paramétrables selon le type d’événement organisé par le client.|Implementation of a modular sound sensor system. These sensors can be configured according to the type of event organized by the client.">
                 Mise en place d’un système de capteurs sonores modulaires. Ces capteurs seraient paramétrables selon le type d’événement organisé par le client.
             </h3>
-            <a class="inline-flex w-2/4 self-center mt-8 px-8 py-3 text-sm font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500" href="produits.php" data-lang="Voir les produits|See products">
-                Voir les produits
+            <a class="inline-flex w-2/4 self-center mt-8 px-8 py-3 text-sm font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500" href="produits.php" data-lang="Voir les produits|See products">Voir les produits
              </a>
         </div>
         <div class="flex flex-col justify-center px-10 w-4/5 md:w-96 h-80 text-center bg-white rounded-3xl">
@@ -56,7 +54,6 @@
         </div>
     </div>
 </section>
-
 <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-eventit-200">
     <h2 class="text-3xl font-bold text-center text-eventit-500 md:text-4xl lg:text-5xl" data-lang="Nos expertises|Our Expertise">Nos expertises</h2>
     <div class="grid mt-8 gap-6 md:px-56 justify-items-center md:grid-cols-2 lg:grid-cols-2">
@@ -80,12 +77,9 @@
         </div>
     </div>
 </section>
-
-
 <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-20 bg-eventit-100">
     <h2 class="text-3xl font-bold text-center text-eventit-500 md:text-4xl lg:text-5xl" data-lang="Notre équipe|Our Team">Notre équipe</h2>
     <div class="grid mt-8 gap-6 pt-10 justify-items-center md:grid-cols-2 lg:grid-cols-3">
-    
         <div class="flex flex-row justify-left px-8 w-full h-44 text-center bg-eventit-500 rounded-3xl">
             <img class="w-36 self-center" src="/resources/nina.png" alt="Nina">
             <div class="self-center pl-4">
@@ -166,4 +160,7 @@
 
         to {
             background-size: 100%;
-            /* Final
+            
+
+        }}
+</style>

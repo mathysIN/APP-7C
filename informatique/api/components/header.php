@@ -84,6 +84,7 @@ function generateMenuItems()
             </g>
         </svg>
     </a>
+    
     <?php
     } else {
     ?>

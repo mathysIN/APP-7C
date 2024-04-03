@@ -9,3 +9,4 @@ if (isset($_SESSION["session"])) {
     redirect('/login.php');
 }
 exit();
+?>
