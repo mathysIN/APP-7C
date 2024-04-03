@@ -118,15 +118,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <script>
-    function showLogoutPopup() {
-        document.getElementById("logoutPopup").style.display = "block";
-    }
-
-    function hideLogoutPopup() {
-        document.getElementById("logoutPopup").style.display = "none";
-    }
-
-    document.getElementById("modifyButton").addEventListener("click", function() {
-        document.getElementById("modifyForm").classList.toggle("hidden");
-    });
-</script>
