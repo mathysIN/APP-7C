@@ -98,6 +98,7 @@ if (strpos($request_uri, '/resources') === 0) {
             break;
         case '/forum/create_post':
             $need_auth = true;
+            break;
         case '/mes_devis':
             $need_auth = true;
             $page_title = 'Mes devis';
