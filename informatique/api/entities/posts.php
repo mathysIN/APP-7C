@@ -110,6 +110,43 @@ class PostAPI
 
         return $posts;
     }
+
+    public function getAllPostsNotRespondingFilter($word = null, $username = null)
+    {
+        $sql = "SELECT * FROM Posts WHERE responding_to_id IS NULL";
+
+
+        if ($word !== null && $username !== null) {
+            $sql .= " AND (content LIKE :word OR title LIKE :word) AND user_id IN (SELECT user_id FROM Users WHERE first_name LIKE :username OR last_name LIKE :username)";
+        } elseif ($word !== null) {
+            $sql .= " AND (content LIKE :word OR title LIKE :word)";
+        } elseif ($username !== null) {
+            $sql .= " AND user_id IN (SELECT user_id FROM Users WHERE first_name LIKE :username OR last_name LIKE :username)";
+        }
+
+        $sql .= " ORDER BY created_at DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $params = [];
+
+        if ($word !== null) {
+            $params['word'] = "%$word%";
+        }
+
+        if ($username !== null) {
+            $params['username'] = "%$username%";
+        }
+
+        $stmt->execute($params);
+        $posts = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $posts[] = $this->toPost($row);
+        }
+
+        return $posts;
+    }
 }
 
 const QUERY_CREATE_TABLE_POSTS = "CREATE TABLE Posts (
