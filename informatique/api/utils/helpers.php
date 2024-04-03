@@ -56,7 +56,8 @@ function getLastWordOfUrlPath($url)
 
 function getLastWordOfCurrentUrlPath()
 {
-    return getLastWordOfUrlPath($_SERVER['REQUEST_URI']);
+    $url = strtok($_SERVER['REQUEST_URI'], '?');
+    return getLastWordOfUrlPath($url);
 }
 
 function getSearchQuery($key)

@@ -10,5 +10,6 @@ try {
     $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     error_log("Connected to mysql");
 } catch (PDOException $e) {
+    echo ("A major error has occured");
     error_log("Cannot init mysql: " . $e->getMessage());
 }

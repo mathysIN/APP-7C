@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h3 class="pl-24 text-left font-bold text-eventit-500 text-6xl">Mon profil</h3>
     <div class="flex flex-row gap-16 items-start pt-10 pl-16">
         <div class="flex flex-col items-center">
-            <img src="/resources/pdp.webp" alt="">
+            <img src="<?php echo $_CURRENT_USER->image_url ?>" alt="">
             <button onclick="showLogoutPopup()" class="mt-5 px-4 py-2 bg-eventit-500 text-white font-bold rounded-lg">Déconnexion</button>
         </div>
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="pb-3">Mail : <?php echo $_CURRENT_USER->email ?></p>
             <p class="pb-3">Numéro : <?php echo $_CURRENT_USER->phone_number ?></p>
 
-            
+
             <!-- Le bouton et le formulaire de modification restent ici -->
             <a>
                 <button id="modifyButton" class="flex w-40 h-9 px-4 py-2 items-center text-center font-bold rounded-3xl bg-eventit-200 text-eventit-500">
@@ -80,27 +80,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
             <!-- Formulaire de modification -->
             <form id="modifyForm" method="post" enctype="multipart/form-data" class="hidden">
-                    <div class="mb-4">
-                        <label for="first_name" class="block text-eventit-500">Nom</label>
-                        <input name="first_name" type="text" id="first_name" value="<?php echo $_CURRENT_USER->first_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="last_name" class="block text-eventit-500">Prénom</label>
-                        <input name="last_name" type="text" id="last_name" value="<?php echo $_CURRENT_USER->last_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-eventit-500">Email</label>
-                        <input name="email" type="email" id="email" value="<?php echo $_CURRENT_USER->email ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone_number" class="block text-eventit-500">Téléphone</label>
-                        <input name="phone_number" type="tel" id="phone_number" value="<?php echo $_CURRENT_USER->phone_number ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="photo" class="block text-eventit-500">Photo de profil</label>
-                        <input name="photo" type="file" id="photo" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="text-center">
+                <div class="mb-4">
+                    <label for="first_name" class="block text-eventit-500">Nom</label>
+                    <input name="first_name" type="text" id="first_name" value="<?php echo $_CURRENT_USER->first_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="last_name" class="block text-eventit-500">Prénom</label>
+                    <input name="last_name" type="text" id="last_name" value="<?php echo $_CURRENT_USER->last_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-eventit-500">Email</label>
+                    <input name="email" type="email" id="email" value="<?php echo $_CURRENT_USER->email ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="phone_number" class="block text-eventit-500">Téléphone</label>
+                    <input name="phone_number" type="tel" id="phone_number" value="<?php echo $_CURRENT_USER->phone_number ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="photo" class="block text-eventit-500">Photo de profil</label>
+                    <input name="photo" type="file" id="photo" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="text-center">
                     <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Modifier</button>
                 </div>
             </form>

@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . "/../utils/helpers.php";
+require_once __DIR__ . "/../utils/global_types.php";
+
 class UserModel
 {
     /**
@@ -54,13 +57,14 @@ class UserModel
 class UserAPI
 {
     private $pdo;
+    private $cache;
 
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
+        require_once __DIR__ . "/../utils/global_types.php";
+        $this->cache = isset($_USER_CACHE) ? $_USER_CACHE : array();
     }
-
-
 
     private function toUser($row)
     {
@@ -71,15 +75,25 @@ class UserAPI
         $user->phone_number = $row['phone_number'];
         $user->first_name = $row['first_name'];
         $user->last_name = $row['last_name'];
-        $user->image_url = $row['image_url'];
+        $user->image_url = '/resources/pdp.webp'; //TODO: not working right now
         $user->password_hash = $row['password_hash'];
         $user->role = $row['role'];
-
+        $this->cache[$user->user_id] = $user;
         return $user;
+    }
+
+    private function getUserInCache($user_id)
+    {
+        return $this->cache[$user_id] ?? null;
     }
 
     public function getUserById($user_id)
     {
+        $user = $this->getUserInCache($user_id);
+        if ($user) {
+            return $user;
+        }
+
         $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $user_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -93,7 +107,6 @@ class UserAPI
 
     public function getUserByEmailPass($email, $password)
     {
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

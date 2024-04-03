@@ -96,6 +96,8 @@ if (strpos($request_uri, '/resources') === 0) {
             $need_auth = true;
             $page_title = 'Mes capteurs';
             break;
+        case '/forum/create_post':
+            $need_auth = true;
         case '/mes_devis':
             $need_auth = true;
             $page_title = 'Mes devis';
@@ -157,11 +159,7 @@ if (!isset($page_title)) {
     $page_title = $page_title . " - EVENT-IT";
 }
 
-global $_CURRENT_USER;
-$_CURRENT_USER = null;
-
 $session_token = $_SESSION['session'] ?? null;
-
 
 if ($session_token) {
     require_once __DIR__ . "/../entities/all_entites.php";

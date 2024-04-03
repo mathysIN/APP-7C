@@ -18,9 +18,7 @@ if (!$post) {
 $responses = $postsAPI->getResponseOfPost($postId);
 
 ?>
-<div class="flex flex-col gap-4 min-h-screen px-80 my-20">
-
-
+<div class="flex flex-col gap-4  md:mx-20 mx-4 my-20">
     <a href="/forum">
         <button class="inline-flex my-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-eventit-500 hover:bg-eventit-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-eventit-500">
             Back to forum
@@ -30,8 +28,13 @@ $responses = $postsAPI->getResponseOfPost($postId);
         <div>
             <header class="bg-white shadow-md py-4 px-8">
                 <h1 class="text-3xl font-semibold"><?php echo $post->title; ?></h1>
-                <p class="text-gray-500 mt-2"><?php echo $post->user->getFullName(); ?></p>
 
+                <div class="flex flex-row items-center gap-2 ">
+                    <p>Posté par</p>
+                    <img src="<?php echo $post->user->image_url ?>" width="32" height="32" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
+                    <p class="text-gray-700 font-bold"><?php echo $post->user->getFullName(); ?></p>
+                </div>
+                <span class="text-xs text-gray-500 dark:text-gray-400"><?php echo date('F j, Y, g:i a', strtotime($post->created_at)); ?></span>
                 <p class="text-gray-700 mt-2"><?php echo $post->content; ?></p>
             </header>
 
@@ -57,7 +60,12 @@ $responses = $postsAPI->getResponseOfPost($postId);
 
                     foreach ($responses as $response) : ?>
                         <div class="bg-white rounded-lg shadow-md p-4 mb-4">
-                            <p class="text-gray-700 font-bold"><?php echo $response->user->getFullName(); ?></p>
+                            <div class="flex flex-row items-center gap-2 my-2">
+
+                                <img src="<?php echo $response->user->image_url ?>" width="48" height="48" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
+
+                                <p class="text-gray-700 font-bold"><?php echo $response->user->getFullName(); ?></p>
+                            </div>
                             <p class="text-gray-700"><?php echo $response->content; ?></p>
                         </div>
                     <?php endforeach; ?>

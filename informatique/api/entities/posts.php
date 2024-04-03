@@ -37,10 +37,10 @@ class PostAPI
         $post->post_id = $row['post_id'];
         $post->user_id = $row['user_id'];
         $post->responding_to_id = $row['responding_to_id'];
-        $post->user = $this->userAPI->getUserById($post->user_id); // FIXME: unoptimized AF
         $post->created_at = $row['created_at'];
         $post->content = $row['content'];
 
+        $post->user = $this->userAPI->getUserById($post->user_id);
         return $post;
     }
 
