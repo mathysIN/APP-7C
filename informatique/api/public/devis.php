@@ -53,9 +53,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="password" class="block text-left pl-1 text-eventit-500">Message</label>
                 <input type="password" id="password" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
-            <div class="text-center">
-                <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500"data-lang="Envoyer mon devis|Send my quote">Envoyer mon devis</button>
-            </div>
-        </form>
-    </div>
-</div>
+            <div

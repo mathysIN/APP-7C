@@ -55,5 +55,4 @@ $estimates = $estimateAPI->getAllEstimates();
                     </div>
                 </div>
             </div>
-    </main>
-</div>
+    </mai

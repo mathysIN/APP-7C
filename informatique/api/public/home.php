@@ -166,7 +166,4 @@
 
         to {
             background-size: 100%;
-            /* Final size */
-        }
-    }
-</style>
+            /* Final
