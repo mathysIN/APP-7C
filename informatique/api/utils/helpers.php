@@ -43,3 +43,23 @@ function starts_with($haystack, $needle)
 {
     return strpos($haystack, $needle) === 0 && strlen($haystack) > strlen($needle);
 }
+
+function getLastWordOfUrlPath($url)
+{
+    $url = trim($url, '/');
+    $pathArray = explode('/', $url);
+    $lastWord = end($pathArray);
+
+    return $lastWord;
+}
+
+
+function getLastWordOfCurrentUrlPath()
+{
+    return getLastWordOfUrlPath($_SERVER['REQUEST_URI']);
+}
+
+function getSearchQuery($key)
+{
+    return isset($_GET[$key]) ? $_GET[$key] : '';
+}

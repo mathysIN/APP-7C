@@ -115,7 +115,7 @@ if (strpos($request_uri, '/resources') === 0) {
 }
 
 if (!isset($page_path)) {
-    for ($i = 0; $i < 3; $i++) {
+    for ($i = 0; $i < 4; $i++) {
         switch ($i) {
             case 0:
                 $potential_page_page = substr($request_uri, 1);
@@ -126,7 +126,17 @@ if (!isset($page_path)) {
             case 2:
                 $potential_page_page = substr($request_uri, 1) . "/index.php";
                 break;
+            case 3:
+                $parts = explode("/", $request_uri);
+                // Get the directory part of the URI (everything except the last part)
+                $directory = implode("/", array_slice($parts, 0, -1));
+                $directory = substr($directory, 1);
+                $query = end($parts);
+                $potential_page_page =  $directory . "/[query]" . ".php";
+                break;
         }
+        error_log("Trying $potential_page_page");
+
         $temp_full_path = getFullPath($potential_page_page);
         if (file_exists($temp_full_path) && is_file($temp_full_path)) {
             error_log("Found page at $potential_page_page");
@@ -286,6 +296,7 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("invalid_credentials", "Identifiants invalides.");
         messages.set("cannot_create_user", "Impossible de créer le compte.");
         messages.set("error_sending_estimate", "Erreur lors de l'envoi du devis.");
+        messages.set("post_missing_fields", "Veuillez remplir tous les champs.");
 
         function getUrlParams(url) {
             const params = {};
@@ -304,7 +315,7 @@ if ($need_auth && !$_CURRENT_USER) {
             toast.role = 'alert';
             toast.innerHTML = `
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg">
-                <img class="w-4 h-4" src="resources/logo-event-it-clean.png"/>
+                <img class="w-4 h-4" src="/resources/logo-event-it-clean.png"/>
                 <span class="sr-only">Fire icon</span>
             </div>
             <div class="ms-3 text-sm font-normal mr-4">${message}</div>

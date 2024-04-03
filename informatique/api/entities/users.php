@@ -44,6 +44,11 @@ class UserModel
      * @var 'admin' | 'user'
      */
     public $role;
+
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
 
 class UserAPI
@@ -185,7 +190,6 @@ class UserAPI
             'user_id' => $user->user_id
         ]);
     }
-    
 }
 
 const QUERY_CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS Users (
