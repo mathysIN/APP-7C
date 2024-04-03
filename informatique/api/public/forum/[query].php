@@ -35,7 +35,7 @@ $responses = $postsAPI->getResponseOfPost($postId);
                     <p class="text-gray-700 font-bold"><?php echo $post->user->getFullName(); ?></p>
                 </div>
                 <span class="text-xs text-gray-500 dark:text-gray-400"><?php echo date('F j, Y, g:i a', strtotime($post->created_at)); ?></span>
-                <p class="text-gray-700 mt-2"><?php echo $post->content; ?></p>
+                <p class="text-gray-700 mt-2"><?php echo markdown_to_html($post->content); ?></p>
             </header>
 
             <main class="max-w-3xl mx-auto mt-8">
@@ -66,7 +66,7 @@ $responses = $postsAPI->getResponseOfPost($postId);
 
                                 <p class="text-gray-700 font-bold"><?php echo $response->user->getFullName(); ?></p>
                             </div>
-                            <p class="text-gray-700"><?php echo $response->content; ?></p>
+                            <p class="text-gray-700"><?php echo markdown_to_html($response->content); ?></p>
                         </div>
                     <?php endforeach; ?>
                 </section>

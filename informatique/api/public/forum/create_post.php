@@ -16,10 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $title = $_POST["title"];
     $content = $_POST["content"];
     $user_id = $_CURRENT_USER->user_id;
-    $response_to = $_POST["responding"] ?: null;
-
-    if (!$title || !$content) {
+    $response_to = isset($_POST["responding"]) ? $_POST["responding"] : null;
+    if ($response_to && $postsAPI->getPostById($response_to) === null) {
+        redirect('/forum/create_post?msg=invalid_response_to');
+        exit();
+    }
+    if ((!$title && !$response_to) || !$content) {
         redirect('/forum/create_post?msg=post_missing_fields');
+        exit();
     }
 
     $post_id = $postsAPI->createPost($user_id, $title, $content, $response_to);
@@ -41,18 +45,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1 class="text-3xl font-semibold">Create a post</h1>
     <?php endif; ?>
     <form method="post" class="bg-white p-6 rounded-lg shadow-md">
-        <div class="flex flex-row items-center gap-2 my-4">
+        <a href="/mon_profil" class="flex flex-row items-center gap-2 my-4 w-fit">
             <p>Poster en tant que</p>
             <img src="<?php echo $_CURRENT_USER->image_url ?>" width="32" height="32" class="rounded-full" alt="Avatar" style="aspect-ratio: 48 / 48; object-fit: cover;">
             <p class="text-gray-700 font-bold"><?php echo $_CURRENT_USER->getFullName(); ?></p>
-        </div>
+        </a>
         <div class="mb-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-            <input type="text" name="title" id="title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            <input type="text" name="title" id="title" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full">
         </div>
         <div class="mb-4">
             <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-            <textarea name="content" id="content" rows="5" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+            <textarea name="content" id="content" rows="5" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full"></textarea>
         </div>
         <div class="flex justify-end">
             <?php if ($responding) : ?>
