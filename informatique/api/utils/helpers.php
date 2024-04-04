@@ -44,6 +44,12 @@ function starts_with($haystack, $needle)
     return strpos($haystack, $needle) === 0 && strlen($haystack) > strlen($needle);
 }
 
+function getCurrentPath()
+{
+    return strtok($_SERVER['REQUEST_URI'], '?');
+}
+
+
 function getLastWordOfUrlPath($url)
 {
     $url = trim($url, '/');
@@ -53,11 +59,9 @@ function getLastWordOfUrlPath($url)
     return $lastWord;
 }
 
-
 function getLastWordOfCurrentUrlPath()
 {
-    $url = strtok($_SERVER['REQUEST_URI'], '?');
-    return getLastWordOfUrlPath($url);
+    return getLastWordOfUrlPath(getCurrentPath());
 }
 
 function getSearchQuery($key)

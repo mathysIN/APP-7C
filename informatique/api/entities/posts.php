@@ -13,6 +13,14 @@ class Post
      * @var UserModel
      */
     public $user;
+
+    /**
+     * @param UserModel $user
+     */
+    public function hasWriteAccess($user)
+    {
+        return $this->user_id === $user->user_id || $this->user->role === "admin";
+    }
 }
 
 class PostAPI
@@ -109,6 +117,15 @@ class PostAPI
         }
 
         return $posts;
+    }
+
+    public function deleteCommentsThenPost($post_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Posts WHERE responding_to_id = :post_id");
+        $stmt->execute(['post_id' => $post_id]);
+
+        $stmt = $this->pdo->prepare("DELETE FROM Posts WHERE post_id = :post_id");
+        $stmt->execute(['post_id' => $post_id]);
     }
 
     public function getAllPostsNotRespondingFilter($word = null, $username = null)

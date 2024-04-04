@@ -5,6 +5,7 @@ require_once __DIR__ . "/../../utils/helpers.php";
 require_once __DIR__ . "/../../utils/global_types.php";
 
 $responding = getSearchQuery("responding");
+$editing = getSearchQuery("editing");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -17,17 +18,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $content = $_POST["content"];
     $user_id = $_CURRENT_USER->user_id;
     $response_to = isset($_POST["responding"]) ? $_POST["responding"] : null;
-    if ($response_to && $postsAPI->getPostById($response_to) === null) {
-        redirect('/forum/create_post?msg=invalid_response_to');
-        exit();
-    }
-    if ((!$title && !$response_to) || !$content) {
-        redirect('/forum/create_post?msg=post_missing_fields');
-        exit();
-    }
+    $editing_post = isset($_POST["editing"]) ? $_POST["editing"] : null;
 
-    $post_id = $postsAPI->createPost($user_id, $title, $content, $response_to);
-    redirect("/forum/$post_id");
+    // Edit
+    if ($editing_post) {
+        $post = $postsAPI->getPostById($editing_post);
+        if (!$post || !$post->hasWriteAccess($_CURRENT_USER)) {
+            redirect('/forum/create_post?msg=invalid_editing');
+            exit();
+        }
+        $postsAPI->editPost($editing_post, $content);
+        redirect("/forum/$editing_post");
+        // Respond
+    } else if ($response_to) {
+        if ($response_to && $postsAPI->getPostById($response_to) === null) {
+            redirect('/forum/create_post?msg=invalid_response_to');
+            exit();
+        }
+        // Create
+    } else {
+
+        if ((!$title) || !$content) {
+            redirect('/forum/create_post?msg=post_missing_fields');
+            exit();
+        }
+
+
+        $post_id = $postsAPI->createPost($user_id, $title, $content, $response_to);
+        redirect("/forum/$post_id");
+    }
+}
+
+if (isset($editing)) {
+    $post = $postsAPI->getPostById($editing);
+    if (!$post || !$post->hasWriteAccess($_CURRENT_USER)) {
+        redirect('/forum/create_post?msg=invalid_editing');
+        exit();
+    }
+    $responding = null;
 }
 
 ?>
@@ -41,6 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </a>
     <?php if ($responding) : ?>
         <h1 class="text-3xl font-semibold">Responding to post <code><?php echo $responding ?></code></h1>
+    <?php elseif ($editing) : ?>
+        <h1 class="text-3xl font-semibold">Editing post <code><?php echo $editing ?></code></h1>
     <?php else : ?>
         <h1 class="text-3xl font-semibold">Create a post</h1>
     <?php endif; ?>
@@ -52,15 +82,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </a>
         <div class="mb-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-            <input type="text" name="title" id="title" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full">
+            <input type="text" name="title" id="title" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full" disabled="<?php echo $editing ? "true" : "" ?>" value="<?php echo $post->title ?? "" ?>">
         </div>
         <div class="mb-4">
             <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-            <textarea name="content" id="content" rows="5" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full"></textarea>
+            <textarea name="content" id="content" rows="5" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full"><?php echo $post->content ?? "" ?></textarea>
         </div>
         <div class="flex justify-end">
             <?php if ($responding) : ?>
-                <input class="hidden" value="<?php echo $responding ?>" name="responding" id="responding">
+                <input class="hidden" value="<?php echo $responding ?>" name="responding" id="responding">7
+            <?php elseif ($editing) : ?>
+                <input class="hidden" value="<?php echo $editing ?>" name="editing" id="editing">
             <?php endif; ?>
         </div> <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-eventit-500 hover:bg-eventit-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-eventit-500">
             Post

@@ -297,6 +297,8 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("error_sending_estimate", "Erreur lors de l'envoi du devis.");
         messages.set("post_missing_fields", "Veuillez remplir tous les champs.");
         messages.set("logged_out", "Déconnexion réussie.");
+        messages.set("post_deleted", "Post supprimé.");
+        messages.set("invalid_editing", "Impossible de modifier ce post.");
 
         function getUrlParams(url) {
             const params = {};
