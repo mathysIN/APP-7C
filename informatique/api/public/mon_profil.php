@@ -64,44 +64,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="pb-3">Mail : <?php echo htmlspecialchars($_CURRENT_USER->email, ENT_QUOTES, 'UTF-8'); ?></p>
             <p class="pb-3">Numéro : <?php echo htmlspecialchars($_CURRENT_USER->phone_number, ENT_QUOTES, 'UTF-8'); ?></p>
 
-            
+
             <!-- Le bouton et le formulaire de modification restent ici -->
             <a>
                 <button id="modifyButton" class="flex w-40 h-9 px-4 py-2 items-center text-center font-bold rounded-3xl bg-eventit-200 text-eventit-500">
                     <img class="w-1/6" src="/resources/modifier.webp" alt="">
-                    <p class="pl-4"data-lang="Modifier|Edit">Modifier</p>
+                    <p class="pl-4" data-lang="Modifier|Edit">Modifier</p>
                 </button>
             </a>
             <!-- Formulaire de modification -->
             <form id="modifyForm" method="post" enctype="multipart/form-data" class="hidden">
-                    <div class="mb-4">
-                        <label for="first_name" class="block text-eventit-500"data-lang="Prénom|Last name">Prénom</label>
-                        <input name="first_name" type="text" id="first_name" value="<?php echo $_CURRENT_USER->first_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="last_name" class="block text-eventit-500"data-lang="Nom|Name">Nom</label>
-                        <input name="last_name" type="text" id="last_name" value="<?php echo $_CURRENT_USER->last_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-eventit-500">Email</label>
-                        <input name="email" type="email" id="email" value="<?php echo $_CURRENT_USER->email ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone_number" class="block text-eventit-500"data-lang="Téléphone|Phone">Téléphone</label>
-                        <input name="phone_number" type="tel" id="phone_number" value="<?php echo $_CURRENT_USER->phone_number ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="photo" class="block text-eventit-500"data-lang="Photo de profil|Profile picture">Photo de profil</label>
-                        <input name="photo" type="file" id="photo" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
-                    </div>
-                    <div class="text-center">
-                    <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500"data-lang="Modifier|Edit">Modifier</button>
+                <div class="mb-4">
+                    <label for="first_name" class="block text-eventit-500" data-lang="Prénom|Last name">Prénom</label>
+                    <input name="first_name" type="text" id="first_name" value="<?php echo $_CURRENT_USER->first_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="last_name" class="block text-eventit-500" data-lang="Nom|Name">Nom</label>
+                    <input name="last_name" type="text" id="last_name" value="<?php echo $_CURRENT_USER->last_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-eventit-500">Email</label>
+                    <input name="email" type="email" id="email" value="<?php echo $_CURRENT_USER->email ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="phone_number" class="block text-eventit-500" data-lang="Téléphone|Phone">Téléphone</label>
+                    <input name="phone_number" type="tel" id="phone_number" value="<?php echo $_CURRENT_USER->phone_number ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="mb-4">
+                    <label for="photo" class="block text-eventit-500" data-lang="Photo de profil|Profile picture">Photo de profil</label>
+                    <input name="photo" type="file" id="photo" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500" data-lang="Modifier|Edit">Modifier</button>
                 </div>
             </form>
-            </div>
+        </div>
     </div>
 </div>
-  <!-- Popup de déconnexion -->
+<!-- Popup de déconnexion -->
 <div id="logoutPopup" class="logout-popup">
     <div class="logout-popup-content">
         <p data-lang="Êtes-vous sûr de vouloir vous déconnecter ?|Are you sure you want to log out?">Êtes-vous sûr de vouloir vous déconnecter ?</p>
@@ -110,5 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+
 <script>
+    function showLogoutPopup() {
+        document.getElementById("logoutPopup").style.display = "block";
+    }
+
+    function hideLogoutPopup() {
+        document.getElementById("logoutPopup").style.display = "none";
+    }
+
+    document.getElementById("modifyButton").addEventListener("click", function() {
+        document.getElementById("modifyForm").classList.toggle("hidden");
+    });
 </script>
