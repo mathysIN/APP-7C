@@ -7,12 +7,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["primary_color"])) {
         $websiteDataAPI->updatePrimaryColor($_POST["primary_color"]);
     }
-
     $websiteDataAPI->updateOldLogo(isset($_POST["use_old_logo"]));
+    $websiteDataAPI->updateForumState(isset($_POST["close_forum"]) ? 1 : 0);
 }
 
-$currentColor = $websiteDataAPI->getWebsiteData()->primary_color ?: "#336699";
-$useOldLogo = $websiteDataAPI->getWebsiteData()->old_logo ?: false;
+$websiteData = $websiteDataAPI->getWebsiteData();
+
+$currentColor = $websiteData->primary_color ?: "#336699";
+$useOldLogo = $websiteData->old_logo ?: false;
+$closeForum = $websiteData->forum_state == 1;
 
 ?>
 
@@ -65,7 +68,16 @@ $useOldLogo = $websiteDataAPI->getWebsiteData()->old_logo ?: false;
                             </div>
                         </form>
                     </div>
+                    <div>
+                        <h2 class="text-lg font-semibold mb-2">Fermer le forum</h2>
+                        <form method="post">
+                            <label for="close_forum" class="block mb-2">Fermer le forum :</label>
+                            <div class="flex flex-row items-center gap-4">
+                                <input type="checkbox" id="close_forum" name="close_forum" class="rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200" <?php echo $closeForum ? "checked" : "" ?>>
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-200">Mettre à jour</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
     </main>
 </div>

@@ -11,10 +11,23 @@ class WebsiteData
      * @var boolean
      */
     public $old_logo;
+
+    /**
+     * @var number
+     */
+    public $forum_state;
+}
+
+class ForumState
+{
+    const OPEN = 0;
+    const CLOSED = 1;
 }
 
 class WebsiteDataAPI
 {
+
+
     private $pdo;
 
     public function __construct($pdo)
@@ -37,6 +50,7 @@ class WebsiteDataAPI
         $websiteData->legal_content = $row['legal_content'];
         $websiteData->primary_color = $row['primary_color'];
         $websiteData->old_logo = $row['old_logo'] == 1 ? true : false;
+        $websiteData->forum_state = $row['forum_state'];
 
         return $websiteData;
     }
@@ -48,7 +62,7 @@ class WebsiteDataAPI
             'cgu_content' => $cgu_content,
             'legal_content' => $legal_content,
             'primary_color' => $primary_color,
-            'old_logo' => $old_logo ? 1 : 0
+            'old_logo' => $old_logo ? 1 : 0,
         ]);
 
         return $stmt->rowCount() > 0; // Return true if at least one row was affected (updated)
@@ -73,7 +87,22 @@ class WebsiteDataAPI
 
         return $stmt->rowCount() > 0;
     }
+
+    /**
+     * @param ForumState $forum_state
+     */
+    public function updateForumState($forum_state)
+    {
+        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET forum_state = :forum_state");
+        $stmt->execute([
+            'forum_state' => $forum_state
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
 }
+
+
 
 const QUERY_CREATE_TABLE_WEBSITE_DATA = "CREATE TABLE WebsiteData (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

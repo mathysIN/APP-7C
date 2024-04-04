@@ -54,6 +54,12 @@ class UserModel
     }
 }
 
+class Role
+{
+    const ADMIN = 'admin';
+    const USER = 'user';
+}
+
 class UserAPI
 {
     private $pdo;

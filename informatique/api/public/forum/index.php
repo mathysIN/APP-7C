@@ -8,8 +8,6 @@ $word_filter = getSearchQuery("word");
 
 $posts = null;
 
-error_log("user_filter: " . $user_filter);
-
 if (isset($user_filter) || isset($word_filter)) {
     $posts = $postsAPI->getAllPostsNotRespondingFilter($word_filter, $user_filter);
 } else {

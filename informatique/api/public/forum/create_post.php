@@ -14,6 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
+    if ($WEBSITE_DATA->forum_state != ForumState::OPEN && $_CURRENT_USER->role != Role::ADMIN) {
+        redirect('/forum/create_post?msg=forum_closed');
+        exit();
+    }
+
     $title = $_POST["title"];
     $content = $_POST["content"];
     $user_id = $_CURRENT_USER->user_id;
@@ -29,23 +34,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         $postsAPI->editPost($editing_post, $content);
         redirect("/forum/$editing_post");
-        // Respond
-    } else if ($response_to) {
+        // Create & response
+    } else {
         if ($response_to && $postsAPI->getPostById($response_to) === null) {
             redirect('/forum/create_post?msg=invalid_response_to');
             exit();
         }
-        // Create
-    } else {
-
-        if ((!$title) || !$content) {
+        if ((!$response_to && !$title) || !$content) {
             redirect('/forum/create_post?msg=post_missing_fields');
             exit();
         }
 
-
         $post_id = $postsAPI->createPost($user_id, $title, $content, $response_to);
         redirect("/forum/$post_id");
+        exit();
     }
 }
 

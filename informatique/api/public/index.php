@@ -299,6 +299,7 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("logged_out", "Déconnexion réussie.");
         messages.set("post_deleted", "Post supprimé.");
         messages.set("invalid_editing", "Impossible de modifier ce post.");
+        messages.set("forum_closed", "Le forum est fermé.");
 
         function getUrlParams(url) {
             const params = {};
