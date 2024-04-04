@@ -79,5 +79,7 @@ $closeForum = $websiteData->forum_state == 1;
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
     </main>
 </div>
