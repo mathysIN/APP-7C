@@ -174,4 +174,25 @@ body {
   display: none;
 }
 
+.language-link {
+  display: inline-block;
+  padding: 25px 50px; /* Augmentez le padding pour des boutons plus gros */
+  color: #000;
+  text-decoration: none;
+  background-size: cover;
+  background-position: center;
+  margin: 10px;
+  border-radius: 10px; /* Optionnel: pour des coins plus arrondis */
+  font-size: 20px; /* Augmentez la taille de la police pour un meilleur rendu */
+}
+
+#french-link {
+  background-image: url('fr.png');
+}
+
+#english-link {
+  background-image: url('en.png');
+}
+
+
 

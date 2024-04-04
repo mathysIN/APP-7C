@@ -759,10 +759,6 @@ h5 {
   margin-inline-start: auto;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -1228,6 +1224,11 @@ h5 {
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
+}
+
 .border-transparent {
   border-color: transparent;
 }
@@ -1235,16 +1236,6 @@ h5 {
 .border-yellow-400 {
   --tw-border-opacity: 1;
   border-color: rgb(250 204 21 / var(--tw-border-opacity));
-}
-
-.border-eventit-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(79 198 203 / var(--tw-border-opacity));
-}
-
-.border-gray-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 
 .bg-blue-100 {
@@ -1907,6 +1898,29 @@ body {
   display: none;
 }
 
+.language-link {
+  display: inline-block;
+  padding: 25px 50px;
+  /* Augmentez le padding pour des boutons plus gros */
+  color: #000;
+  text-decoration: none;
+  background-size: cover;
+  background-position: center;
+  margin: 10px;
+  border-radius: 10px;
+  /* Optionnel: pour des coins plus arrondis */
+  font-size: 20px;
+  /* Augmentez la taille de la police pour un meilleur rendu */
+}
+
+#french-link {
+  background-image: url('fr.png');
+}
+
+#english-link {
+  background-image: url('en.png');
+}
+
 .file\:border-0::file-selector-button {
   border-width: 0px;
 }
@@ -1976,16 +1990,6 @@ body {
   border-color: rgb(56 162 167 / var(--tw-border-opacity));
 }
 
-.focus\:border-indigo-500:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(99 102 241 / var(--tw-border-opacity));
-}
-
-.focus\:border-eventit-400:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(79 198 203 / var(--tw-border-opacity));
-}
-
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -2016,11 +2020,6 @@ body {
 .focus\:ring-gray-300:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
-}
-
-.focus\:ring-indigo-500:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity));
 }
 
 .focus\:ring-offset-2:focus {
@@ -2061,11 +2060,6 @@ body {
 
   .sm\:flex-initial {
     flex: 0 1 auto;
-  }
-
-  .sm\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
   }
 }
 
@@ -2337,5 +2331,6 @@ body {
     color: rgb(156 163 175 / var(--tw-text-opacity));
   }
 }
+
 
 

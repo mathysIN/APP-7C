@@ -12,4 +12,5 @@ try {
 } catch (PDOException $e) {
     echo ("A major error has occured");
     error_log("Cannot init mysql: " . $e->getMessage());
+    die();
 }

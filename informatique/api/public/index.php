@@ -296,6 +296,7 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("cannot_create_user", "Impossible de créer le compte.");
         messages.set("error_sending_estimate", "Erreur lors de l'envoi du devis.");
         messages.set("post_missing_fields", "Veuillez remplir tous les champs.");
+        messages.set("logged_out", "Déconnexion réussie.");
 
         function getUrlParams(url) {
             const params = {};

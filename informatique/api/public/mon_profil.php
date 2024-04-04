@@ -43,49 +43,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="h-full flex flex-col justify-top pt-20 pb-96">
-    <h3 class="pl-24 text-left font-bold text-eventit-500 text-6xl">Mon profil</h3>
+    <h3 class="pl-24 text-left font-bold text-eventit-500 text-6xl" data-lang="Mon profil|My profile">Mon profil</h3>
     <div class="flex flex-row gap-16 items-start pt-10 pl-16">
         <div class="flex flex-col items-center">
             <img src="<?php echo $_CURRENT_USER->image_url ?>" alt="">
-            <button onclick="showLogoutPopup()" class="mt-5 px-4 py-2 bg-eventit-500 text-white font-bold rounded-lg">Déconnexion</button>
+
+            <button onclick="showLogoutPopup()" class="mt-5 px-4 py-2 bg-eventit-500 text-white font-bold rounded-lg" data-lang="Déconnexion|Disconnect">Déconnexion</button>
         </div>
 
         <div>
             <div class="pb-3 flex flex-row space-x-2 items-center">
                 <p class="text-3xl font-bold">
-                    <?php echo $_CURRENT_USER->first_name . " " . $_CURRENT_USER->last_name ?>
+                    <?php echo htmlspecialchars($_CURRENT_USER->first_name . " " . $_CURRENT_USER->last_name, ENT_QUOTES, 'UTF-8'); ?>
                 </p>
-                <?php
-                if ($_CURRENT_USER->role == "admin") {
-                ?>
-                    <span class='py-[1px] px-2 w-fit bg-red-500 text-white rounded-xl text-center'>Administrateur</span>
-                <?php
-                } else {
-                ?>
-                    <span class='py-[1px] px-2 w-fit bg-eventit-500 text-white rounded-xl text-center'>Utilisateur</span>
-                <?php
-                }
-                ?>
+                <?php if ($_CURRENT_USER->role == "admin") { ?>
+                    <span class='py-[1px] px-2 w-fit bg-red-500 text-white rounded-xl text-center' data-lang="Administrateur|Director">Administrateur</span>
+                <?php } else { ?>
+                    <span class='py-[1px] px-2 w-fit bg-eventit-500 text-white rounded-xl text-center' data-lang="Utilisateur|User">Utilisateur</span>
+                <?php } ?>
             </div>
-            <p class="pb-3">Mail : <?php echo $_CURRENT_USER->email ?></p>
-            <p class="pb-3">Numéro : <?php echo $_CURRENT_USER->phone_number ?></p>
+            <p class="pb-3">Mail : <?php echo htmlspecialchars($_CURRENT_USER->email, ENT_QUOTES, 'UTF-8'); ?></p>
+            <p class="pb-3">Numéro : <?php echo htmlspecialchars($_CURRENT_USER->phone_number, ENT_QUOTES, 'UTF-8'); ?></p>
+
 
 
             <!-- Le bouton et le formulaire de modification restent ici -->
             <a>
                 <button id="modifyButton" class="flex w-40 h-9 px-4 py-2 items-center text-center font-bold rounded-3xl bg-eventit-200 text-eventit-500">
                     <img class="w-1/6" src="/resources/modifier.webp" alt="">
-                    <p class="pl-4">Modifier</p>
+                    <p class="pl-4" data-lang="Modifier|Edit">Modifier</p>
                 </button>
             </a>
             <!-- Formulaire de modification -->
             <form id="modifyForm" method="post" enctype="multipart/form-data" class="hidden">
                 <div class="mb-4">
-                    <label for="first_name" class="block text-eventit-500">Nom</label>
+                    <label for="first_name" class="block text-eventit-500" data-lang="Prénom|Last name">Prénom</label>
                     <input name="first_name" type="text" id="first_name" value="<?php echo $_CURRENT_USER->first_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
                 </div>
                 <div class="mb-4">
-                    <label for="last_name" class="block text-eventit-500">Prénom</label>
+                    <label for="last_name" class="block text-eventit-500" data-lang="Nom|Name">Nom</label>
                     <input name="last_name" type="text" id="last_name" value="<?php echo $_CURRENT_USER->last_name ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
                 </div>
                 <div class="mb-4">
@@ -93,29 +89,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input name="email" type="email" id="email" value="<?php echo $_CURRENT_USER->email ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
                 </div>
                 <div class="mb-4">
-                    <label for="phone_number" class="block text-eventit-500">Téléphone</label>
+                    <label for="phone_number" class="block text-eventit-500" data-lang="Téléphone|Phone">Téléphone</label>
                     <input name="phone_number" type="tel" id="phone_number" value="<?php echo $_CURRENT_USER->phone_number ?>" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
                 </div>
                 <div class="mb-4">
-                    <label for="photo" class="block text-eventit-500">Photo de profil</label>
+                    <label for="photo" class="block text-eventit-500" data-lang="Photo de profil|Profile picture">Photo de profil</label>
                     <input name="photo" type="file" id="photo" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500">Modifier</button>
+                    <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500" data-lang="Modifier|Edit">Modifier</button>
                 </div>
             </form>
         </div>
     </div>
-
-    <!-- Popup de déconnexion -->
-    <div id="logoutPopup" class="logout-popup">
-        <div class="logout-popup-content">
-            <p>Êtes-vous sûr de vouloir vous déconnecter ?</p>
-            <button onclick="window.location.href='/disconnect'" class="logout-confirm">Oui</button>
-            <button onclick="hideLogoutPopup()" class="logout-cancel">Non</button>
-        </div>
+</div>
+<!-- Popup de déconnexion -->
+<div id="logoutPopup" class="logout-popup">
+    <div class="logout-popup-content">
+        <p data-lang="Êtes-vous sûr de vouloir vous déconnecter ?|Are you sure you want to log out?">Êtes-vous sûr de vouloir vous déconnecter ?</p>
+        <button onclick="window.location.href='/disconnect'" class="logout-confirm" data-lang="Oui|Yes">Oui</button>
+        <button onclick="hideLogoutPopup()" class="logout-cancel" data-lang="Non|No">Non</button>
     </div>
 </div>
+
 
 <script>
     function showLogoutPopup() {
