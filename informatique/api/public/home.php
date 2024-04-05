@@ -11,7 +11,7 @@
                 Solutions d'évènements
             </p>
             <a class="inline-flex w-80 mt-8 px-8 py-3 text-lg uppercase font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button"
-                href="#" data-lang="Faire un devis|Get a quote">
+                href="/devis.php" data-lang="Faire un devis|Get a quote">
                 Faire un devis
             </a>
         </div>
@@ -30,13 +30,13 @@
             </div>
         </div>
         <a class="inline-flex w-80 px-8 py-3 text-lg uppercase font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button"
-            href="#" data-lang="Voir les produits|See products">
+            href="/produits.php" data-lang="Voir les produits|See products">
             DU TEXTE
         </a>
     </section>
     <section class="px-4 py-12 md:px-6 md:py-24 lg:px-8 lg:py-32 bg-eventit-500">
         <h2 class="text-3xl font-bold text-center text-white md:text-4xl lg:text-5xl z-10 pb-5"
-            data-lang="Notre offre|Our offer">Nos produits</h2>
+            data-lang="Notre offre|Our offer">Nos offre</h2>
         <div class="grid mt-8 gap-6 justify-items-center md:grid-cols-2 lg:grid-cols-3">
             <div class="flex flex-col justify-center px-10 w-4/5 md:w-96 h-80 text-center bg-white rounded-3xl">
                 <div class="absolute -translate-y-32 -translate-x-32 h-[650px] w-[650px] hidden md:block"><img
@@ -57,7 +57,7 @@
                     statistique de ces données avec interface web.
                 </h3>
                 <a class="inline-flex self-center mt-8 px-8 py-3 uppercase text-m font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button"
-                    href="#" data-lang="Faire un devis|Get a quote">
+                    href="/devis.php" data-lang="Faire un devis|Get a quote">
                     DU TEXTE
                 </a>
             </div>
@@ -67,7 +67,7 @@
                     Gestion de capteurs sonores et d’actions déprtées tels que des affichages de données.
                 </h3>
                 <a class="inline-flex self-center mt-8 px-8 py-3 text-m uppercase font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button"
-                    href="#" data-lang="Nous contacter | Contact us">
+                    href="/contact.php" data-lang="Nous contacter | Contact us">
                     DU TEXTE
                 </a>
             </div>
@@ -85,7 +85,7 @@
                     le type d’événement que vous organisez.
                 </h3>
                 <a class="inline-flex w-10/12 py-6 uppercase items-center text-m font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button"
-                    href="#" data-lang="Faire un devis|Get a quote">
+                    href="/devis.php" data-lang="Faire un devis|Get a quote">
                     DU TEXTE
                 </a>
             </div>
@@ -97,7 +97,7 @@
                     statistique de ces données avec interface web.
                 </h3>
                 <a class="inline-flex w-10/12 py-6 uppercase items-center text-m font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button"
-                    href="#" data-lang="Voir les produits|See products">
+                    href="/produits.php" data-lang="Voir les produits|See products">
                     DU TEXTE
                 </a>
             </div>
@@ -146,7 +146,7 @@
                 <div class="self-center pl-4">
                     <h3 class="mt-4 text-lg text-left font-bold text-white"> Téo Bernard</h3>
                     <h1 class="mt-4 text-lg text-left font-medium text-white"
-                        data-lang="Directeur opérationnelle|Operational Director">Directeur opérationnelle</h1>
+                        data-lang="Directeur opérationnel|Operational Director">Directeur opérationnel</h1>
                 </div>
             </div>
             <div class="flex flex-row justify-left px-8 w-full h-44 text-center bg-eventit-500 rounded-3xl">
