@@ -77,10 +77,10 @@ class UserAPI
         $user = new UserModel();
         $user->user_id = $row['user_id'];
         $user->created_at = $row['created_at'];
-        $user->email = $row['email'];
-        $user->phone_number = $row['phone_number'];
-        $user->first_name = $row['first_name'];
-        $user->last_name = $row['last_name'];
+        $user->email = htmlentities($row['email'], ENT_QUOTES);
+        $user->phone_number = htmlentities($row['phone_number'], ENT_QUOTES);
+        $user->first_name = htmlentities($row['first_name'], ENT_QUOTES);
+        $user->last_name = htmlentities($row['last_name'], ENT_QUOTES);
         $user->image_url = '/resources/pdp.webp'; //TODO: not working right now
         $user->password_hash = $row['password_hash'];
         $user->role = $row['role'];

@@ -41,12 +41,12 @@ class PostAPI
     public function toPost($row)
     {
         $post = new Post();
-        $post->title = $row['title'];
+        $post->title = htmlentities($row['title'], ENT_QUOTES);
         $post->post_id = $row['post_id'];
         $post->user_id = $row['user_id'];
         $post->responding_to_id = $row['responding_to_id'];
         $post->created_at = $row['created_at'];
-        $post->content = $row['content'];
+        $post->content = htmlentities($row['content'], ENT_QUOTES);
 
         $post->user = $this->userAPI->getUserById($post->user_id);
         return $post;
