@@ -31,24 +31,34 @@ $estimates = $estimateAPI->getAllEstimates();
                         <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Date </th>
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Référence </th>
-                            <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Nombre de capteurs </th>
+                            <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Utilisateur </th>
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Montant </th>
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> État du paiement </th>
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> État du devis </th>
+                            <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Action </th> <!-- New column for the action button -->
                         </tr>
                     </thead>
                     <tbody class="[&amp;_tr:last-child]:border-0">
                         <?php foreach ($estimates as $estimate) : ?>
-                            <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
+                            <tr class="hover:bg-muted/50 cursor-pointer data-[state=selected]:bg-muted border-b transition-colors" onclick="toggleVisibility(this)">
                                 <td class="p-4"><?php echo $estimate->created_at; ?></td>
                                 <td class="p-4 font-medium text-eventit-500"><?php echo $estimate->estimate_id; ?></td>
-                                <td class="p-4"><?php echo $estimate->name; ?></td>
+                                <td class="p-4 font-medium text-eventit-500"><?php echo $estimate->user_id; ?></td>
                                 <td class="p-4"><?php echo $estimate->price_amount; ?></td>
                                 <td class="p-4">
                                     <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"><?php echo $estimate->is_payed ? "Payé" : "Non payé"; ?></div>
                                 </td>
                                 <td class="p-4">
                                     <div class="focus:ring-ring hover:bg-primary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"> En cours </div>
+                                </td>
+                                <td class="p-4"> <!-- Button for changing status -->
+                                    <button onclick="openStatusModal('<?php echo $estimate->estimate_id; ?>')">Modifier statut</button>
+                                </td>
+                            </tr>
+
+                            <tr class="border-b hidden">
+                                <td colspan="6" class="p-8">
+                                    <?php echo $estimate->content ?: "Pas de description"; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -57,4 +67,30 @@ $estimates = $estimateAPI->getAllEstimates();
             </div>
         </div>
     </main>
-</div> <!-- Fermeture du div principal -->
+</div>
+
+<!-- Modal for status change -->
+<div id="statusModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeStatusModal()">&times;</span>
+        <p>Changez le statut ici</p>
+        <!-- Add form elements to change status -->
+    </div>
+</div>
+
+<script>
+    function toggleVisibility(row) {
+        var nextRow = row.nextElementSibling;
+        nextRow.classList.toggle("hidden");
+    }
+
+    function openStatusModal(estimateId) {
+        // Open the modal and pass estimateId if needed
+        document.getElementById('statusModal').style.display = "block";
+    }
+
+    function closeStatusModal() {
+        // Close the modal
+        document.getElementById('statusModal').style.display = "none";
+    }
+</script>

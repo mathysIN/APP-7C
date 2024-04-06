@@ -8,6 +8,7 @@ class Estimate
     public $name;
     public $price_amount;
     public $is_payed;
+    public $content;
 }
 
 class EstimateAPI
@@ -17,6 +18,20 @@ class EstimateAPI
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
+    }
+
+    public function toEstimate($row)
+    {
+        $estimate = new Estimate();
+        $estimate->estimate_id = $row['estimate_id'];
+        $estimate->user_id = $row['user_id'];
+        $estimate->created_at = $row['created_at'];
+        $estimate->name = $row['name'];
+        $estimate->price_amount = $row['price_amount'];
+        $estimate->is_payed = (bool) $row['is_payed'];
+        $estimate->content = $row['content'];
+
+        return $estimate;
     }
 
     public function getEstimateById($estimate_id)
@@ -29,15 +44,7 @@ class EstimateAPI
             return null;
         }
 
-        $estimate = new Estimate();
-        $estimate->estimate_id = $row['estimate_id'];
-        $estimate->user_id = $row['user_id'];
-        $estimate->created_at = $row['created_at'];
-        $estimate->name = $row['name'];
-        $estimate->price_amount = $row['price_amount'];
-        $estimate->is_payed = (bool) $row['is_payed'];
-
-        return $estimate;
+        return $this->toEstimate($row);
     }
 
     public function getEstimatesByUser($user_id)
@@ -47,33 +54,26 @@ class EstimateAPI
         $estimates = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $estimate = new Estimate();
-            $estimate->estimate_id = $row['estimate_id'];
-            $estimate->user_id = $row['user_id'];
-            $estimate->created_at = $row['created_at'];
-            $estimate->name = $row['name'];
-            $estimate->price_amount = $row['price_amount'];
-            $estimate->is_payed = (bool) $row['is_payed'];
-
-            $estimates[] = $estimate;
+            $estimates[] = $this->toEstimate($row);
         }
 
         return $estimates;
     }
 
-    public function createEstimate($user_id, $name, $price_amount, $is_payed)
+    public function createEstimate($user_id, $name, $price_amount, $is_payed, $content)
     {
         $estimate_id = uniqid();
         $created_at = date('Y-m-d H:i:s');
 
-        $stmt = $this->pdo->prepare("INSERT INTO Estimate (estimate_id, user_id, created_at, name, price_amount, is_payed) VALUES (:estimate_id, :user_id, :created_at, :name, :price_amount, :is_payed)");
+        $stmt = $this->pdo->prepare("INSERT INTO Estimate (estimate_id, user_id, created_at, name, price_amount, is_payed, content) VALUES (:estimate_id, :user_id, :created_at, :name, :price_amount, :is_payed, :content)");
         $stmt->execute([
             'estimate_id' => $estimate_id,
             'user_id' => $user_id,
             'created_at' => $created_at,
             'name' => $name,
             'price_amount' => $price_amount,
-            'is_payed' => $is_payed
+            'is_payed' => $is_payed ? 1 : 0,
+            'content' => $content
         ]);
 
         return $estimate_id;
@@ -98,15 +98,7 @@ class EstimateAPI
         $estimates = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $estimate = new Estimate();
-            $estimate->estimate_id = $row['estimate_id'];
-            $estimate->user_id = $row['user_id'];
-            $estimate->created_at = $row['created_at'];
-            $estimate->name = $row['name'];
-            $estimate->price_amount = $row['price_amount'];
-            $estimate->is_payed = (bool) $row['is_payed'];
-
-            $estimates[] = $estimate;
+            $estimates[] = $this->toEstimate($row);
         }
 
         return $estimates;
