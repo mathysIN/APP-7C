@@ -80,7 +80,7 @@
 
 <div id="qrPopup" class="qr-popup">
     <div class="qr-popup-content">
-        <img src="/resources/insta2.png" alt="QR Code">
+        <img src="/resources/ig.png" alt="QR Code">
         <!-- Lien sous l'image -->
         <a href="https://www.instagram.com/event_it_group/?igshid=Z201MWExYm1mdnFi&utm_source=qr" target="_blank" class="instagram-link">Suivez-nous sur Instagram</a>
     </div>
