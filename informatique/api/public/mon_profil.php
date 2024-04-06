@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div>
             <div class="pb-3 flex flex-row space-x-2 items-center">
                 <p class="text-3xl font-bold">
-                    <?php echo htmlspecialchars($_CURRENT_USER->first_name . " " . $_CURRENT_USER->last_name, ENT_QUOTES, 'UTF-8'); ?>
+                    <?php echo $_CURRENT_USER->getFullName(); ?>
                 </p>
                 <?php if ($_CURRENT_USER->role == "admin") { ?>
                     <span class='py-[1px] px-2 w-fit bg-red-500 text-white rounded-xl text-center' data-lang="Administrateur|Director">Administrateur</span>
@@ -62,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <span class='py-[1px] px-2 w-fit bg-eventit-500 text-white rounded-xl text-center' data-lang="Utilisateur|User">Utilisateur</span>
                 <?php } ?>
             </div>
-            <p class="pb-3">Mail : <?php echo htmlspecialchars($_CURRENT_USER->email, ENT_QUOTES, 'UTF-8'); ?></p>
-            <p class="pb-3">Numéro : <?php echo htmlspecialchars($_CURRENT_USER->phone_number, ENT_QUOTES, 'UTF-8'); ?></p>
+            <p class="pb-3">Mail : <?php echo $_CURRENT_USER->email; ?></p>
+            <p class="pb-3">Numéro : <?php echo $_CURRENT_USER->phone_number; ?></p>
 
 
 

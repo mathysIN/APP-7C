@@ -40,10 +40,10 @@ $estimates = $estimateAPI->getAllEstimates();
                     <tbody class="[&amp;_tr:last-child]:border-0">
                         <?php foreach ($estimates as $estimate) : ?>
                             <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
-                                <td class="p-4"><?php echo htmlspecialchars($estimate->created_at); ?></td>
-                                <td class="p-4 font-medium text-eventit-500"><?php echo htmlspecialchars($estimate->estimate_id); ?></td>
-                                <td class="p-4"><?php echo htmlspecialchars($estimate->name); ?></td>
-                                <td class="p-4"><?php echo htmlspecialchars($estimate->price_amount); ?></td>
+                                <td class="p-4"><?php echo $estimate->created_at; ?></td>
+                                <td class="p-4 font-medium text-eventit-500"><?php echo $estimate->estimate_id; ?></td>
+                                <td class="p-4"><?php echo $estimate->name; ?></td>
+                                <td class="p-4"><?php echo $estimate->price_amount; ?></td>
                                 <td class="p-4">
                                     <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"><?php echo $estimate->is_payed ? "Payé" : "Non payé"; ?></div>
                                 </td>
