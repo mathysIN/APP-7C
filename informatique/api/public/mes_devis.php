@@ -1,3 +1,13 @@
+<?php
+
+require __DIR__ . "/../entities/all_entites.php";
+require_once __DIR__ . "/../utils/helpers.php";
+require_once __DIR__ . "/../utils/global_types.php";
+
+$estimates = $estimateAPI->getEstimatesByUser($_CURRENT_USER->user_id);
+
+?>
+
 <div class="mx-auto my-8 max-w-4xl px-4 md:px-0">
     <div class="mb-4 flex items-center justify-between">
         <h1 class="text-2xl font-semibold"data-lang="Mes devis|My quotes">Mes devis</h1>
@@ -9,26 +19,29 @@
             <thead class="[&amp;_tr]:border-b">
                 <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
                     <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Date </th>
-                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"data-lang="Référence|Reference"> Référence </th>
-                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"data-lang="Nombre de capteurs|Number of sensors"> Nombre de capteurs </th>
-                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"data-lang="Montant|Amount"> Montant </th>
-                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"data-lang="État du paiement|Payment status "> État du paiement </th>
-                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"data-lang="État du devis|Quotation status"> État du devis </th>
+                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Référence </th>
+                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Nombre de capteurs </th>
+                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Montant </th>
+                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> État du paiement </th>
                 </tr>
             </thead>
             <tbody class="[&amp;_tr:last-child]:border-0">
-                <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
-                    <td class="p-4">21/12/23 18h57</td>
-                    <td class="p-4 font-medium text-eventit-500">78643258</td>
-                    <td class="p-4">2</td>
-                    <td class="p-4"data-lang="32,87 €|32,87 $">32,87 €</td>
-                    <td class="p-4">
-                        <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"data-lang="Payé|Paid"> Payé </div>
-                    </td>
-                    <td class="[&amp;:has([role=checkbox])]:pr-0 p-4 align-middle">
-                        <div class="focus:ring-ring hover:bg-primary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"data-lang="En cours|In progress"> En cours </div>
-                    </td>
-                </tr>
+                <?php foreach ($estimates as $estimate) : ?>
+
+                    <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
+                        <td class="p-4"><?php echo $estimate->created_at; ?></td>
+                        <td class="p-4 font-medium text-eventit-500"><?php echo $estimate->estimate_id; ?></td>
+                        <td class="p-4 font-medium"><?php echo 0; ?></td>
+                        <td class="p-4"><?php echo $estimate->price_amount; ?></td>
+                        <td class="p-4">
+                            <?php if ($estimate->is_payed) : ?>
+                                <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2">Payé</div>
+                            <?php else : ?>
+                                <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-red-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2">Non payé</div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

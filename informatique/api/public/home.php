@@ -169,28 +169,4 @@
 
         }
     }
-
-    .button {
-        border: none;
-        cursor: pointer;
-        overflow: hidden;
-        position: relative;
-        z-index: 1;
-    }
-
-    .button::before {
-        content: "";
-        z-index: -2;
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background-color: #317577;
-        transition: left 0.3s ease;
-    }
-
-    .button:hover::before {
-        left: 0;
-    }
 </style>

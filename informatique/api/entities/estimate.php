@@ -79,14 +79,13 @@ class EstimateAPI
         return $estimate_id;
     }
 
-    public function updateEstimate($estimate_id, $name, $price_amount, $is_payed)
+    public function updateEstimate($estimate_id, $price_amount, $is_payed)
     {
-        $stmt = $this->pdo->prepare("UPDATE Estimate SET name = :name, price_amount = :price_amount, is_payed = :is_payed WHERE estimate_id = :estimate_id");
+        $stmt = $this->pdo->prepare("UPDATE Estimate SET price_amount = :price_amount, is_payed = :is_payed WHERE estimate_id = :estimate_id");
         $stmt->execute([
-            'name' => $name,
+            'estimate_id' => $estimate_id,
             'price_amount' => $price_amount,
-            'is_payed' => $is_payed,
-            'estimate_id' => $estimate_id
+            'is_payed' => $is_payed ? 1 : 0
         ]);
 
         return $stmt->rowCount() > 0;

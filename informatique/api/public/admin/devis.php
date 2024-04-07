@@ -4,6 +4,22 @@ require __DIR__ . "/../../entities/all_entites.php";
 require_once __DIR__ . "/../../utils/helpers.php";
 
 $estimates = $estimateAPI->getAllEstimates();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_POST["type"] === "update_estimate") {
+
+        if (!isset($_POST['payment']) || !isset($_POST['estimate_id']) || !isset($_POST['add_sensor_count']) || !isset($_POST['price_amount'])) {
+            echo "Veuillez remplir tous les champs";
+            exit();
+        }
+
+        $payment = $_POST['payment'];
+        $estimate_id = $_POST['estimate_id'];
+        $add_sensor_count = $_POST['add_sensor_count'];
+        $price_amount = $_POST['price_amount'];
+        $estimateAPI->updateEstimate($estimate_id, $price_amount, $payment);
+    }
+}
 ?>
 
 <div class="flex flex-col w-full">
@@ -34,31 +50,56 @@ $estimates = $estimateAPI->getAllEstimates();
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Utilisateur </th>
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Montant </th>
                             <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> État du paiement </th>
-                            <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> État du devis </th>
-                            <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Action </th> <!-- New column for the action button -->
+                            <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium"> Action </th>
                         </tr>
                     </thead>
+                    <div id="backdrop" class="backdrop" onclick="closeAllPopups()"></div>
+
                     <tbody class="[&amp;_tr:last-child]:border-0">
                         <?php foreach ($estimates as $estimate) : ?>
-                            <tr class="hover:bg-muted/50 cursor-pointer data-[state=selected]:bg-muted border-b transition-colors" onclick="toggleVisibility(this)">
+                            <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
                                 <td class="p-4"><?php echo $estimate->created_at; ?></td>
                                 <td class="p-4 font-medium text-eventit-500"><?php echo $estimate->estimate_id; ?></td>
                                 <td class="p-4 font-medium text-eventit-500"><?php echo $estimate->user_id; ?></td>
                                 <td class="p-4"><?php echo $estimate->price_amount; ?></td>
                                 <td class="p-4">
-                                    <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"><?php echo $estimate->is_payed ? "Payé" : "Non payé"; ?></div>
+                                    <?php if ($estimate->is_payed) : ?>
+                                        <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2">Payé</div>
+                                    <?php else : ?>
+                                        <div class="focus:ring-ring hover:bg-secondary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-red-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2">Non payé</div>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="p-4">
-                                    <div class="focus:ring-ring hover:bg-primary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"> En cours </div>
-                                </td>
-                                <td class="p-4"> <!-- Button for changing status -->
-                                    <button onclick="openStatusModal('<?php echo $estimate->estimate_id; ?>')">Modifier statut</button>
+                                    <button onclick="openPopup('<?php echo $estimate->estimate_id ?>')" class="focus:ring-ring hover:bg-primary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"> Modifier </button>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="6" class="">
+                                    <div id="<?php echo $estimate->estimate_id ?>" class="popup-content">
+                                        <div class="popup-header">
+                                            <h2>Modifier le statut du devis <?php echo $estimate->estimate_id ?></h2>
+                                            <span class="close" onclick="closeStatusChangeModal()">&times;</span>
+                                        </div>
+                                        <div class="popup-body
+                                            ">
+                                            <p>Description : <?php echo $estimate->content ?: "Pas de description"; ?></p>
+                                            <form class="flex flex-col gap-2 w-fit mx-auto" action="" method="post">
+                                                <label for="payment">Statut du paiement</label>
+                                                <select name="payment" id="payment">
+                                                    <option value="1">Payé</option>
+                                                    <option value="2">Non payé</option>
+                                                </select>
+                                                <label for="add_sensor_count">Nombre de capteurs à ajouter</label>
+                                                <input type="number" name="add_sensor_count" id="add_sensor_count" value="0">
+                                                <label for="price_amount">Montant</label>
+                                                <input type="number" name="price_amount" id="price_amount" value="<?php echo $estimate->price_amount ?: 0; ?>">
+                                                <input type="hidden" name="type" value="update_estimate">
+                                                <input type="hidden" name="estimate_id" value="<?php echo $estimate->estimate_id ?>">
+                                                <button class="inline-flex w-64 mt-8 px-8 py-2 capitalize font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button" type="submit">Modifier</button>
 
-                            <tr class="border-b hidden">
-                                <td colspan="6" class="p-8">
-                                    <?php echo $estimate->content ?: "Pas de description"; ?>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -69,16 +110,27 @@ $estimates = $estimateAPI->getAllEstimates();
     </main>
 </div>
 
-<!-- Modal for status change -->
-<div id="statusModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeStatusModal()">&times;</span>
-        <p>Changez le statut ici</p>
-        <!-- Add form elements to change status -->
-    </div>
-</div>
-
 <script>
+    function openPopup(popupId) {
+        closeAllPopups();
+        document.getElementById(popupId).style.display = 'block';
+        document.getElementById('backdrop').style.display = 'block';
+    }
+
+    function closePopup(popupId) {
+        document.getElementById(popupId).style.display = 'none';
+        document.getElementById('backdrop').style.display = 'none';
+    }
+
+    function closeAllPopups() {
+        var popups = document.querySelectorAll('.popup-content');
+        for (var i = 0; i < popups.length; i++) {
+            popups[i].style.display = 'none';
+        }
+        document.getElementById('backdrop').style.display = 'none';
+    }
+
+
     function toggleVisibility(row) {
         var nextRow = row.nextElementSibling;
         nextRow.classList.toggle("hidden");
