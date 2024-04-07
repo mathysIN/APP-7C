@@ -223,7 +223,7 @@ if ($need_auth && !$_CURRENT_USER) {
     <?php } else { ?>
         <div class="content w-full">
             <div class="p-2">
-                <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+                <div class="flex flex-col min-h-screen w-full">
                     <div class="border- lg:block ">
                         <div class="flex h-full max-h-screen flex-col gap-2">
                             <div class="flex h-[60px] items-center border-b px-6"><a class="flex items-center gap-2 font-semibold" href="#" rel="ugc"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
