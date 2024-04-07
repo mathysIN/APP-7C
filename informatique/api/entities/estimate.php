@@ -9,6 +9,14 @@ class Estimate
     public $price_amount;
     public $is_payed;
     public $content;
+
+    /**
+     * @param UserModel $user
+     */
+    public function hasReadAccess($user)
+    {
+        return $this->user_id === $user->user_id || $user->role === 'admin';
+    }
 }
 
 class EstimateAPI
@@ -120,6 +128,22 @@ class EstimateAPI
         }
 
         return $sensors;
+    }
+
+    public function deleteEstimate($estimate_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Estimate WHERE estimate_id = :estimate_id");
+        $stmt->execute(['estimate_id' => $estimate_id]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function getCountSensor($estimate_id)
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM Sensor WHERE estimate_id = :estimate_id");
+        $stmt->execute(['estimate_id' => $estimate_id]);
+
+        return $stmt->fetchColumn();
     }
 }
 

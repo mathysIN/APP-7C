@@ -26,6 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+
+    if ($_POST["type"] === "delete_estimate") {
+        if (!isset($_POST['estimate_id'])) {
+            echo "Veuillez remplir tous les champs";
+            exit();
+        }
+
+        $estimate_id = $_POST['estimate_id'];
+        $estimateAPI->deleteEstimate($estimate_id);
+
+        redirect('/admin/devis?msg=estimate_deleted');
+        exit();
+    }
 }
 ?>
 
@@ -83,9 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <tr>
                                 <td colspan="6" class="">
                                     <div id="<?php echo $estimate->estimate_id ?>" class="popup-content">
+
                                         <div class="popup-header">
-                                            <h2>Modifier le statut du devis <?php echo $estimate->estimate_id ?></h2>
-                                            <span class="close" onclick="closeStatusChangeModal()">&times;</span>
+                                            <div class="flex flex-row items-center gap-2">
+                                                <h2>Modifier le capteur</h2>
+                                                <button class=" text-2xl md:text-4xl font-bold" onclick="closeAllPopups()">&times;</button>
+                                            </div>
                                         </div>
                                         <div class="popup-body
                                             ">
@@ -105,6 +121,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <button class="inline-flex w-64 mt-8 px-8 py-2 capitalize font-medium text-white bg-eventit-500 rounded-3xl justify-center hover:bg-eventit-500 button" type="submit">Modifier</button>
 
                                             </form>
+
+                                            <form method="post">
+                                                <input type="hidden" name="type" value="delete_estimate">
+                                                <input type="hidden" name="estimate_id" value="<?php echo $estimate->estimate_id ?>">
+                                                <button class="inline-flex w-64 mt-8 px-8 py-2 capitalize font-medium text-white bg-red-500 rounded-3xl justify-center hover:bg-red-500 button" type="submit">Supprimer</button>
+                                            </form>
+                                            <p class="my-4>">Capteurs :</p>
+                                            <?php
+                                            $sensors = $estimateAPI->getSensorsByEstimate($estimate->estimate_id);
+                                            foreach ($sensors as $sensor) : ?>
+                                                <a href="/capteurs/<?= $sensor->sensor_id ?>">
+                                                    <div class="flex flex-col gap-2 bg-eventit-400 p-2 rounded-lg">
+                                                        <span class="text-white">Capteur : <?= $sensor->name ?> (<?= $sensor->location ?>)</span>
+                                                    </div>
+                                                </a>
+                                                </a>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                 </td>
@@ -117,10 +150,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 </div>
 
+
+
+
 <script>
     function openPopup(popupId) {
         closeAllPopups();
         document.getElementById(popupId).style.display = 'block';
+
+        document.getElementById(popupId).classList.add("fade-in");
+
         document.getElementById('backdrop').style.display = 'block';
     }
 

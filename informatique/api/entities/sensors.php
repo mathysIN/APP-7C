@@ -78,6 +78,36 @@ class SensorAPI
 
         return $stmt->rowCount() > 0;
     }
+
+    public function setName($sensor_id, $name)
+    {
+        $stmt = $this->pdo->prepare("UPDATE Sensor SET name = :name WHERE sensor_id = :sensor_id");
+        $stmt->execute([
+            'name' => $name,
+            'sensor_id' => $sensor_id
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function setLocation($sensor_id, $location)
+    {
+        $stmt = $this->pdo->prepare("UPDATE Sensor SET location = :location WHERE sensor_id = :sensor_id");
+        $stmt->execute([
+            'location' => $location,
+            'sensor_id' => $sensor_id
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function deleteSensor($sensor_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Sensor WHERE sensor_id = :sensor_id");
+        $stmt->execute(['sensor_id' => $sensor_id]);
+
+        return $stmt->rowCount() > 0;
+    }
 }
 
 

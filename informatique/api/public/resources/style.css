@@ -1181,6 +1181,12 @@ h5 {
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
 .space-y-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
@@ -1337,6 +1343,11 @@ h5 {
 .bg-zinc-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(24 24 27 / var(--tw-bg-opacity));
+}
+
+.bg-eventit-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(79 198 203 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r {
@@ -1994,7 +2005,6 @@ body {
   padding: 40px;
   border: 2px solid #ccc;
   border-radius: 10px;
-  width: 50%;
   height: 60%;
   overflow: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -2128,6 +2138,22 @@ ul li::before {
   left: 0;
 }
 
+/* fade in keyframe */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .hover\:-translate-y-2:hover {
     --tw-translate-y: -0.5rem;
@@ -2166,6 +2192,11 @@ ul li::before {
   .hover\:bg-gray-300:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  }
+
+  .hover\:bg-red-500:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(239 68 68 / var(--tw-bg-opacity));
   }
 
   .hover\:text-gray-900:hover {
@@ -2247,10 +2278,6 @@ ul li::before {
 @media (min-width: 640px) {
   .sm\:flex-row {
     flex-direction: row;
-  }
-
-  .sm\:flex-col {
-    flex-direction: column;
   }
 }
 
@@ -2344,6 +2371,12 @@ ul li::before {
     --tw-space-x-reverse: 0;
     margin-right: calc(1.25rem * var(--tw-space-x-reverse));
     margin-left: calc(1.25rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
 
   .md\:justify-self-start {

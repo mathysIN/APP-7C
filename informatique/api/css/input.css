@@ -208,7 +208,6 @@ body {
   padding: 40px;
   border: 2px solid #ccc;
   border-radius: 10px;
-  width: 50%;
   height: 60%;
   overflow: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -335,4 +334,18 @@ ul li::before {
 
 .button:hover::before {
   left: 0;
+}
+
+/* fade in keyframe */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s forwards;
 }

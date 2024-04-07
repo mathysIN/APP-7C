@@ -14,6 +14,36 @@ if (!$sensor) {
     exit();
 }
 
+$estimate = $estimateAPI->getEstimateById($sensor->estimate_id);
+
+if (!$estimate || !$estimate->hasReadAccess($_CURRENT_USER)) {
+    redirect("/404");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_POST['type'] === 'update_sensor') {
+
+        $name = $_POST['name'];
+        $location = $_POST['location'];
+
+        if (!$name || !$location) {
+            redirect("/mes_capteurs");
+            exit();
+        }
+
+        $sensorAPI->setName($sensorId, $name);
+        $sensorAPI->setLocation($sensorId, $location);
+        $sensor->name = $name;
+        $sensor->location = $location;
+    } else if ($_POST['type'] === 'delete_sensor') {
+        $sensorAPI->deleteSensor($sensor->sensor_id);
+        redirect("/mes_capteurs?msg=sensor_deleted");
+        exit();
+    }
+}
+
+// edit sensor with $sensor->setName(name) & $sensor->setLocation(location)
 $volume = $sensor->getCurrentValue();
 $averageVolume = $sensor->getCurrentValue();
 $exceedance = $sensor->getCurrentValue();
@@ -40,15 +70,61 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
     <div class="flex flex-col space-y-4">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-semibold"><?php echo $sensor->name ?></h1>
-                <p class="text-sm font-semibold">Devis ???</p>
+                <div class="flex flex-row items-center gap-2">
+                    <h1 class="text-2xl font-semibold"><?php echo $sensor->name ?></h1>
+                    <button onclick="openPopup('sensor_popup');" class="w-4 h-4"><svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 528.899 528.899" xml:space="preserve">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g>
+                                    <path d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981 c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611 C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069 L27.473,390.597L0.3,512.69z"></path>
+                                </g>
+                            </g>
+                        </svg></button>
+                </div>
+                <p class="text-sm font-semibold">Devis <?php echo $sensor->estimate_id ?></p>
                 <div class="flex flex-row items-center gap-2">
                     <img src="/resources/location.png" class="w-4 h-4">
                     <p class="text-sm text-gray-500"><?php echo $sensor->location ?></p>
                 </div>
 
             </div>
-            <div class="flex space-x-2">
+
+            <div id="backdrop" class="backdrop" onclick="closeAllPopups()"></div>
+
+            <div id="sensor_popup" class="popup-content">
+                <div class="popup-header">
+                    <div class="flex flex-row items-center gap-2">
+                        <h2>Modifier le capteur</h2>
+                        <button class=" text-2xl md:text-4xl font-bold" onclick="closeAllPopups()">&times;</button>
+                    </div>
+                </div>
+                <div class="popup-body ">
+                    <form class="flex flex-col gap-2 w-fit mx-auto" action="" method="post">
+                        <div class="mb-4">
+                            <label for="name" class="block text-left pl-1 text-eventit-500">Nom du capteur</label>
+                            <input name="name" type="text" id="name" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500" value="<?php echo $sensor->name ?>">
+                        </div>
+                        <div class="mb-4">
+                            <label for="location" class="block text-left pl-1 text-eventit-500">Emplacement du capteur</label>
+                            <input name="location" type="text" id="location" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500" value="<?php echo $sensor->location ?>">
+                        </div>
+                        <input type="hidden" name="type" value="update_sensor">
+
+                        <div class="text-center">
+                            <button type="submit" class="px-4 py-2 bg-eventit-500 text-white rounded-full focus:outline-none button" data-lang="Envoyer|Send">Envoyer</button>
+                        </div>
+                    </form>
+
+                    <form method="post">
+                        <input type="hidden" name="type" value="delete_sensor">
+                        <input type="hidden" name="sensor_id" value="<?php echo $sensor->sensor_id ?>">
+                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-full focus:outline-none button" data-lang="Supprimer|Delete">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row space-x-2 space-y-2 md:space-y-0">
                 <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">24h</button>
                 <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">1h</button>
                 <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">Live<div class="ml-2 h-2 w-2 bg-red-500 rounded-full animate-pulse"></div></button>
@@ -231,3 +307,45 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
             </div>
         </div>
     </div>
+</div>
+
+
+<script>
+    function openPopup(popupId) {
+        closeAllPopups();
+        document.getElementById(popupId).style.display = 'block';
+
+        document.getElementById(popupId).classList.add("fade-in");
+
+        document.getElementById('backdrop').style.display = 'block';
+    }
+
+    function closePopup(popupId) {
+        document.getElementById(popupId).style.display = 'none';
+        document.getElementById('backdrop').style.display = 'none';
+    }
+
+    function closeAllPopups() {
+        var popups = document.querySelectorAll('.popup-content');
+        for (var i = 0; i < popups.length; i++) {
+            popups[i].style.display = 'none';
+        }
+        document.getElementById('backdrop').style.display = 'none';
+    }
+
+
+    function toggleVisibility(row) {
+        var nextRow = row.nextElementSibling;
+        nextRow.classList.toggle("hidden");
+    }
+
+    function openStatusModal(estimateId) {
+        // Open the modal and pass estimateId if needed
+        document.getElementById('statusModal').style.display = "block";
+    }
+
+    function closeStatusModal() {
+        // Close the modal
+        document.getElementById('statusModal').style.display = "none";
+    }
+</script>

@@ -309,6 +309,9 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("post_deleted", "Post supprimé.");
         messages.set("invalid_editing", "Impossible de modifier ce post.");
         messages.set("forum_closed", "Le forum est fermé.");
+        messages.set("need_admin", "Vous devez être administrateur pour accéder à cette page.");
+        messages.set("sensor_deleted", "Capteur supprimé.");
+        messages.set("estimate_deleted", "Devis supprimé.");
 
         function getUrlParams(url) {
             const params = {};
