@@ -1,12 +1,50 @@
+<?php
+
+
+require_once __DIR__ . "/../../utils/helpers.php";
+require_once __DIR__ . "/../../entities/all_entites.php";
+require_once __DIR__ . "/../../utils/global_types.php";
+
+$sensorId = getLastWordOfCurrentUrlPath();
+
+$sensor = $sensorAPI->getSensorById($sensorId);
+
+if (!$sensor) {
+    redirect("/404");
+    exit();
+}
+
+$volume = $sensor->getCurrentValue();
+$averageVolume = $sensor->getCurrentValue();
+$exceedance = $sensor->getCurrentValue();
+$frequency = $sensor->getCurrentValue();
+
+$VOLUME_THRESHOLD = 85;
+$AVERAGE_VOLUME_THRESHOLD = 100;
+$EXCEEDANCE_THRESHOLD = 50;
+$FREQUENCY_THRESHOLD = 500;
+
+$volumeColor = $volume > $VOLUME_THRESHOLD ? "text-red-500" : "text-black";
+$averageVolumeColor = $averageVolume > $AVERAGE_VOLUME_THRESHOLD ? "text-red-500" : "text-black";
+$exceedanceColor = $exceedance > $EXCEEDANCE_THRESHOLD ? "text-red-500" : "text-black";
+$frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-black";
+?>
+
 <div class="max-w-4xl mx-auto my-8 p-6 rounded-lg">
+
+    <a href="/mes_capteurs">
+        <button class="inline-flex my-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-eventit-500 hover:bg-eventit-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-eventit-500">
+            Retour
+        </button>
+    </a>
     <div class="flex flex-col space-y-4">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-semibold">Capteur LOL</h1>
-                <p class="text-sm font-semibold">Devis #1</p>
+                <h1 class="text-2xl font-semibold"><?php echo $sensor->name ?></h1>
+                <p class="text-sm font-semibold">Devis ???</p>
                 <div class="flex flex-row items-center gap-2">
                     <img src="/resources/location.png" class="w-4 h-4">
-                    <p class="text-sm text-gray-500">Salle n°1</p>
+                    <p class="text-sm text-gray-500"><?php echo $sensor->location ?></p>
                 </div>
 
             </div>
@@ -18,19 +56,19 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="text-center">
-                <p class="text-4xl font-bold">13dB</p>
+                <p class="text-4xl font-bold <?php echo $volumeColor ?>"><?php echo $volume ?>dB</p>
                 <p class="text-sm text-gray-600">Volume Actuel</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold text-red-500">54%</p>
+                <p class="text-4xl font-bold <?php echo $exceedanceColor ?>"><?php echo $exceedance ?>%</p>
                 <p class="text-sm text-gray-600">Dépassement moyen</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold">96dB</p>
+                <p class="text-4xl font-bold <?php echo $averageVolumeColor ?>"><?php echo $averageVolume ?>dB</p>
                 <p class="text-sm text-gray-600">Volume moyen</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold">600Hz</p>
+                <p class="text-4xl font-bold"><?php echo $frequency ?>Hz</p>
                 <p class="text-sm text-gray-600">Fréquence sonore</p>
             </div>
         </div>
@@ -43,40 +81,16 @@
                         <canvas id="graphCanvas" width="1000" height="500" class="w-full"></canvas>
 
                         <script>
-                            // Data for the graph
-                            var data = [{
-                                    value: 20,
-                                    name: "January"
-                                },
-                                {
-                                    value: 50,
-                                    name: "February"
-                                },
-                                {
-                                    value: 100,
-                                    name: "March"
-                                },
-                                {
-                                    value: 75,
-                                    name: "April"
-                                },
-                                {
-                                    value: 150,
-                                    name: "May"
-                                },
-                                {
-                                    value: 80,
-                                    name: "June"
-                                },
-                                {
-                                    value: 30,
-                                    name: "July"
-                                },
-                                {
-                                    value: 70,
-                                    name: "August"
-                                },
-                            ];
+                            // Create random data for the graph, with date as name and value as value
+                            const data = [];
+                            for (var i = 0; i < 10; i++) {
+                                data.push({
+                                    name: new Date(Date.now() + i * 1000 * 60 * 60).toLocaleTimeString(),
+                                    value: Math.floor(Math.random() * 100)
+                                });
+                            }
+
+
 
                             // Get the canvas element and tooltip element
                             var canvas = document.getElementById("graphCanvas");

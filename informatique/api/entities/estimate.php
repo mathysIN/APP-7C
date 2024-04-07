@@ -15,9 +15,15 @@ class EstimateAPI
 {
     private $pdo;
 
-    public function __construct($pdo)
+    /**
+     * @var SensorAPI
+     */
+    private $sensorAPI;
+
+    public function __construct($pdo, $sensorAPI)
     {
         $this->pdo = $pdo;
+        $this->sensorAPI = $sensorAPI;
     }
 
     public function toEstimate($row)
@@ -101,6 +107,19 @@ class EstimateAPI
         }
 
         return $estimates;
+    }
+
+    public function getSensorsByEstimate($estimate_id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Sensor WHERE estimate_id = :estimate_id");
+        $stmt->execute(['estimate_id' => $estimate_id]);
+        $sensors = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $sensors[] = $this->sensorAPI->toSensor($row);
+        }
+
+        return $sensors;
     }
 }
 
