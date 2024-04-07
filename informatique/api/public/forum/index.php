@@ -18,13 +18,13 @@ if (isset($user_filter) || isset($word_filter)) {
 
 <div class="flex flex-col gap-4 min-h-screen md:mx-20 mx-4 my-20">
     <header class="flex flex-col gap-2">
-        <div class="flex flex-row justify-center">
+        <div class="flex md:flex-row flex-col justify-center">
             <div class="flex items-center gap-4"><a class="lg:hidden" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg><span class="sr-only">Home</span></a>
                 <h1 class="font-semibold text-xl">Forum</h1>
             </div>
-            <div class="flex justify-center items-center gap-4 ml-auto">
+            <div class="flex md:justify-center items-center gap-4 py-4 md:ml-auto">
                 <svg fill="#000000" height="30px" width="30px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 451 451" xml:space="preserve">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -34,7 +34,7 @@ if (isset($user_filter) || isset($word_filter)) {
                         </g>
                     </g>
                 </svg>
-                <form action="/forum" method="GET" class="flex gap-2 m-0">
+                <form action="/forum" method="GET" class="flex md:flex-row flex-col gap-2 m-0">
                     <input type="text" name="word" placeholder="Search by word" class="h-14 px-4 py-4 border rounded-3xl border-gray-200 focus:outline-none focus:ring focus:border-eventit-500">
                     <input type="text" name="user" placeholder="Search by user" class="h-14 px-4 py-4 border rounded-3xl border-gray-200 focus:outline-none focus:ring focus:border-eventit-500">
                     <button type="submit" class="px-4 py-2 bg-eventit-500 text-white rounded-xl">

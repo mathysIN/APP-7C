@@ -43,8 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="h-full flex flex-col justify-top pt-20 pb-96">
-    <h3 class="pl-24 text-left font-bold text-eventit-500 text-6xl" data-lang="Mon profil|My profile">Mon profil</h3>
-    <div class="flex flex-row gap-16 items-start pt-10 pl-16">
+    <p class="text-eventit-500 font-bold text-6xl self-center" data-lang="Mon profil|My profile">Mon profil</p>
+
+    <div class="flex md:flex-row flex-col md:items-start items-center gap-16 pt-10 px-16">
         <div class="flex flex-col items-center">
             <img src="<?php echo $_CURRENT_USER->image_url ?>" alt="">
 
@@ -103,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
-<!-- Popup de déconnexion -->
+
 <div id="logoutPopup" class="logout-popup">
     <div class="logout-popup-content">
         <p data-lang="Êtes-vous sûr de vouloir vous déconnecter ?|Are you sure you want to log out?">Êtes-vous sûr de vouloir vous déconnecter ?</p>
