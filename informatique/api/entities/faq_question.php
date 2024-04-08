@@ -4,7 +4,9 @@ class FAQQuestion
 {
     public $section;
     public $question;
+    public $question_en;
     public $answer;
+    public $answer_en;
     public $id;
 }
 
@@ -22,7 +24,9 @@ class FAQAPI
         $faqQuestion = new FAQQuestion();
         $faqQuestion->section = $row['section'];
         $faqQuestion->question = $row['question'];
+        $faqQuestion->question_en = $row['question_en'];
         $faqQuestion->answer = $row['answer'];
+        $faqQuestion->answer_en = $row['answer_en'];
         $faqQuestion->id = $row['id'];
 
         return $faqQuestion;
@@ -55,19 +59,19 @@ class FAQAPI
         return $faqQuestions;
     }
 
-    public function updateFAQQuestion($id, $section, $question, $answer)
+    public function updateFAQQuestion($id, $section, $question_en, $answer_en)
     {
-        $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question, answer = :answer WHERE id = :id");
-        $stmt->execute(['section' => $section, 'question' => $question, 'answer' => $answer, 'id' => $id]);
+        $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question_en, answer_en = :answer_en WHERE id = :id");
+        $stmt->execute(['section' => $section, 'question_en' => $question_en, 'answer_en' => $answer_en, 'id' => $id]);
     }
 }
 
 const QUERY_CREATE_TABLE_FAQ = "CREATE TABLE FAQ_Question (
     section VARCHAR(255),
-    question VARCHAR(255),
-    answer VARCHAR(255),
+    question_en VARCHAR(255),
+    answer_en VARCHAR(255),
     id INT AUTO_INCREMENT PRIMARY KEY
 );";
 
-const QUERY_DEFAULT_FAQ_VALUE = "INSERT INTO FAQ_Question (section, question, answer) 
+const QUERY_DEFAULT_FAQ_VALUE = "INSERT INTO FAQ_Question (section_en, question_en, answer_en) 
 VALUES ('General', 'What is Lorem Ipsum?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.');";

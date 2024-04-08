@@ -210,6 +210,13 @@ function generateMenuItems()
         const elementsToTranslate = document.querySelectorAll('[data-lang]');
         elementsToTranslate.forEach(element => {
             const translations = element.getAttribute('data-lang').split('|');
+            if (element.tagName.toLowerCase() === 'input' && element.type === 'text') {
+            // Si l'élément est un champ de saisie de texte, met à jour son 'placeholder'
+            element.placeholder = language === 'fr' ? translations[0] : translations[1];
+        } else {
+            // Pour tous les autres éléments, met à jour leur contenu textuel
+            element.textContent = language === 'fr' ? translations[0] : translations[1];
+        }
             if (element.tagName.toLowerCase() === 'textarea') {
                 element.placeholder = language === 'fr' ? translations[0] : translations[1];
             } else {

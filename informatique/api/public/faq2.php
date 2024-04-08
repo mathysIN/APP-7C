@@ -9,13 +9,13 @@ $sections = array_unique(array_column($questions, 'section'));
 ?>
 
 <div class="h-full py-20 flex flex-col justify-top">
-    <p class="text-eventit-500 font-bold text-6xl self-center">Foire aux questions</p>
+    <p class="text-eventit-500 font-bold text-6xl self-center"data-lang="Foire aux questions|Frequently asked questions">Foire aux questions</p>
     <div class="pt-10 w-full flex justify-center">
 
         <div class="max-w-[650px] flex flex-col gap-5 items-center justify-center">
             <input
                 class="w-full h-14 px-4 py-4 border rounded-3xl border-gray-200 focus:outline-none focus:ring focus:border-eventit-500"
-                type="text" placeholder="Rechercher une réponse" />
+                type="text" placeholder="Rechercher une réponse" data-lang="Rechercher une réponse|Search for an answer"/>
             <div class="flex justify-between w-full">
                 <?php foreach ($sections as $section): ?>
                     <button
@@ -24,12 +24,12 @@ $sections = array_unique(array_column($questions, 'section'));
                     </button>
                 <?php endforeach; ?>
             </div>
-            <?php foreach ($questions as $question): ?>
+            <?php foreach ($questions as $question_en): ?>
                 <div class=" w-full">
                     <div class="accordion border rounded-3xl border-eventit-500 transition duration-150 ease-in-out">
                         <button class="text-left flex w-full px-4 py-4">
-                            <h3 class="text-lg font-bold">
-                                <?php echo $question->question; ?>
+                        <h3 class="text-lg font-bold" data-lang="<?php echo htmlspecialchars($question->question); ?>|<?php echo htmlspecialchars($question->question_en); ?>">
+                                <?php echo $question->question; // France par defaut nn ?>
                             </h3>
                             <svg class=" ml-auto arrow h-6 w-6 transform transition-transform duration-200"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -39,9 +39,9 @@ $sections = array_unique(array_column($questions, 'section'));
                             </svg>
                         </button>
                         <div class="accordion-content hidden px-4 py-4 text-left w-full">
-                            <p class="">
-                                <?php echo $question->answer; ?>
-                            </p>
+                        <p class="" data-lang="<?php echo htmlspecialchars($question->answer); ?>|<?php echo htmlspecialchars($question->answer_en); ?>">
+                    <?php echo $question->answer; ?>
+                </p>
                         </div>
                     </div>
                 </div>
