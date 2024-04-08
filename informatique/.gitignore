@@ -1,5 +1,0 @@
-.env*
-.cache/*
-.vercel/
-.build/
-.DS_Store
