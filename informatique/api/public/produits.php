@@ -688,7 +688,7 @@
 
 <script>
     function openPopup(popupId) {
-        closeAllPopups(); // Ferme toutes les popups ouvertes avant d'en ouvrir une nouvelle
+        closeAllPopups();
         document.getElementById(popupId).style.display = 'block';
         document.getElementById('backdrop').style.display = 'block';
     }
@@ -703,5 +703,6 @@
         for (var i = 0; i < popups.length; i++) {
             popups[i].style.display = 'none';
         }
+        document.getElementById('backdrop').style.display = 'none';
     }
 </script>

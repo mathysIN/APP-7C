@@ -15,7 +15,7 @@ if (isset($user_filter) || isset($word_filter)) {
 }
 
 ?>
-
+²
 <div class="flex flex-col gap-4 min-h-screen md:mx-20 mx-4 my-20">
     <header class="flex flex-col gap-2">
         <div class="flex md:flex-row flex-col justify-center">

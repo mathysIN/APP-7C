@@ -8,15 +8,44 @@ class Estimate
     public $name;
     public $price_amount;
     public $is_payed;
+    public $content;
+
+    /**
+     * @param UserModel $user
+     */
+    public function hasReadAccess($user)
+    {
+        return $this->user_id === $user->user_id || $user->role === 'admin';
+    }
 }
 
 class EstimateAPI
 {
     private $pdo;
 
-    public function __construct($pdo)
+    /**
+     * @var SensorAPI
+     */
+    private $sensorAPI;
+
+    public function __construct($pdo, $sensorAPI)
     {
         $this->pdo = $pdo;
+        $this->sensorAPI = $sensorAPI;
+    }
+
+    public function toEstimate($row)
+    {
+        $estimate = new Estimate();
+        $estimate->estimate_id = $row['estimate_id'];
+        $estimate->user_id = $row['user_id'];
+        $estimate->created_at = $row['created_at'];
+        $estimate->name = $row['name'];
+        $estimate->price_amount = $row['price_amount'];
+        $estimate->is_payed = (bool) $row['is_payed'];
+        $estimate->content = $row['content'];
+
+        return $estimate;
     }
 
     public function getEstimateById($estimate_id)
@@ -29,15 +58,7 @@ class EstimateAPI
             return null;
         }
 
-        $estimate = new Estimate();
-        $estimate->estimate_id = $row['estimate_id'];
-        $estimate->user_id = $row['user_id'];
-        $estimate->created_at = $row['created_at'];
-        $estimate->name = $row['name'];
-        $estimate->price_amount = $row['price_amount'];
-        $estimate->is_payed = (bool) $row['is_payed'];
-
-        return $estimate;
+        return $this->toEstimate($row);
     }
 
     public function getEstimatesByUser($user_id)
@@ -47,47 +68,52 @@ class EstimateAPI
         $estimates = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $estimate = new Estimate();
-            $estimate->estimate_id = $row['estimate_id'];
-            $estimate->user_id = $row['user_id'];
-            $estimate->created_at = $row['created_at'];
-            $estimate->name = $row['name'];
-            $estimate->price_amount = $row['price_amount'];
-            $estimate->is_payed = (bool) $row['is_payed'];
-
-            $estimates[] = $estimate;
+            $estimates[] = $this->toEstimate($row);
         }
 
         return $estimates;
     }
 
-    public function createEstimate($user_id, $name, $price_amount, $is_payed)
+    public function createEstimate($user_id, $name, $price_amount, $is_payed, $content)
     {
         $estimate_id = uniqid();
         $created_at = date('Y-m-d H:i:s');
 
-        $stmt = $this->pdo->prepare("INSERT INTO Estimate (estimate_id, user_id, created_at, name, price_amount, is_payed) VALUES (:estimate_id, :user_id, :created_at, :name, :price_amount, :is_payed)");
+        $stmt = $this->pdo->prepare("INSERT INTO Estimate (estimate_id, user_id, created_at, name, price_amount, is_payed, content) VALUES (:estimate_id, :user_id, :created_at, :name, :price_amount, :is_payed, :content)");
         $stmt->execute([
             'estimate_id' => $estimate_id,
             'user_id' => $user_id,
             'created_at' => $created_at,
             'name' => $name,
             'price_amount' => $price_amount,
-            'is_payed' => $is_payed
+            'is_payed' => $is_payed ? 1 : 0,
+            'content' => $content
         ]);
 
         return $estimate_id;
     }
 
-    public function updateEstimate($estimate_id, $name, $price_amount, $is_payed)
+    public function updateEstimate($estimate_id, $price_amount, $is_payed)
     {
-        $stmt = $this->pdo->prepare("UPDATE Estimate SET name = :name, price_amount = :price_amount, is_payed = :is_payed WHERE estimate_id = :estimate_id");
+        $stmt = $this->pdo->prepare("UPDATE Estimate SET price_amount = :price_amount, is_payed = :is_payed WHERE estimate_id = :estimate_id");
         $stmt->execute([
-            'name' => $name,
+            'estimate_id' => $estimate_id,
             'price_amount' => $price_amount,
-            'is_payed' => $is_payed,
-            'estimate_id' => $estimate_id
+            'is_payed' => $is_payed ? 1 : 0
         ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function updateEstimateUser($estimate_id, $user_id)
+    {
+        if ($user_id == null) {
+            $stmt = $this->pdo->prepare("UPDATE Estimate SET user_id = NULL WHERE estimate_id = :estimate_id");
+            $stmt->execute(['estimate_id' => $estimate_id]);
+        } else {
+            $stmt = $this->pdo->prepare("UPDATE Estimate SET user_id = :user_id WHERE estimate_id = :estimate_id");
+            $stmt->execute(['estimate_id' => $estimate_id, 'user_id' => $user_id]);
+        }
 
         return $stmt->rowCount() > 0;
     }
@@ -98,18 +124,39 @@ class EstimateAPI
         $estimates = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $estimate = new Estimate();
-            $estimate->estimate_id = $row['estimate_id'];
-            $estimate->user_id = $row['user_id'];
-            $estimate->created_at = $row['created_at'];
-            $estimate->name = $row['name'];
-            $estimate->price_amount = $row['price_amount'];
-            $estimate->is_payed = (bool) $row['is_payed'];
-
-            $estimates[] = $estimate;
+            $estimates[] = $this->toEstimate($row);
         }
 
         return $estimates;
+    }
+
+    public function getSensorsByEstimate($estimate_id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Sensor WHERE estimate_id = :estimate_id");
+        $stmt->execute(['estimate_id' => $estimate_id]);
+        $sensors = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $sensors[] = $this->sensorAPI->toSensor($row);
+        }
+
+        return $sensors;
+    }
+
+    public function deleteEstimate($estimate_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Estimate WHERE estimate_id = :estimate_id");
+        $stmt->execute(['estimate_id' => $estimate_id]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function getCountSensor($estimate_id)
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM Sensor WHERE estimate_id = :estimate_id");
+        $stmt->execute(['estimate_id' => $estimate_id]);
+
+        return $stmt->fetchColumn();
     }
 }
 
