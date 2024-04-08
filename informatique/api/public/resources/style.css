@@ -1024,10 +1024,6 @@ h5 {
   max-width: 28rem;
 }
 
-.max-w-screen-2xl {
-  max-width: 1536px;
-}
-
 .max-w-xs {
   max-width: 20rem;
 }
@@ -1419,11 +1415,6 @@ h5 {
   padding-right: 1rem;
 }
 
-.px-44 {
-  padding-left: 11rem;
-  padding-right: 11rem;
-}
-
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -1452,6 +1443,11 @@ h5 {
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .py-2 {
@@ -1493,16 +1489,8 @@ h5 {
   padding-bottom: 4rem;
 }
 
-.pb-20 {
-  padding-bottom: 5rem;
-}
-
 .pb-3 {
   padding-bottom: 0.75rem;
-}
-
-.pb-32 {
-  padding-bottom: 8rem;
 }
 
 .pb-5 {
@@ -1547,6 +1535,10 @@ h5 {
 
 .pt-40 {
   padding-top: 10rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
 }
 
 .text-left {
@@ -1718,11 +1710,6 @@ h5 {
 .text-zinc-600 {
   --tw-text-opacity: 1;
   color: rgb(82 82 91 / var(--tw-text-opacity));
-}
-
-.text-\[\#ad56c7\] {
-  --tw-text-opacity: 1;
-  color: rgb(173 86 199 / var(--tw-text-opacity));
 }
 
 .underline {

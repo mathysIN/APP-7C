@@ -2,12 +2,9 @@
 function markdown_to_html($markdown)
 {
     // Convert headers
-    $markdown = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $markdown);
-    $markdown = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $markdown);
-    $markdown = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $markdown);
-    $markdown = preg_replace('/^#### (.+)$/m', '<h4>$1</h4>', $markdown);
-    $markdown = preg_replace('/^##### (.+)$/m', '<h5>$1</h5>', $markdown);
-    $markdown = preg_replace('/^###### (.+)$/m', '<h6>$1</h6>', $markdown);
+    $markdown = preg_replace('/^# (.+)$/m', '<h2>$1</h2>', $markdown);
+    $markdown = preg_replace('/^## (.+)$/m', '<h3>$1</h3>', $markdown);
+    $markdown = preg_replace('/^### (.+)$/m', '<h4>$1</h4>', $markdown);
 
     // Convert bold and italic
     $markdown = preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $markdown);
@@ -23,6 +20,9 @@ function markdown_to_html($markdown)
 
     // Convert paragraphs
     $markdown = '<p>' . preg_replace('/\n\s*\n/', '</p><p>', $markdown) . '</p>';
+
+    // Convert line breaks
+    $markdown = preg_replace('/\n/', '<br>', $markdown);
 
     return $markdown;
 }

@@ -100,6 +100,26 @@ class WebsiteDataAPI
 
         return $stmt->rowCount() > 0;
     }
+
+    public function updateCGUContent($cgu_content)
+    {
+        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET cgu_content = :cgu_content");
+        $stmt->execute([
+            'cgu_content' => $cgu_content
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function updateLegalContent($legal_content)
+    {
+        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET legal_content = :legal_content");
+        $stmt->execute([
+            'legal_content' => $legal_content
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
 }
 
 
