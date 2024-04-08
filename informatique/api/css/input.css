@@ -1,0 +1,351 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-4xl lg:text-7xl font-black text-eventit-500;
+  }
+
+  h2 {
+    @apply text-2xl lg:text-4xl font-bold text-eventit-500;
+  }
+
+  h3 {
+    @apply text-xl lg:text-3xl font-bold text-eventit-600;
+  }
+
+  h4 {
+    @apply text-xl font-bold text-eventit-700;
+  }
+
+  h5 {
+    @apply text-lg font-bold text-eventit-800;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.content {
+  flex: 1;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.toast-fade-in {
+  animation: fade-in 0.5s ease forwards;
+}
+
+.toast-fade-out {
+  animation: fade-out 0.5s ease forwards;
+}
+
+.logout-popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.logout-popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+}
+
+.logout-confirm,
+.logout-cancel {
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.logout-confirm {
+  background-color: #50c3b8;
+  color: white;
+}
+
+.logout-cancel {
+  background-color: #197169;
+  color: white;
+}
+
+.language-modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50; /* Assurez-vous que ce z-index soit supérieur à tout autre contenu de la page */
+}
+
+.language-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  font-style: bold;
+  border: 1px solid #888;
+  width: 80%; /* Ajustez cette valeur pour correspondre à la largeur désirée */
+  max-width: 300px; /* Gardez une largeur maximale pour les grands écrans */
+  text-align: center;
+  position: relative; /* Ajouté pour permettre un positionnement absolu des éléments internes comme le bouton de fermeture */
+  border-radius: 10px; /* Arrondit les coins de la popup */
+}
+
+.language-modal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #aaa;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.language-modal .close:hover,
+.language-modal .close:focus {
+  color: black;
+}
+
+.language-link {
+  display: block; /* Affiche les liens sur toute la largeur de la popup */
+  margin: 10px 0; /* Espacement vertical entre les liens */
+  background-color: #42d3c9; /* Couleur de fond pour les liens */
+  color: white; /* Couleur du texte pour les liens */
+  padding: 10px 20px; /* Padding pour les liens */
+  text-decoration: none; /* Enlève le soulignement des liens */
+  border-radius: 5px; /* Arrondit les coins des liens */
+}
+
+.language-link:hover,
+.language-link:focus {
+  background-color: #268a8b; /* Couleur de fond au survol */
+}
+
+.language-message {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.language-link {
+  display: inline-block;
+  padding: 25px 50px;
+  color: #000;
+  text-decoration: none;
+  background-size: cover;
+  background-position: center;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+#french-link {
+  background-image: url("fr.png");
+}
+
+#english-link {
+  background-image: url("en.png");
+}
+
+/* Style de la popup produits */
+.popup-content {
+  text-align: center;
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  background-color: white;
+  padding: 40px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  height: 60%;
+  overflow: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Helvetica Neue", sans-serif;
+  color: #333;
+}
+
+/* Style du texte à l'intérieur de la popup */
+.popup-content p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  text-align: center;
+}
+
+/* Style du bouton FERMER (produits) */
+.button-popup {
+  margin-top: auto;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  background-color: #338f8c;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.button-popup:hover {
+  background-color: #48c7c3;
+}
+
+/* Style du bouton CONFIRMER (produits)*/
+.button-popup2 {
+  margin-top: auto;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #4ed8d4;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.button-popup2:hover {
+  background-color: #02fffb;
+}
+
+/* Voile flouté pour l'arrière-plan */
+.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+ul li::before {
+  content: "• ";
+  color: black;
+  margin-right: 10px;
+}
+
+.popup-content ul {
+  text-align: left;
+  margin-right: 0;
+}
+
+.popup-content ul li::before {
+  content: "• ";
+  color: black;
+}
+
+.popup-content h3 {
+  margin-bottom: 20px;
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+}
+
+.popup-content ul {
+  margin-bottom: 20px;
+}
+
+.button-popup {
+  margin-top: 20px;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.button::before {
+  content: "";
+  z-index: -2;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #317577;
+  transition: left 0.3s ease;
+}
+
+.button:hover::before {
+  left: 0;
+}
+
+/* fade in keyframe */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
