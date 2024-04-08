@@ -19,12 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $price_amount = $_POST['price_amount'];
         $estimateAPI->updateEstimate($estimate_id, $price_amount, $payment);
 
+        if (isset($_POST['user_id'])) {
+            $estimateAPI->updateEstimateUser($estimate_id, $_POST['user_id']);
+        } else {
+            $estimateAPI->updateEstimateUser($estimate_id, null);
+        }
+
         if ($add_sensor_count > 0) {
             $estimate = $estimateAPI->getEstimateById($estimate_id);
             for ($i = 0; $i < $add_sensor_count; $i++) {
                 $sensorAPI->createSensor($estimate->estimate_id, "Capteur de son", "Salle n°1", "");
             }
         }
+        redirect('/admin/devis?msg=estimate_updated');
+        exit();
     }
 
     if ($_POST["type"] === "delete_estimate") {
@@ -112,6 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                     <option value="1">Payé</option>
                                                     <option value="2">Non payé</option>
                                                 </select>
+                                                <label for="user_id">Utilisateur (ID)</label>
+                                                <input type="text" name="user_id" id="user_id" value="<?php echo $estimate->user_id; ?>">
                                                 <label for="add_sensor_count">Nombre de capteurs à ajouter</label>
                                                 <input type="number" name="add_sensor_count" id="add_sensor_count" value="0">
                                                 <label for="price_amount">Montant</label>

@@ -105,6 +105,19 @@ class EstimateAPI
         return $stmt->rowCount() > 0;
     }
 
+    public function updateEstimateUser($estimate_id, $user_id)
+    {
+        if ($user_id == null) {
+            $stmt = $this->pdo->prepare("UPDATE Estimate SET user_id = NULL WHERE estimate_id = :estimate_id");
+            $stmt->execute(['estimate_id' => $estimate_id]);
+        } else {
+            $stmt = $this->pdo->prepare("UPDATE Estimate SET user_id = :user_id WHERE estimate_id = :estimate_id");
+            $stmt->execute(['estimate_id' => $estimate_id, 'user_id' => $user_id]);
+        }
+
+        return $stmt->rowCount() > 0;
+    }
+
     public function getAllEstimates()
     {
         $stmt = $this->pdo->query("SELECT * FROM Estimate");

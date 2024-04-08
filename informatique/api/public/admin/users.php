@@ -36,7 +36,7 @@ $users = $userAPI->getAllUsers();
                     <tbody class="[&amp;_tr:last-child]:border-0">
                         <?php foreach ($users as $key => $user) : ?>
                             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                <td class="p-4 align-middle font-medium">1</td>
+                                <td class="p-4 align-middle font-medium"><?php echo $user->user_id ?></td>
                                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                                     <?php echo "$user->first_name $user->last_name"; ?>
                                 </td>
