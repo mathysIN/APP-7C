@@ -24,16 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mettre à jour les autres informations du profil si elles sont modifiées
     if (isset($_POST['first_name'])) {
-        $_CURRENT_USER->first_name = $_POST['first_name'];
+        $_CURRENT_USER->first_name = htmlentities($_POST['first_name']);
     }
     if (isset($_POST['last_name'])) {
-        $_CURRENT_USER->last_name = $_POST['last_name'];
+        $_CURRENT_USER->last_name = htmlentities($_POST['last_name']);
     }
     if (isset($_POST['email'])) {
-        $_CURRENT_USER->email = $_POST['email'];
+        $_CURRENT_USER->email = htmlentities($_POST['email']);
     }
     if (isset($_POST['phone_number'])) {
-        $_CURRENT_USER->phone_number = $_POST['phone_number'];
+        $_CURRENT_USER->phone_number = htmlentities($_POST['phone_number']);
     }
 
     //Mise a jour dans la base de donnée mon ami !

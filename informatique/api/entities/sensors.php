@@ -30,8 +30,8 @@ class SensorAPI
         $sensor->sensor_id = $row['sensor_id'];
         $sensor->estimate_id = $row['estimate_id'];
         $sensor->created_at = $row['created_at'];
-        $sensor->name = $row['name'];
-        $sensor->location = $row['location'];
+        $sensor->name = htmlentities($row['name']);
+        $sensor->location = htmlentities($row['location']);
         $sensor->state = $row['state'];
 
         return $sensor;

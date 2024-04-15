@@ -34,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $sensorAPI->setName($sensorId, $name);
         $sensorAPI->setLocation($sensorId, $location);
-        $sensor->name = $name;
-        $sensor->location = $location;
+        $sensor = $sensorAPI->getSensorById($sensorId);
     } else if ($_POST['type'] === 'delete_sensor') {
         $sensorAPI->deleteSensor($sensor->sensor_id);
         redirect("/mes_capteurs?msg=sensor_deleted");
