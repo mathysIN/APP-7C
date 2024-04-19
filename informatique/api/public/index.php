@@ -327,6 +327,7 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("sensor_deleted", "Capteur supprimé.");
         messages.set("estimate_deleted", "Devis supprimé.");
         messages.set("estimate_updated", "Devis mis à jour.");
+        messages.set("user_deleted", "Utilisateur supprimé");
 
         function getUrlParams(url) {
             const params = {};

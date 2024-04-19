@@ -196,6 +196,16 @@ class UserAPI
         return $user_id;
     }
 
+
+    public function deleteUser($user_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Users WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $user_id]);
+        error_log("Deleting $user_id");
+        return $stmt->rowCount() > 0;
+    }
+
+
     public function updateUser($user)
     {
         $stmt = $this->pdo->prepare("UPDATE Users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, image_url = :image_url, role = :role WHERE user_id = :user_id");
