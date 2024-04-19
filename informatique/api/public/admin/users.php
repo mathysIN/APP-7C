@@ -12,7 +12,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         redirect('/admin/users?msg=user_deleted');
         exit();
     }
+
+    if ($action == "modify") {
+        $user_id = $_POST["user_id"];
+        $new_role = $_POST["new_role"];
+        error_log("user $user_id");
+        error_log("new_role $new_role");
+        if ($new_role === "admin" || $new_role === 'user') {
+            $userAPI->setUserRole($user_id, $new_role);
+            redirect('/admin/users?msg=user_edit');
+            exit();
+        }
+    }
 }
+
 $users = $userAPI->getAllUsers();
 ?>
 
@@ -54,14 +67,22 @@ $users = $userAPI->getAllUsers();
                                 </td>
                                 <td class="p-4 align-middle hidden md:table-cell"><?php echo $user->role; ?></td>
                                 <td class="p-4 align-middle text-right">
-                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-8 h-8">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                            <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5"></path>
-                                            <polyline points="14 2 14 8 20 8"></polyline>
-                                            <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"></path>
-                                        </svg>
-                                        <span class="sr-only">Edit</span>
-                                    </button>
+                                    <form action="users" method="POST">
+                                        <input type="hidden" name="action" value="modify">
+                                        <input type="hidden" name="user_id" value="<?php echo $user->user_id; ?>">
+                                        <select name="new_role" class="rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                                            <option value="admin" <?php if ($user->role == "admin") echo 'selected="selected"' ?>>Admin</option>
+                                            <option value="user" <?php if ($user->role == "user") echo 'selected="selected"' ?>>User</option>
+                                        </select>
+                                        <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-8 h-8">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                                <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5"></path>
+                                                <polyline points="14 2 14 8 20 8"></polyline>
+                                                <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"></path>
+                                            </svg>
+                                            <span class="sr-only">Edit</span>
+                                        </button>
+                                    </form>
                                     <form action="users" method="POST">
                                         <input type="hidden" name="user_id" value="<?php echo $user->user_id; ?>">
                                         <input type="hidden" name="action" value="delete">
@@ -74,9 +95,9 @@ $users = $userAPI->getAllUsers();
                                         </button>
                                     </form>
                                 </td>
-                                </form>
+
                             </tr>
-                            </tr>
+
                         <?php endforeach; ?>
                     </tbody>
                 </table>
