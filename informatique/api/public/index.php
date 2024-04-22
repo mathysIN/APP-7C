@@ -66,6 +66,7 @@ $request_uri = rtrim($request_uri, '/');
 $request_uri = '/' . ltrim($request_uri, '/');
 $need_auth = false;
 $need_admin = false;
+$is_event_page = false;
 error_log("Requesting at $request_uri");
 
 if (strpos($request_uri, '/resources') === 0) {
@@ -138,7 +139,7 @@ if (!isset($page_path)) {
                 $directory = implode("/", array_slice($parts, 0, -1));
                 $directory = substr($directory, 1);
                 $query = end($parts);
-                $potential_page_page =  $directory . "/[query]" . ".php";
+                $potential_page_page = $directory . "/[query]" . ".php";
                 break;
         }
         error_log("Trying $potential_page_page");
@@ -196,7 +197,8 @@ if ($need_auth && !$_CURRENT_USER) {
     <link href="/resources/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/resources/favicon.png">
     <?php if (isset($color)) { ?>
         <style>
@@ -227,17 +229,16 @@ if ($need_auth && !$_CURRENT_USER) {
                 </div>
             </div>
         </div>
-    <?php }
-    if ($is_event_page) { ?>
-        <div class="content w-full">
+    <?php } else if ($is_event_page) { ?>
+            <div class="content w-full">
             <?php include $page_path; ?>
-        </div>
+            </div>
     <?php } else { ?>
 
         <?php include $header_path; ?>
-        <div class="content w-full">
+            <div class="content w-full">
             <?php include $page_path; ?>
-        </div>
+            </div>
         <?php include $footer_path; ?>
     <?php }
     ?>
@@ -295,7 +296,7 @@ if ($need_auth && !$_CURRENT_USER) {
             toastContainer.appendChild(toast);
 
             const closeButton = toast.querySelector('button');
-            closeButton.addEventListener('click', function() {
+            closeButton.addEventListener('click', function () {
                 toast.classList.remove('toast-fade-in');
                 toast.classList.add('toast-fade-out');
                 setTimeout(() => {
@@ -313,7 +314,7 @@ if ($need_auth && !$_CURRENT_USER) {
             }, 5000);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const urlParams = getUrlParams(window.location.search);
             if (urlParams.hasOwnProperty('msg')) {
                 const messageTag = urlParams['msg'];
