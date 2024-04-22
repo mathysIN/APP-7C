@@ -162,6 +162,16 @@ class UserAPI
         return $currentUser;
     }
 
+    public function setUserRole($user_id, $new_role)
+    {
+        $stmt = $this->pdo->prepare("UPDATE Users SET role = :new_role WHERE user_id = :user_id");
+        $stmt->execute(['new_role' => $new_role, 'user_id' => $user_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            return null;
+        }
+        return $this->toUser($row);
+    }
     public function getAllUsers()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM Users");
@@ -195,6 +205,16 @@ class UserAPI
 
         return $user_id;
     }
+
+
+    public function deleteUser($user_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Users WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $user_id]);
+        error_log("Deleting $user_id");
+        return $stmt->rowCount() > 0;
+    }
+
 
     public function updateUser($user)
     {
