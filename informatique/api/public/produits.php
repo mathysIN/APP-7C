@@ -23,7 +23,7 @@
                     <li data-lang="Gamme de température d'utilisation de -20°C à 60°C|Operating temperature range from -20°C to 60°C">Gamme de température d'utilisation de -20°C à 60°C</li>
                     <li data-lang="Dimensions 9.7mm x 4.5mm|Dimensions 9.7mm x 4.5mm">Dimensions 9.7mm x 4.5mm</li>
                 </ul>
-                <button class="button-popup" onclick="closePopup('popup1')" data-lang="Fermer|Close">Fermer</button>
+                <button class="button" onclick="closePopup('popup1')" data-lang="Fermer|Close">Fermer</button>
             </div>
         </div>
 
