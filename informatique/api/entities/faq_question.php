@@ -64,6 +64,15 @@ class FAQAPI
         $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question_en, answer_en = :answer_en WHERE id = :id");
         $stmt->execute(['section' => $section, 'question_en' => $question_en, 'answer_en' => $answer_en, 'id' => $id]);
     }
+    public function addFAQQuestion($section, $question, $answer, $question_en, $answer_en)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO FAQ_Question (section, question, answer) VALUES (:section, :question, :answer)");
+        $stmt->execute([
+            'section' => $section,
+            'question' => $question,
+            'answer' => $answer,
+        ]);
+    }
 }
 
 const QUERY_CREATE_TABLE_FAQ = "CREATE TABLE FAQ_Question (
