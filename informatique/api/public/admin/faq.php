@@ -5,13 +5,31 @@ require_once __DIR__ . "/../../utils/helpers.php";
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    foreach ($_POST['questions'] as $questionData) {
-        $id = $questionData['id'];
-        $section = $questionData['section'];
-        $question = $questionData['question'];
-        $answer = $questionData['answer'];
+    $actions = $_POST['action'] ?? '';
+    error_log($actions);
+    if ($actions === 'modify') {
+        error_log('Modify');
+    } else {
+        error_log('Add');
+    }
+    if ($actions === 'add') {
+        $section = $_POST['section'];
+        $question = $_POST['question'];
+        $answer = $_POST['answer'];
+        $faqQuestionAPI->addFAQQuestion($section, $question, $answer);
+    } else if ($actions === 'modify') {
+        foreach ($_POST['questions'] as $questionData) {
+            $id = $questionData['id'];
+            $section = $questionData['section'];
+            $question = $questionData['question'];
+            $answer = $questionData['answer'];
+            error_log($id);
 
-        $faqQuestionAPI->updateFAQQuestion($id, $section, $question, $answer);
+            $faqQuestionAPI->updateFAQQuestion($id, $section, $question, $answer);
+        }
+    } else if ($actions === 'delete') {
+        $id = $_POST['id'];
+        $faqQuestionAPI->deleteFAQQuestion($id);
     }
 }
 $questions = $faqQuestionAPI->getAllFAQQuestions();
@@ -43,18 +61,27 @@ $questions = $faqQuestionAPI->getAllFAQQuestions();
                 <div class="border shadow-sm rounded-lg p-4">
                     <div>
                         <form method="post">
+                            <input name="action" value="modify" hidden />
                             <?php foreach ($questions as $question): ?>
                                 <div class="border-b mb-4 pb-4">
-                                    <input type="hidden" name="questions[<?php echo $question->id; ?>][id]"
-                                        value="<?php echo $question->id; ?>" />
-                                    <input type="text" class="p-2 w-full mb-2 rounded-md border border-gray-300"
-                                        name="questions[<?php echo $question->id; ?>][section]"
-                                        value="<?php echo htmlspecialchars($question->section); ?>" />
-                                    <input type="text" class="p-2 w-full mb-2 rounded-md border border-gray-300"
-                                        name="questions[<?php echo $question->id; ?>][question]"
-                                        value="<?php echo htmlspecialchars($question->question); ?>" />
-                                    <textarea class="p-2 w-full h-24 rounded-md border border-gray-300"
-                                        name="questions[<?php echo $question->id; ?>][answer]"><?php echo htmlspecialchars($question->answer); ?></textarea>
+                                    <form method="post" class="delete-form">
+                                        <input type="hidden" name="id" value="<?php echo $question->id; ?>" />
+                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="questions[<?php echo $question->id; ?>][id]"
+                                            value="<?php echo $question->id; ?>" />
+                                        <input type="text" class="p-2 w-full mb-2 rounded-md border border-gray-300"
+                                            name="questions[<?php echo $question->id; ?>][section]"
+                                            value="<?php echo ($question->section); ?>" />
+                                        <input type="text" class="p-2 w-full mb-2 rounded-md border border-gray-300"
+                                            name="questions[<?php echo $question->id; ?>][question]"
+                                            value="<?php echo ($question->question); ?>" />
+                                        <textarea class="p-2 w-full h-24 rounded-md border border-gray-300"
+                                            name="questions[<?php echo $question->id; ?>][answer]"><?php echo ($question->answer); ?></textarea>
+                                        <button type="submit"
+                                            class="p-2 mt-6 text-red-600 border border-red-600 rounded-3xl  focus:outline-none focus:ring">Supprimer
+                                            la
+                                            question</button>
+                                    </form>
                                 </div>
                             <?php endforeach; ?>
                             <button type="submit"
@@ -82,6 +109,7 @@ $questions = $faqQuestionAPI->getAllFAQQuestions();
             </div>
             <div class="mb-4">
                 <label for="question" class="block mb-1">Question</label>
+                <input name="action" value="add" hidden />
                 <input type="text" id="question" name="question" class="w-full border border-gray-300 rounded-md p-2"
                     required>
             </div>
@@ -109,7 +137,6 @@ $questions = $faqQuestionAPI->getAllFAQQuestions();
         var section = document.getElementById('section').value;
         var question = document.getElementById('question').value;
         var answer = document.getElementById('answer').value;
-        // Appel AJAX pour ajouter la question
         fetch('ajouter_question.php', {
             method: 'POST',
             headers: {
@@ -123,10 +150,8 @@ $questions = $faqQuestionAPI->getAllFAQQuestions();
         })
             .then(response => {
                 if (response.ok) {
-                    // Recharger la page pour afficher la nouvelle question
                     location.reload();
                 } else {
-                    // Gérer les erreurs si nécessaire
                 }
             })
             .catch(error => {
