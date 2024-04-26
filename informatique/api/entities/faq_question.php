@@ -59,12 +59,12 @@ class FAQAPI
         return $faqQuestions;
     }
 
-    public function updateFAQQuestion($id, $section, $question_en, $answer_en)
+    public function updateFAQQuestion($id, $section, $question, $answer)
     {
-        $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question_en, answer_en = :answer_en WHERE id = :id");
-        $stmt->execute(['section' => $section, 'question_en' => $question_en, 'answer_en' => $answer_en, 'id' => $id]);
+        $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question, answer = :answer WHERE id = :id");
+        $stmt->execute(['section' => $section, 'question' => $question, 'answer' => $answer, 'id' => $id]);
     }
-    public function addFAQQuestion($section, $question, $answer, $question_en, $answer_en)
+    public function addFAQQuestion($section, $question, $answer)
     {
         $stmt = $this->pdo->prepare("INSERT INTO FAQ_Question (section, question, answer) VALUES (:section, :question, :answer)");
         $stmt->execute([
@@ -72,6 +72,11 @@ class FAQAPI
             'question' => $question,
             'answer' => $answer,
         ]);
+    }
+    public function deleteFAQQuestion($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM FAQ_Question WHERE id = :id");
+        $stmt->execute(['id' => $id]);
     }
 }
 

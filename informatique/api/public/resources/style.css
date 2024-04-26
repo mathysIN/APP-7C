@@ -821,6 +821,10 @@ h5 {
   margin-top: -4rem;
 }
 
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
 .block {
   display: block;
 }
@@ -1346,6 +1350,11 @@ h5 {
   border-color: rgb(250 204 21 / var(--tw-border-opacity));
 }
 
+.border-red-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(220 38 38 / var(--tw-border-opacity));
+}
+
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
@@ -1419,6 +1428,11 @@ h5 {
 .bg-zinc-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(24 24 27 / var(--tw-bg-opacity));
+}
+
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1809,6 +1823,11 @@ h5 {
 .text-zinc-600 {
   --tw-text-opacity: 1;
   color: rgb(82 82 91 / var(--tw-text-opacity));
+}
+
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -2286,6 +2305,11 @@ ul li::before {
     background-color: rgb(239 68 68 / var(--tw-bg-opacity));
   }
 
+  .hover\:bg-red-600:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+  }
+
   .hover\:text-gray-900:hover {
     --tw-text-opacity: 1;
     color: rgb(17 24 39 / var(--tw-text-opacity));
@@ -2301,6 +2325,11 @@ ul li::before {
 .focus\:border-eventit-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(56 162 167 / var(--tw-border-opacity));
+}
+
+.focus\:border-red-600:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(220 38 38 / var(--tw-border-opacity));
 }
 
 .focus\:outline-none:focus {
