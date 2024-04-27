@@ -10,6 +10,14 @@ class Estimate
     public $is_payed;
     public $content;
 
+    public $event_name;
+    public $date;
+    public $location;
+    public $description;
+    public $event_description;
+    public $banner_image;
+    public $gallery_images;
+
     /**
      * @param UserModel $user
      */
@@ -18,6 +26,7 @@ class Estimate
         return $this->user_id === $user->user_id || $user->role === 'admin';
     }
 }
+
 
 class EstimateAPI
 {
@@ -43,9 +52,35 @@ class EstimateAPI
         $estimate->name = $row['name'];
         $estimate->price_amount = $row['price_amount'];
         $estimate->is_payed = (bool) $row['is_payed'];
-        $estimate->content = $row['content'];
+        $estimate->content = htmlentities($row['content'], ENT_QUOTES);
+
+        $estimate->event_name = htmlentities($row['event_name'], ENT_QUOTES);
+        $estimate->date = htmlentities($row['date'], ENT_QUOTES);
+        $estimate->location = htmlentities($row['location'], ENT_QUOTES);
+        $estimate->description = htmlentities($row['description'], ENT_QUOTES);
+        $estimate->event_description = htmlentities($row['event_description'], ENT_QUOTES);
+        $estimate->banner_image = '/resources/home.jpg';
+        $estimate->gallery_images = [
+            '/resources/home.jpg',
+            '/resources/home.jpg',
+            '/resources/home.jpg',
+        ];
 
         return $estimate;
+    }
+
+    public function updateEventData($estimate_id, $event_name, $date, $location, $event_description)
+    {
+        $stmt = $this->pdo->prepare("UPDATE Estimate SET event_name = :event_name, event_description= :event_description, date = :date, location = :location WHERE estimate_id = :estimate_id");
+        $stmt->execute([
+            'estimate_id' => $estimate_id,
+            'event_name' => $event_name,
+            'date' => $date,
+            'location' => $location,
+            'event_description' => $event_description
+        ]);
+
+        return $stmt->rowCount() > 0;
     }
 
     public function getEstimateById($estimate_id)

@@ -4,6 +4,19 @@ require __DIR__ . "/../entities/all_entites.php";
 require_once __DIR__ . "/../utils/helpers.php";
 require_once __DIR__ . "/../utils/global_types.php";
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $estimate_id = $_POST["estimate_id"];
+    $event_name = $_POST["event_name"];
+    $date = $_POST["date"];
+    $location = $_POST["location"];
+    $event_description = $_POST["event_description"];
+
+    error_log("$estimate_id, $event_name, $date, $location, $event_description");
+
+    $success = $estimateAPI->updateEventData($estimate_id, $event_name, $date, $location, $event_description);
+}
+
 $estimates = $estimateAPI->getEstimatesByUser($_CURRENT_USER->user_id);
 
 ?>
@@ -23,9 +36,11 @@ $estimates = $estimateAPI->getEstimatesByUser($_CURRENT_USER->user_id);
                     <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium">Nombre de capteurs</th>
                     <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium">Montant</th>
                     <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium">État du paiement</th>
-                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium">Voir</th>
+                    <th class="text-muted-foreground h-12 px-4 text-left align-middle font-medium">Voir </th>
                 </tr>
             </thead>
+            <div id="backdrop" class="backdrop" onclick="closeAllPopups()"></div>
+
             <tbody class="[&amp;_tr:last-child]:border-0">
                 <?php foreach ($estimates as $estimate) : ?>
                     <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
@@ -53,9 +68,102 @@ $estimates = $estimateAPI->getEstimatesByUser($_CURRENT_USER->user_id);
                                 </svg>
                             </a>
                         </td>
+                        <td class="p-4">
+                            <button onclick="openPopup('<?php echo $estimate->estimate_id ?>')" class="focus:ring-ring hover:bg-primary/80 inline-flex w-fit items-center whitespace-nowrap rounded-full border border-transparent bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"> Modifier </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="6" class="">
+                            <div id="<?php echo $estimate->estimate_id ?>" class="popup-content">
+
+                                <div class="popup-header">
+                                    <div class="flex flex-row items-center gap-2">
+                                        <h2>Modifier l'évenement</h2>
+                                        <button class=" text-2xl md:text-4xl font-bold" onclick="closeAllPopups()">&times;</button>
+                                    </div>
+                                </div>
+                                <div class="popup-body">
+                                    <div class="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                                        <form method="post">
+                                            <input type="hidden" name="estimate_id" value="<?php echo $estimate->estimate_id; ?>">
+
+                                            <div class="mb-4">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2" for="event_name">Event Name:</label>
+                                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event_name" name="event_name" type="text" value="<?php echo htmlspecialchars($estimate->event_name); ?>">
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2" for="date">Date:</label>
+                                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" name="date" type="text" value="<?php echo htmlspecialchars($estimate->date); ?>">
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2" for="location">Location:</label>
+                                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="location" name="location" type="text" value="<?php echo htmlspecialchars($estimate->location); ?>">
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2" for="event_description">Description:</label>
+                                                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event_description" name="event_description"><?php echo htmlspecialchars($estimate->event_description); ?></textarea>
+                                            </div>
+
+                                            <div class="flex items-center justify-between">
+                                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                                    Update
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+
+
+
+<script>
+    function openPopup(popupId) {
+        closeAllPopups();
+        document.getElementById(popupId).style.display = 'block';
+
+        document.getElementById(popupId).classList.add("fade-in");
+
+        document.getElementById('backdrop').style.display = 'block';
+    }
+
+    function closePopup(popupId) {
+        document.getElementById(popupId).style.display = 'none';
+        document.getElementById('backdrop').style.display = 'none';
+    }
+
+    function closeAllPopups() {
+        var popups = document.querySelectorAll('.popup-content');
+        for (var i = 0; i < popups.length; i++) {
+            popups[i].style.display = 'none';
+        }
+        document.getElementById('backdrop').style.display = 'none';
+    }
+
+
+    function toggleVisibility(row) {
+        var nextRow = row.nextElementSibling;
+        nextRow.classList.toggle("hidden");
+    }
+
+    function openStatusModal(estimateId) {
+        document.getElementById('statusModal').style.display = "block";
+    }
+
+    function closeStatusModal() {
+        document.getElementById('statusModal').style.display = "none";
+    }
+</script>
