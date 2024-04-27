@@ -13,7 +13,6 @@ class Estimate
     public $event_name;
     public $date;
     public $location;
-    public $description;
     public $event_description;
     public $banner_image;
     public $gallery_images;
@@ -52,13 +51,12 @@ class EstimateAPI
         $estimate->name = $row['name'];
         $estimate->price_amount = $row['price_amount'];
         $estimate->is_payed = (bool) $row['is_payed'];
-        $estimate->content = htmlentities($row['content'], ENT_QUOTES);
+        $estimate->content = htmlentities($row['content'] ?? "", ENT_QUOTES);
 
-        $estimate->event_name = htmlentities($row['event_name'], ENT_QUOTES);
-        $estimate->date = htmlentities($row['date'], ENT_QUOTES);
-        $estimate->location = htmlentities($row['location'], ENT_QUOTES);
-        $estimate->description = htmlentities($row['description'], ENT_QUOTES);
-        $estimate->event_description = htmlentities($row['event_description'], ENT_QUOTES);
+        $estimate->event_name = htmlentities($row['event_name'] ?? "", ENT_QUOTES);
+        $estimate->date = htmlentities($row['date'] ?? "", ENT_QUOTES);
+        $estimate->location = htmlentities($row['location'] ?? "", ENT_QUOTES);
+        $estimate->event_description = htmlentities($row['event_description'] ?? "", ENT_QUOTES);
         $estimate->banner_image = '/resources/home.jpg';
         $estimate->gallery_images = [
             '/resources/home.jpg',
