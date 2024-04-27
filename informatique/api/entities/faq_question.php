@@ -64,6 +64,20 @@ class FAQAPI
         $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question, answer = :answer WHERE id = :id");
         $stmt->execute(['section' => $section, 'question' => $question, 'answer' => $answer, 'id' => $id]);
     }
+
+    public function updateFAQQuestionMultiLang($id, $section, $question, $question_en, $answer, $answer_en)
+    {
+        $stmt = $this->pdo->prepare("UPDATE FAQ_Question SET section = :section, question = :question, question_en = :question_en, answer = :answer, answer_en = :answer_en WHERE id = :id");
+        $stmt->execute([
+            'section' => $section,
+            'question' => $question,
+            'question_en' => $question_en,
+            'answer' => $answer,
+            'answer_en' => $answer_en,
+            'id' => $id,
+        ]);
+    }
+
     public function addFAQQuestion($section, $question, $answer)
     {
         $stmt = $this->pdo->prepare("INSERT INTO FAQ_Question (section, question, answer) VALUES (:section, :question, :answer)");
@@ -73,6 +87,21 @@ class FAQAPI
             'answer' => $answer,
         ]);
     }
+
+    public function addFAQQuestionMultiLang($section, $question, $question_en, $answer, $answer_en)
+    {
+        error_log("section: $section, question: $question, question_en: $question_en, answer: $answer, answer_en: $answer_en");
+
+        $stmt = $this->pdo->prepare("INSERT INTO FAQ_Question (section, question, question_en, answer, answer_en) VALUES (:section, :question, :question_en, :answer, :answer_en)");
+        $stmt->execute([
+            'section' => $section,
+            'question' => $question,
+            'question_en' => $question_en,
+            'answer' => $answer,
+            'answer_en' => $answer_en,
+        ]);
+    }
+
     public function deleteFAQQuestion($id)
     {
         $stmt = $this->pdo->prepare("DELETE FROM FAQ_Question WHERE id = :id");
@@ -87,5 +116,5 @@ const QUERY_CREATE_TABLE_FAQ = "CREATE TABLE FAQ_Question (
     id INT AUTO_INCREMENT PRIMARY KEY
 );";
 
-const QUERY_DEFAULT_FAQ_VALUE = "INSERT INTO FAQ_Question (section_en, question_en, answer_en) 
+const QUERY_DEFAULT_FAQ_VALUE = "INSERT INTO FAQ_Question (section, question_en, answer_en) 
 VALUES ('General', 'What is Lorem Ipsum?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.');";

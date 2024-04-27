@@ -5,10 +5,12 @@ require_once __DIR__ . "/../../utils/helpers.php";
 
 $websiteData = $websiteDataAPI->getWebsiteData();
 $legalContent = $websiteData->legal_content;
+$legalContent_en = $websiteData->legal_content_en;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $legalContent = $_POST["legal_content"];
-    $websiteDataAPI->updateLegalContent($legalContent);
+    $legalContent_en = $_POST["legal_content_en"];
+    $websiteDataAPI->updateLegalContent($legalContent, $legalContent_en);
 }
 ?>
 
@@ -33,8 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <h2 class="text-lg font-semibold mb-2">Contenue des mentions légales</h2>
                         <p class="pb-2">Vous pouvez utiliser le format <a class="text-eventit-500" href="https://www.markdownguide.org/cheat-sheet/">markdown</a></p>
                         <form method="post">
+                            <label class="block mb-2">Version Français</label>
                             <div class="flex flex-col items-center gap-4">
                                 <textarea type="color" class="p-2 w-full min-h-72 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200" name="legal_content" id="legal_content"><?php echo $legalContent; ?></textarea>
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-200">Mettre à jour</button>
+                            </div>
+                            <label class="block mb-2">Version Anglais</label>
+                            <div class="flex flex-col items-center gap-4">
+                                <textarea type="color" class="p-2 w-full min-h-72 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200" name="legal_content_en" id="legal_content_en"><?php echo $legalContent_en; ?></textarea>
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-200">Mettre à jour</button>
                             </div>
                         </form>

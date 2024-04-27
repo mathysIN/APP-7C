@@ -317,7 +317,6 @@ ul li::before {
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  z-index: 1;
 }
 
 .button::before {

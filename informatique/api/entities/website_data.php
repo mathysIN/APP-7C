@@ -5,6 +5,8 @@ class WebsiteData
     public $created_at;
     public $cgu_content;
     public $legal_content;
+    public $cgu_content_en;
+    public $legal_content_en;
     public $primary_color;
 
     /**
@@ -17,6 +19,7 @@ class WebsiteData
      */
     public $forum_state;
 }
+
 
 class ForumState
 {
@@ -48,6 +51,8 @@ class WebsiteDataAPI
         $websiteData->created_at = $row['created_at'];
         $websiteData->cgu_content = $row['cgu_content'];
         $websiteData->legal_content = $row['legal_content'];
+        $websiteData->cgu_content_en = $row['cgu_content_en'];
+        $websiteData->legal_content_en = $row['legal_content_en'];
         $websiteData->primary_color = $row['primary_color'];
         $websiteData->old_logo = $row['old_logo'] == 1 ? true : false;
         $websiteData->forum_state = $row['forum_state'];
@@ -65,7 +70,7 @@ class WebsiteDataAPI
             'old_logo' => $old_logo ? 1 : 0,
         ]);
 
-        return $stmt->rowCount() > 0; // Return true if at least one row was affected (updated)
+        return $stmt->rowCount() > 0;
     }
 
     public function updatePrimaryColor($primary_color)
@@ -101,21 +106,23 @@ class WebsiteDataAPI
         return $stmt->rowCount() > 0;
     }
 
-    public function updateCGUContent($cgu_content)
+    public function updateCGUContent($cgu_content, $cgu_content_en)
     {
-        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET cgu_content = :cgu_content");
+        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET cgu_content = :cgu_content, cgu_content_en = :cgu_content_en");
         $stmt->execute([
-            'cgu_content' => $cgu_content
+            'cgu_content' => $cgu_content,
+            'cgu_content_en' => $cgu_content_en
         ]);
 
         return $stmt->rowCount() > 0;
     }
 
-    public function updateLegalContent($legal_content)
+    public function updateLegalContent($legal_content, $legal_content_en)
     {
-        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET legal_content = :legal_content");
+        $stmt = $this->pdo->prepare("UPDATE WebsiteData SET legal_content = :legal_content, legal_content_en = :legal_content_en");
         $stmt->execute([
-            'legal_content' => $legal_content
+            'legal_content' => $legal_content,
+            'legal_content_en' => $legal_content_en
         ]);
 
         return $stmt->rowCount() > 0;
@@ -128,9 +135,18 @@ const QUERY_CREATE_TABLE_WEBSITE_DATA = "CREATE TABLE WebsiteData (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     cgu_content TEXT,
     legal_content TEXT,
+    cgu_content_en TEXT,
+    legal_content_en TEXT,
     primary_color VARCHAR(50),
+    old_logo BOOLEAN DEFAULT FALSE,
+    forum_state INT,
     PRIMARY KEY (created_at)
 );";
+
+const QUERY_ALTER_TABLE_WEBSITE_DATA_1 = "ALTER TABLE WebsiteData 
+ADD COLUMN cgu_content_en TEXT,
+ADD COLUMN legal_content_en TEXT;
+";
 
 const QUERY_DEFAULT_WEBSITEDATA_VALUE = "INSERT INTO WebsiteData (cgu_content, legal_content, primary_color) 
 VALUES ('Terms and conditions content', 'Legal content', '#336699');";

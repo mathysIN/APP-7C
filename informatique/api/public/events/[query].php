@@ -8,7 +8,8 @@ $eventId = getLastWordOfCurrentUrlPath();
 
 $estimate = $estimateAPI->getEstimateById($eventId);
 
-if (!$estimate) {
+
+if (!$estimate || !$estimate->is_payed) {
     redirect("/404");
     exit();
 }

@@ -5,10 +5,12 @@ require_once __DIR__ . "/../../utils/helpers.php";
 
 $websiteData = $websiteDataAPI->getWebsiteData();
 $cguContent = $websiteData->cgu_content;
+$cguContentEn = $websiteData->cgu_content_en;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $cguContent = $_POST["cgu_content"];
-    $websiteDataAPI->updateCGUContent($cguContent);
+    $cguContentEn = $_POST["cgu_content_en"];
+    $websiteDataAPI->updateCGUContent($cguContent, $cguContentEn);
 }
 ?>
 
@@ -33,8 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <h2 class="text-lg font-semibold mb-2">Contenue des CGU</h2>
                         <p class="pb-2">Vous pouvez utiliser le format <a class="text-eventit-500" href="https://www.markdownguide.org/cheat-sheet/">markdown</a></p>
                         <form method="post">
+                            <label class="block mb-2">Version Français</label>
                             <div class="flex flex-col items-center gap-4">
                                 <textarea type="color" class="p-2 w-full min-h-72 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200" name="cgu_content" id="cgu_content"><?php echo $cguContent; ?></textarea>
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-200">Mettre à jour</button>
+                            </div>
+                            <label class="block mb-2">Version Anglais</label>
+                            <div class="flex flex-col items-center gap-4">
+                                <textarea type="color" class="p-2 w-full min-h-72 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-200" name="cgu_content_en" id="cgu_content_en"><?php echo $cguContentEn; ?></textarea>
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-200">Mettre à jour</button>
                             </div>
                         </form>
