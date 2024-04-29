@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if ($WEBSITE_DATA->forum_state != ForumState::OPEN && $_CURRENT_USER->role != Role::ADMIN) {
-        redirect('/forum/create_post?msg=forum_closed');
+        redirect('/forum?msg=forum_closed');
         exit();
     }
 
