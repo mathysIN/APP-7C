@@ -7,11 +7,11 @@ require_once __DIR__ . "/../entities/contact_messages.php";
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $organization = htmlentities($_POST['organization']);
-    $fullname = htmlentities($_POST['fullname']);
-    $email = htmlentities($_POST['email']);
-    $phone_number = htmlentities($_POST['phone_number']);
-    $message = htmlentities($_POST['message']);
+    $organization = ($_POST['organization']);
+    $fullname = ($_POST['fullname']);
+    $email = ($_POST['email']);
+    $phone_number = ($_POST['phone_number']);
+    $message = ($_POST['message']);
 
     $user_id = isset($_CURRENT_USER) ? $_CURRENT_USER->user_id : null;
     $content = "Organisation: $organization\nNom et Prénom: $fullname\nEmail: $email\nTéléphone: $phone_number\nMessage: $message";
@@ -32,11 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="max-w-md mx-auto p-6 text-center">
         <form method="post">
             <div class="mb-4">
-                <label for="organization" class="block text-left pl-1 text-eventit-500"data-lang="Votre organisation|Your organization">Votre organisation</label>
+                <label for="organization" class="block text-left pl-1 text-eventit-500" data-lang="Votre organisation|Your organization">Votre organisation</label>
                 <input name="organization" type="text" id="organization" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
             <div class="mb-4">
-                <label for="fullname" class="block text-left pl-1 text-eventit-500"data-lang="Nom et Prénom|First and Last name">Nom et Prénom</label>
+                <label for="fullname" class="block text-left pl-1 text-eventit-500" data-lang="Nom et Prénom|First and Last name">Nom et Prénom</label>
                 <input name="fullname" type="text" id="fullname" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
             <div class="mb-4">
@@ -44,15 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input name="email" type="email" id="email" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
             <div class="mb-4">
-                <label for="phone_number" class="block text-left pl-1 text-eventit-500"data-lang="Numéro de téléphone|Phone number">Numéro de téléphone</label>
+                <label for="phone_number" class="block text-left pl-1 text-eventit-500" data-lang="Numéro de téléphone|Phone number">Numéro de téléphone</label>
                 <input name="phone_number" type="text" id="phone_number" class="w-80 h-9 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500">
             </div>
-           <div class="mb-4">
+            <div class="mb-4">
                 <label for="message" class="block text-left pl-1 text-eventit-500">Message</label>
                 <textarea name="message" id="message" class="w-80 h-40 px-2 py-2 border rounded-3xl border-eventit-500 focus:outline-none focus:ring focus:border-eventit-500" placeholder="Un problème, une question, n'hésitez pas à nous contacter" rows="5"></textarea>
             </div>
             <div class="text-center">
-                <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500"data-lang="Envoyer ma demande !|Send my request!">Envoyer ma demande !</button>
+                <button type="submit" class="w-3/5 bg-eventit-500 text-white py-2 px-4 rounded-3xl hover:bg-eventit-600 focus:outline-none focus:ring focus:border-eventit-500" data-lang="Envoyer ma demande !|Send my request!">Envoyer ma demande !</button>
             </div>
         </form>
     </div>

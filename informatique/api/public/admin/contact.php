@@ -1,8 +1,7 @@
 <?php
 
-require __DIR__ . "/../../entities/all_entites.php";  
+require __DIR__ . "/../../entities/all_entites.php";
 require_once __DIR__ . "/../../utils/helpers.php";
-require_once __DIR__ . "/../../entities/contact_messages.php";  
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $contact_id = $_POST["contact_id"];
@@ -11,16 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($action === "delete") {
         $contactAPI->deleteContact($contact_id);
         redirect('/admin/contact?msg=contact_deleted');
-        exit();
-    }
-
-    if ($action === "modify") {
-        $new_email = $_POST["new_email"];
-        $new_phone_number = $_POST["new_phone_number"];
-        error_log("Contact $contact_id modified: new email - $new_email, new phone - $new_phone_number");
-
-        $contactAPI->updateContact($contact_id, $new_email, $new_phone_number);
-        redirect('/admin/contact?msg=contact_modified');
         exit();
     }
 }
