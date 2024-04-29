@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contact_id = $contactAPI->createContact($organization, $email, $phone_number, $fullname, $message);
 
     if ($contact_id) {
-        redirect("/merci?id=$contact_id");
+        redirect("/merci_contact");
         exit();
     } else {
         redirect("/contact?msg=error_sending_contact");
