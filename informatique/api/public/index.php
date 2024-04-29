@@ -264,6 +264,7 @@ if ($need_auth && !$_CURRENT_USER) {
         messages.set("estimate_updated", "Devis mis à jour.");
         messages.set("user_deleted", "Utilisateur supprimé");
         messages.set("user_edit", "rôle Utilisateur changé");
+        messages.set("contact_deleted", "Message supprimé");
 
         function getUrlParams(url) {
             const params = {};
