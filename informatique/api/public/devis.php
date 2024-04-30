@@ -4,13 +4,13 @@ require_once __DIR__ . "/../utils/helpers.php";
 require_once __DIR__ . "/../utils/global_types.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $organization = htmlentities($_POST['organization']);
-    $fullname = htmlentities($_POST['fullname']);
-    $email = htmlentities($_POST['email']);
-    $phone_number = htmlentities($_POST['phone_number']);
-    $num_rooms = htmlentities($_POST['rooms']);
-    $area_size = htmlentities($_POST['squareMeters']);
-    $message = htmlentities($_POST['message']);
+    $organization = ($_POST['organization']);
+    $fullname = ($_POST['fullname']);
+    $email = ($_POST['email']);
+    $phone_number = ($_POST['phone_number']);
+    $num_rooms = ($_POST['rooms']);
+    $area_size = ($_POST['squareMeters']);
+    $message = ($_POST['message']);
 
     $user_id = isset($_CURRENT_USER) ? $_CURRENT_USER->user_id : null;
     $content = "Organisation: $organization\n fullname: $fullname\nEmail: $email\nTéléphone: $phone_number\nNombre de salle/endroit: $num_rooms\nNombre de m2: $area_size\nMessage: $message";
