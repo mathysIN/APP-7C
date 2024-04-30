@@ -66,5 +66,5 @@ function getLastWordOfCurrentUrlPath()
 
 function getSearchQuery($key)
 {
-    return isset($_GET[$key]) ? $_GET[$key] : '';
+    return isset($_GET[$key]) ? $_GET[$key] : null;
 }

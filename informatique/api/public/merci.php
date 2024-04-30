@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . "/../utils/helpers.php";
 $id = getSearchQuery('id');
+if (!$id) {
+    redirect("/404");
+    exit();
+}
+$id = htmlentities($id, ENT_QUOTES);
 ?>
 
 <div class="h-full py-20 flex flex-col justify-top">

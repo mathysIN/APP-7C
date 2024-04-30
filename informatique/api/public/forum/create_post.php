@@ -5,7 +5,7 @@ require_once __DIR__ . "/../../utils/helpers.php";
 require_once __DIR__ . "/../../utils/global_types.php";
 
 $responding = getSearchQuery("responding");
-$editing = getSearchQuery("editing");
+$editing = getSearchQuery("editing") ?? false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -26,9 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $editing_post = isset($_POST["editing"]) ? $_POST["editing"] : null;
 
     // Edit
-    if ($editing_post) {
+    if (($editing_post)) {
         $post = $postsAPI->getPostById($editing_post);
         if (!$post || !$post->hasWriteAccess($_CURRENT_USER)) {
+            error_log("bruh 1");
             redirect('/forum/create_post?msg=invalid_editing');
             exit();
         }
@@ -51,9 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-if (isset($editing)) {
+if (($editing)) {
     $post = $postsAPI->getPostById($editing);
     if (!$post || !$post->hasWriteAccess($_CURRENT_USER)) {
+        error_log($editing);
+        error_log("bruh 2");
         redirect('/forum/create_post?msg=invalid_editing');
         exit();
     }
@@ -84,7 +87,7 @@ if (isset($editing)) {
         </a>
         <div class="mb-4">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-            <input type="text" name="title" id="title" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full" disabled="<?php echo $editing ? "true" : "" ?>" value="<?php echo $post->title ?? "" ?>">
+            <input type="text" name="title" id="title" class="my-2 px-2 py-2 border rounded-xl border-gray-400 focus:outline-none focus:ring focus:border-eventit-500 w-full" <?php echo $editing ? "disabled" : "" ?> value="<?php echo $post->title ?? "" ?>">
         </div>
         <div class="mb-4">
             <label for="content" class="block text-sm font-medium text-gray-700">Content</label>

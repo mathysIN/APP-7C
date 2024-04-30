@@ -1,8 +1,3 @@
-<?php
-require_once __DIR__ . "/../utils/helpers.php";
-$id = getSearchQuery('id');
-?>
-
 <div class="h-full py-20 flex flex-col justify-top">
     <p class="text-eventit-500 text-center font-bold text-6xl" data-lang="Merci de nous avoir contacté|Thank you for contacting us">Merci de nous avoir contacté</p>
     <div class="max-w-md mx-auto p-6 text-center">
