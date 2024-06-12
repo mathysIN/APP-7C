@@ -107,13 +107,14 @@ class PostAPI
     public function getAllPostsNotResponding($limit = 25)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM Posts WHERE responding_to_id IS NULL ORDER BY created_at DESC LIMIT :limit");
-        $stmt->execute(['limit' => $limit]);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
         $posts = [];
-
+    
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $posts[] = $this->toPost($row);
         }
-
+    
         return $posts;
     }
 

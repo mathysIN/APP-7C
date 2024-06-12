@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="flex flex-row justify-left px-8 w-full h-44 text-center bg-eventit-500 rounded-3xl">
-                <img class="w-36  self-center" src="/resources/photo.webp" alt="Instagram">
+                <img class="w-36  self-center" src="/resources/leo.png" alt="Instagram">
                 <div class="self-center pl-4">
                     <h3 class="mt-4 text-lg text-left font-bold text-white"> Léo Bertrand</h3>
                     <h1 class="mt-4 text-lg text-left font-medium text-white" data-lang="Directeur technique|Technical Director">Directeur technique</h1>
