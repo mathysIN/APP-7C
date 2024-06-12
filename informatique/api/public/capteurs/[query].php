@@ -60,7 +60,7 @@ foreach ($trames as $trame) {
     $cumulatedVolumeCount = $cumulatedVolumeCount + 1;
 }
 
-$averageVolume = $$cumulatedVolume / $cumulatedVolumeCount;
+$averageVolume = $cumulatedVolume / $cumulatedVolumeCount;
 $exceedance = $exceededCount / $cumulatedVolume * 100;
 $frequency = $sensor->getFakeValue();
 
