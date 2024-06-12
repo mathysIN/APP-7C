@@ -42,16 +42,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// edit sensor with $sensor->setName(name) & $sensor->setLocation(location)
-$volume = $sensor->getCurrentValue();
-$averageVolume = $sensor->getCurrentValue();
-$exceedance = $sensor->getCurrentValue();
-$frequency = $sensor->getCurrentValue();
-
 $VOLUME_THRESHOLD = 85;
 $AVERAGE_VOLUME_THRESHOLD = 100;
 $EXCEEDANCE_THRESHOLD = 50;
 $FREQUENCY_THRESHOLD = 500;
+
+$trames = Trame::getTrames();
+$volume = $sensor->getValues()[0]->sensorValue;
+$cumulatedVolume = 0;
+$cumulatedVolumeCount = 0;
+$exceededCount = 0;
+
+foreach ($trames as $trame) {
+    if (!$trame instanceof Trame) continue;
+    $cumulatedVolume = $cumulatedVolume + $trame->sensorValue;
+    if ($exceededCount >= $EXCEEDANCE_THRESHOLD) $exceededCount = $exceededCount + 1;
+    $cumulatedVolumeCount = $cumulatedVolumeCount + 1;
+}
+
+$averageVolume = $$cumulatedVolume / $cumulatedVolumeCount;
+$exceedance = $exceededCount / $cumulatedVolume * 100;
+$frequency = $sensor->getFakeValue();
 
 $volumeColor = $volume > $VOLUME_THRESHOLD ? "text-red-500" : "text-black";
 $averageVolumeColor = $averageVolume > $AVERAGE_VOLUME_THRESHOLD ? "text-red-500" : "text-black";
@@ -143,7 +154,7 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
                 <p class="text-sm text-gray-600">Volume moyen</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold"><?php echo $frequency ?>Hz</p>
+                <p class="text-4xl font-bold">-</p>
                 <p class="text-sm text-gray-600">Fréquence sonore</p>
             </div>
         </div>
@@ -156,14 +167,19 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
                         <canvas id="graphCanvas" width="1000" height="500" class="w-full"></canvas>
 
                         <script>
-                            // Create random data for the graph, with date as name and value as value
                             const data = [];
-                            for (var i = 0; i < 10; i++) {
+                            <?php
+
+                            foreach ($trames as $trame) {
+                            ?>
+
                                 data.push({
-                                    name: new Date(Date.now() + i * 1000 * 60 * 60).toLocaleTimeString(),
-                                    value: Math.floor(Math.random() * 100)
-                                });
+                                    name: "<?php echo $trame->date ?>",
+                                    value: <?php echo $trame->sensorValue ?>
+                                })
+                            <?php
                             }
+                            ?>
 
 
 
@@ -175,7 +191,9 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
                             // Set the graph parameters
                             var graphWidth = canvas.width - 80; // Adjusted for padding
                             var graphHeight = canvas.height - 80; // Adjusted for padding
-                            var maxValue = Math.max(...data.map((item) => item.value));
+                            var maxValue = <?php echo $EXCEEDANCE_THRESHOLD ?> * 1.5;
+                            // var maxValue = Math.max(...data.map((item) => item.value));
+
                             var stepSize = graphHeight / maxValue;
                             var columnWidth = graphWidth / (data.length - 1);
 

@@ -6,8 +6,9 @@ require_once __DIR__ . "/../utils/global_types.php";
 
 $estimates = $estimateAPI->getEstimatesByUser($_CURRENT_USER->user_id);
 $estimateMapSensors = [];
+$volume = Trame::getTrames()[0]->sensorValue;
+
 foreach ($estimates as $estimate) {
-    // $sensorAPI->createSensor($estimate->estimate_id, "Capteur de son", "Salle n°1", "");
     $estimateMapSensors[$estimate->estimate_id] = $estimateAPI->getSensorsByEstimate($estimate->estimate_id);
 }
 
@@ -26,7 +27,7 @@ foreach ($estimates as $estimate) {
                             <h3 class="mt-4 text-center text-lg font-bold text-black"><?= $sensor->name ?></h3>
                             <h1 class="pr-20 items-center mt-4 text-lg flex font-medium text-black"> <img class="w-1/10 p-2" src="/resources/ici.webp" alt=""><?= $sensor->location ?></h1>
                             <div>
-                                <p class="text-center font-bold text-green-700 text-3xl pt-40"> <?= $sensor->getCurrentValue() ?> dB</p>
+                                <p class="text-center font-bold text-green-700 text-3xl pt-40"> <?php echo $volume ?> dB</p>
                             </div>
                         </div>
                     </a>

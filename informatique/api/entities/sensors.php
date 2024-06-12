@@ -9,7 +9,12 @@ class Sensor
     public $location;
     public $state;
 
-    public function getCurrentValue()
+    public function getValues()
+    {
+        return Trame::getTrames();
+    }
+
+    public function getFakeValue()
     {
         return rand(20, 100);
     }

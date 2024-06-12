@@ -12,3 +12,9 @@ $_CURRENT_USER = $_CURRENT_USER ?? null;
  */
 global $_USER_CACHE;
 $_USER_CACHE = $_USER_CACHE ?? array();
+
+/**
+ * @var string $_ISEP_SENSOR_TEAM
+ */
+global $_ISEP_SENSOR_TEAM;
+$_ISEP_SENSOR_TEAM = "G07B";
