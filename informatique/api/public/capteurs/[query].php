@@ -42,10 +42,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$VOLUME_THRESHOLD = 85;
-$AVERAGE_VOLUME_THRESHOLD = 100;
+$VOLUME_THRESHOLD = 70;
+$AVERAGE_VOLUME_THRESHOLD = 50;
 $EXCEEDANCE_THRESHOLD = 50;
 $FREQUENCY_THRESHOLD = 500;
+
+class DataDuration
+{
+    const LIVE = "live";
+    const HOUR = "hour";
+    const DAY = "day";
+}
+$dataDuration = DataDuration::LIVE;
+
+switch (getSearchQuery("time")) {
+    case DataDuration::HOUR:
+        $dataDuration = DataDuration::HOUR;
+        break;
+    case DataDuration::DAY:
+        $dataDuration = DataDuration::DAY;
+        break;
+    default:
+        $dataDuration = DataDuration::LIVE;
+        break;
+}
+
 
 $trames = Trame::getTrames();
 $volume = $sensor->getValues()[0]->sensorValue;
@@ -65,13 +86,19 @@ $exceedance = $exceededCount / $cumulatedVolume * 100;
 $frequency = $sensor->getFakeValue();
 
 $volumeColor = $volume > $VOLUME_THRESHOLD ? "text-red-500" : "text-black";
-$averageVolumeColor = $averageVolume > $AVERAGE_VOLUME_THRESHOLD ? "text-red-500" : "text-black";
-$exceedanceColor = $exceedance > $EXCEEDANCE_THRESHOLD ? "text-red-500" : "text-black";
-$frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-black";
+//$averageVolumeColor = $averageVolume > $AVERAGE_VOLUME_THRESHOLD ? "text-red-500" : "text-black";
+//$exceedanceColor = $exceedance > $EXCEEDANCE_THRESHOLD ? "text-red-500" : "text-black";
+// $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-black";
+
+function getMyColor($dataDuration, $componentDataDuration)
+{
+    if ($dataDuration == $componentDataDuration) return " bg-eventit-500 text-white ";
+    else return " bg-gray-200 text-gray-700 ";
+}
 ?>
 
 <div class="max-w-4xl mx-auto my-8 p-6 rounded-lg">
-
+    <div class="hidden bg-eventit-500 text-white bg-gray-200 text-gray-700 text-red-500 text-black"></div>
     <a href="/mes_capteurs">
         <button class="inline-flex my-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-eventit-500 hover:bg-eventit-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-eventit-500">
             Retour
@@ -135,27 +162,23 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
             </div>
 
             <div class="flex flex-col md:flex-row space-x-2 space-y-2 md:space-y-0">
-                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">24h</button>
-                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">1h</button>
-                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-gray-200 text-gray-700">Live<div class="ml-2 h-2 w-2 bg-red-500 rounded-full animate-pulse"></div></button>
+                <a href="?time=<?php echo DataDuration::DAY ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::DAY) ?>">24h</a>
+                <a href="?time=<?php echo DataDuration::HOUR ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::HOUR) ?>">1h</a>
+                <a href="?time=<?php echo DataDuration::LIVE ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::LIVE) ?>">Live<div class="ml-2 h-2 w-2 bg-red-500 rounded-full animate-pulse"></div></a>
             </div>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div class="text-center">
-                <p class="text-4xl font-bold <?php echo $volumeColor ?>"><?php echo $volume ?>dB</p>
-                <p class="text-sm text-gray-600">Volume Actuel</p>
+                <p class="text-4xl font-bold" id="volume">- dB</p>
+                <p class=" text-sm text-gray-600">Volume Actuel</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold <?php echo $exceedanceColor ?>"><?php echo $exceedance ?>%</p>
+                <p class="text-4xl font-bold" id="exceedance">-%</p>
                 <p class="text-sm text-gray-600">Dépassement moyen</p>
             </div>
             <div class="text-center">
-                <p class="text-4xl font-bold <?php echo $averageVolumeColor ?>"><?php echo $averageVolume ?>dB</p>
+                <p class="text-4xl font-bold" id="averageVolume">- dB</p>
                 <p class="text-sm text-gray-600">Volume moyen</p>
-            </div>
-            <div class="text-center">
-                <p class="text-4xl font-bold">-</p>
-                <p class="text-sm text-gray-600">Fréquence sonore</p>
             </div>
         </div>
         <div>
@@ -167,19 +190,115 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
                         <canvas id="graphCanvas" width="1000" height="500" class="w-full"></canvas>
 
                         <script>
-                            const data = [];
-                            <?php
+                            const threshold = <?php echo $VOLUME_THRESHOLD ?>;
+                            const averageThreshold = <?php echo $AVERAGE_VOLUME_THRESHOLD ?>;
+                            let baseData = [];
+                            let date;
+                            let valueData;
 
-                            foreach ($trames as $trame) {
-                            ?>
-
-                                data.push({
-                                    name: "<?php echo $trame->date ?>",
+                            <?php foreach ($trames as $trame) : ?>
+                                date = new Date("<?php echo $trame->date ?>");
+                                valueData = {
+                                    date,
+                                    name: date.toISOString().slice(0, 10),
                                     value: <?php echo $trame->sensorValue ?>
-                                })
-                            <?php
+                                };
+                                baseData.push(valueData);
+                            <?php endforeach; ?>
+
+                            let data = baseData;
+
+                            const now = new Date();
+
+                            function timeDifference(date1, date2) {
+                                return date1.getTime() - date2.getTime();
                             }
-                            ?>
+
+                            const last24HoursData = data.filter(d => {
+                                const timeDifferenceMillis = timeDifference(now, d.date);
+                                return timeDifferenceMillis <= 24 * 60 * 60 * 1000 && timeDifferenceMillis >= 0;
+                            });
+
+                            function mean(values) {
+                                return Math.round(values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0);
+                            }
+
+                            function groupData(data, intervalMinutes, totalIntervals) {
+                                const intervals = {};
+                                const intervalMillis = intervalMinutes * 60 * 1000;
+                                const startTime = new Date(now.getTime() - (totalIntervals * intervalMillis));
+
+                                // Initialize intervals with zero values
+                                for (let i = 0; i < totalIntervals; i++) {
+                                    const intervalStart = new Date(startTime.getTime() + (i * intervalMillis));
+                                    const intervalKey = intervalStart.toISOString();
+                                    intervals[intervalKey] = [];
+                                }
+
+                                // Populate intervals with actual data
+                                data.forEach(item => {
+                                    const intervalStart = new Date(Math.floor(item.date.getTime() / intervalMillis) * intervalMillis);
+                                    const intervalKey = intervalStart.toISOString();
+
+                                    if (!intervals[intervalKey]) {
+                                        intervals[intervalKey] = [];
+                                    }
+
+                                    intervals[intervalKey].push(item.value);
+                                });
+
+                                // Create the grouped data array
+                                const groupedData = Object.keys(intervals).map(key => {
+                                    return {
+                                        name: new Date(key).toISOString().slice(0, 10),
+                                        value: mean(intervals[key])
+                                    };
+                                });
+
+                                return groupedData;
+                            }
+
+                            const last24HoursGrouped = groupData(last24HoursData, 120, 12);
+                            const lastHourData = data.filter(d => {
+                                const timeDifferenceMillis = timeDifference(now, d.date);
+                                return timeDifferenceMillis <= 60 * 60 * 1000 && timeDifferenceMillis >= 0;
+                            });
+
+                            const lastHourGrouped = groupData(lastHourData, 5, 12);
+
+                            <?php if ($dataDuration == DataDuration::LIVE || $dataDuration == DataDuration::HOUR) : ?>
+                                data = lastHourGrouped;
+                            <?php elseif ($dataDuration == DataDuration::DAY) : ?>
+                                data = last24HoursGrouped;
+                            <?php endif; ?>
+
+                            <?php if ($dataDuration == DataDuration::LIVE) : ?>
+                                setTimeout(() => location.reload(), 1000 * 30);
+                            <?php endif; ?>
+
+                            const volume = baseData[baseData.length - 1].value;
+                            const volumeComponent = document.getElementById("volume");
+                            volumeComponent.innerHTML = `${volume}dB`;
+                            if (volume > threshold) {
+                                volumeComponent.classList.add("text-red-500");
+                                volumeComponent.classList.remove("text-black");
+                            }
+
+                            let exceedance = Math.round(baseData.filter((v) => v.value > threshold).length / baseData.length * 100);
+                            const exceedanceComponent = document.getElementById("exceedance");
+                            exceedanceComponent.innerHTML = `${exceedance}%`;
+                            if (exceedance > threshold) {
+                                exceedanceComponent.classList.add("text-red-500");
+                                exceedanceComponent.classList.remove("text-black");
+                            }
+
+                            const averageVolume = mean(data.map(v => v.value));
+                            const averageVolumeComponent = document.getElementById("averageVolume");
+                            averageVolumeComponent.innerHTML = `${averageVolume}dB`;
+                            if (averageVolume > threshold) {
+                                averageVolumeComponent.classList.add("text-red-500");
+                                averageVolumeComponent.classList.remove("text-black");
+                            }
 
 
 
@@ -191,7 +310,7 @@ $frequencyColor = $frequency > $FREQUENCY_THRESHOLD ? "text-red-500" : "text-bla
                             // Set the graph parameters
                             var graphWidth = canvas.width - 80; // Adjusted for padding
                             var graphHeight = canvas.height - 80; // Adjusted for padding
-                            var maxValue = <?php echo $EXCEEDANCE_THRESHOLD ?> * 1.5;
+                            var maxValue = Math.max(...data.map(o => o.value));
                             // var maxValue = Math.max(...data.map((item) => item.value));
 
                             var stepSize = graphHeight / maxValue;
