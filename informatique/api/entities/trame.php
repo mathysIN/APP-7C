@@ -26,7 +26,7 @@ class Trame
         $this->date = $date;
     }
 
-    public static function getTrames($limit = 30)
+    public static function getTrames($limit = 10000)
     {
         global $_ISEP_SENSOR_TEAM;
         $ch = curl_init();
