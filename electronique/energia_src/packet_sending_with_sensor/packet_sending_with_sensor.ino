@@ -26,32 +26,36 @@ void setup()
 {
     Serial.begin(9600);
     Serial1.begin(9600);
+    Serial.println("AT+NAMEG7C");
+    Serial1.println("AT+NAMEG7C");
     pinMode(MICROPHONE_PIN, INPUT);
     initPacket();
 }
 
 void loop()
 {
-    float soundPower;
+    while(1) {
+      float soundPower;
 
-    Serial.println("");
-    Serial.println("--- Sound Power Measurement ---");
-
-    processSamples();
-    soundPower = getSoundPower();
-
-    Serial.print("Power = ");
-    Serial.println(soundPower);
-    if (soundPower > AVR_LEVEL)
-    {
-        Serial.println("Sound level is too high");
+      Serial.println("");
+      Serial.println("--- Sound Power Measurement ---");
+  
+      processSamples();
+      soundPower = getSoundPower();
+  
+      Serial.print("Power = ");
+      Serial.println(soundPower);
+      if (soundPower > AVR_LEVEL)
+      {
+          Serial.println("Sound level is too high");
+      }
+      else
+      {
+          Serial.println("Sound level is good");
+      }
+      sendPacket(SENSOR_TEMPERATURE, soundPower);
+      delay(2000);
     }
-    else
-    {
-        Serial.println("Sound level is good");
-    }
-    sendPacket(SENSOR_AUDIO, soundPower);
-    delay(2000);
 }
 
 void processSamples(void)
@@ -159,14 +163,14 @@ void initPacket(void)
     // packetSender[] = x;
 
     // -> Timestamp
-    packetSender[13] = 'F';
-    packetSender[14] = 'A';
-    packetSender[15] = 'F';
-    packetSender[16] = 'B';
+    packetSender[13] = '0';
+    packetSender[14] = '1';
+    packetSender[15] = '2';
+    packetSender[16] = '5';
 
     // -> Checksum
-    // packetSender[17] = '0';
+    // packetSender[17] = '5';
 
     // -> Dernier octet de la trame
-    // packetSender[18] = '0';
+    // packetSender[18] = '3';
 }

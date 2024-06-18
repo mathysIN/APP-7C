@@ -162,8 +162,8 @@ function getMyColor($dataDuration, $componentDataDuration)
             </div>
 
             <div class="flex flex-col md:flex-row space-x-2 space-y-2 md:space-y-0">
-                <a href="?time=<?php echo DataDuration::DAY ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::DAY) ?>">24h</a>
-                <a href="?time=<?php echo DataDuration::HOUR ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::HOUR) ?>">1h</a>
+                <a href="?time=<?php echo DataDuration::DAY ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::DAY) ?>">24min</a>
+                <a href="?time=<?php echo DataDuration::HOUR ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::HOUR) ?>">12min</a>
                 <a href="?time=<?php echo DataDuration::LIVE ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 <?php echo getMyColor($dataDuration, DataDuration::LIVE) ?>">Live<div class="ml-2 h-2 w-2 bg-red-500 rounded-full animate-pulse"></div></a>
             </div>
         </div>
@@ -210,73 +210,56 @@ function getMyColor($dataDuration, $componentDataDuration)
 
                             const now = new Date();
 
-                            function timeDifference(date1, date2) {
-                                return date1.getTime() - date2.getTime();
-                            }
+                            function aggregateData(data, intervalMinutes, numIntervals) {
+                                const intervalMs = intervalMinutes * 60 * 1000;
 
-                            const last24HoursData = data.filter(d => {
-                                const timeDifferenceMillis = timeDifference(now, d.date);
-                                return timeDifferenceMillis <= 24 * 60 * 60 * 1000 && timeDifferenceMillis >= 0;
-                            });
+                                const endTime = new Date().getTime();
+                                const result = [];
 
-                            function mean(values) {
-                                return Math.round(values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0);
-                            }
+                                for (let i = 0; i < numIntervals; i++) {
+                                    const intervalEndTime = endTime - i * intervalMs;
+                                    const intervalStartTime = intervalEndTime - intervalMs;
 
-                            function groupData(data, intervalMinutes, totalIntervals) {
-                                const intervals = {};
-                                const intervalMillis = intervalMinutes * 60 * 1000;
-                                const startTime = new Date(now.getTime() - (totalIntervals * intervalMillis));
+                                    const valuesInInterval = data.filter(entry => {
+                                        if (entry.value > 4096) return;
+                                        const entryTime = new Date(entry.date).getTime();
+                                        return entryTime > intervalStartTime && entryTime <= intervalEndTime;
+                                    });
 
-                                // Initialize intervals with zero values
-                                for (let i = 0; i < totalIntervals; i++) {
-                                    const intervalStart = new Date(startTime.getTime() + (i * intervalMillis));
-                                    const intervalKey = intervalStart.toISOString();
-                                    intervals[intervalKey] = [];
-                                }
-
-                                // Populate intervals with actual data
-                                data.forEach(item => {
-                                    const intervalStart = new Date(Math.floor(item.date.getTime() / intervalMillis) * intervalMillis);
-                                    const intervalKey = intervalStart.toISOString();
-
-                                    if (!intervals[intervalKey]) {
-                                        intervals[intervalKey] = [];
+                                    let meanValue;
+                                    if (valuesInInterval.length > 0) {
+                                        const sum = valuesInInterval.reduce((acc, entry) => acc + entry.value, 0);
+                                        meanValue = sum / valuesInInterval.length;
+                                    } else {
+                                        meanValue = 0;
                                     }
 
-                                    intervals[intervalKey].push(item.value);
-                                });
+                                    const minutesAgo = intervalMinutes * i;
+                                    const name = `${minutesAgo}`;
 
-                                // Create the grouped data array
-                                const groupedData = Object.keys(intervals).map(key => {
-                                    return {
-                                        name: new Date(key).toISOString().slice(0, 10),
-                                        value: mean(intervals[key])
-                                    };
-                                });
+                                    result.unshift({
+                                        date: new Date(intervalStartTime),
+                                        name: name,
+                                        value: Math.round(meanValue)
+                                    });
+                                }
 
-                                return groupedData;
+                                return result;
                             }
 
-                            const last24HoursGrouped = groupData(last24HoursData, 120, 12);
-                            const lastHourData = data.filter(d => {
-                                const timeDifferenceMillis = timeDifference(now, d.date);
-                                return timeDifferenceMillis <= 60 * 60 * 1000 && timeDifferenceMillis >= 0;
-                            });
-
-                            const lastHourGrouped = groupData(lastHourData, 5, 12);
-
-                            <?php if ($dataDuration == DataDuration::LIVE || $dataDuration == DataDuration::HOUR) : ?>
-                                data = lastHourGrouped;
+                            <?php if ($dataDuration == DataDuration::LIVE) : ?>
+                                data = aggregateData(baseData, 0.5, 12);
+                            <?php elseif ($dataDuration == DataDuration::HOUR) : ?>
+                                data = aggregateData(baseData, 1, 12);
                             <?php elseif ($dataDuration == DataDuration::DAY) : ?>
-                                data = last24HoursGrouped;
+                                data = aggregateData(baseData, 2, 12);
                             <?php endif; ?>
 
                             <?php if ($dataDuration == DataDuration::LIVE) : ?>
-                                setTimeout(() => location.reload(), 1000 * 30);
+                                setTimeout(() => location.reload(), 1000 * 10);
                             <?php endif; ?>
 
-                            const volume = baseData[baseData.length - 1].value;
+                            const volume = data[data.length - 1].value;
                             const volumeComponent = document.getElementById("volume");
                             volumeComponent.innerHTML = `${volume}dB`;
                             if (volume > threshold) {
@@ -284,7 +267,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                                 volumeComponent.classList.remove("text-black");
                             }
 
-                            let exceedance = Math.round(baseData.filter((v) => v.value > threshold).length / baseData.length * 100);
+                            let exceedance = Math.round(data.filter((v) => v.value > threshold).length / data.length * 100);
                             const exceedanceComponent = document.getElementById("exceedance");
                             exceedanceComponent.innerHTML = `${exceedance}%`;
                             if (exceedance > threshold) {
@@ -292,7 +275,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                                 exceedanceComponent.classList.remove("text-black");
                             }
 
-                            const averageVolume = mean(data.map(v => v.value));
+                            const averageVolume = Math.round(data.map(v => v.value).reduce((partialSum, a) => partialSum + a, 0) / data.length, 0);
                             const averageVolumeComponent = document.getElementById("averageVolume");
                             averageVolumeComponent.innerHTML = `${averageVolume}dB`;
                             if (averageVolume > threshold) {
