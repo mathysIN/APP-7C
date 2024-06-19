@@ -190,11 +190,11 @@ function getMyColor($dataDuration, $componentDataDuration)
                         <canvas id="graphCanvas" width="1000" height="500" class="w-full"></canvas>
 
                         <script>
-                            const threshold = <?php echo $VOLUME_THRESHOLD ?>;
-                            const averageThreshold = <?php echo $AVERAGE_VOLUME_THRESHOLD ?>;
-                            let baseData = [];
-                            let date;
-                            let valueData;
+                            var threshold = <?php echo $VOLUME_THRESHOLD ?>;
+                            var averageThreshold = <?php echo $AVERAGE_VOLUME_THRESHOLD ?>;
+                            var baseData = [];
+                            var date;
+                            var valueData;
 
                             <?php foreach ($trames as $trame) : ?>
                                 date = new Date("<?php echo $trame->date ?>");
@@ -206,9 +206,9 @@ function getMyColor($dataDuration, $componentDataDuration)
                                 baseData.push(valueData);
                             <?php endforeach; ?>
 
-                            let data = baseData;
+                            var data = baseData;
 
-                            const now = new Date();
+                            var now = new Date();
 
                             function aggregateData(data, intervalMinutes, numIntervals) {
                                 const intervalMs = intervalMinutes * 60 * 1000;
@@ -216,7 +216,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                                 const endTime = new Date().getTime();
                                 const result = [];
 
-                                for (let i = 0; i < numIntervals; i++) {
+                                for (var i = 0; i < numIntervals; i++) {
                                     const intervalEndTime = endTime - i * intervalMs;
                                     const intervalStartTime = intervalEndTime - intervalMs;
 
@@ -226,7 +226,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                                         return entryTime > intervalStartTime && entryTime <= intervalEndTime;
                                     });
 
-                                    let meanValue;
+                                    var meanValue;
                                     if (valuesInInterval.length > 0) {
                                         const sum = valuesInInterval.reduce((acc, entry) => acc + entry.value, 0);
                                         meanValue = sum / valuesInInterval.length;
@@ -235,7 +235,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                                     }
 
                                     const minutesAgo = intervalMinutes * i;
-                                    const name = `${minutesAgo}`;
+                                    const name = `-${minutesAgo} min`;
 
                                     result.unshift({
                                         date: new Date(intervalStartTime),
@@ -255,28 +255,24 @@ function getMyColor($dataDuration, $componentDataDuration)
                                 data = aggregateData(baseData, 2, 12);
                             <?php endif; ?>
 
-                            <?php if ($dataDuration == DataDuration::LIVE) : ?>
-                                setTimeout(() => location.reload(), 1000 * 10);
-                            <?php endif; ?>
-
-                            const volume = data[data.length - 1].value;
-                            const volumeComponent = document.getElementById("volume");
+                            var volume = data[data.length - 1].value;
+                            var volumeComponent = document.getElementById("volume");
                             volumeComponent.innerHTML = `${volume}dB`;
                             if (volume > threshold) {
                                 volumeComponent.classList.add("text-red-500");
                                 volumeComponent.classList.remove("text-black");
                             }
 
-                            let exceedance = Math.round(data.filter((v) => v.value > threshold).length / data.length * 100);
-                            const exceedanceComponent = document.getElementById("exceedance");
+                            var exceedance = Math.round(data.filter((v) => v.value > threshold).length / data.length * 100);
+                            var exceedanceComponent = document.getElementById("exceedance");
                             exceedanceComponent.innerHTML = `${exceedance}%`;
                             if (exceedance > threshold) {
                                 exceedanceComponent.classList.add("text-red-500");
                                 exceedanceComponent.classList.remove("text-black");
                             }
 
-                            const averageVolume = Math.round(data.map(v => v.value).reduce((partialSum, a) => partialSum + a, 0) / data.length, 0);
-                            const averageVolumeComponent = document.getElementById("averageVolume");
+                            var averageVolume = Math.round(data.map(v => v.value).reduce((partialSum, a) => partialSum + a, 0) / data.length, 0);
+                            var averageVolumeComponent = document.getElementById("averageVolume");
                             averageVolumeComponent.innerHTML = `${averageVolume}dB`;
                             if (averageVolume > threshold) {
                                 averageVolumeComponent.classList.add("text-red-500");
@@ -293,7 +289,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                             // Set the graph parameters
                             var graphWidth = canvas.width - 80; // Adjusted for padding
                             var graphHeight = canvas.height - 80; // Adjusted for padding
-                            var maxValue = Math.max(...data.map(o => o.value));
+                            var maxValue = 100;
                             // var maxValue = Math.max(...data.map((item) => item.value));
 
                             var stepSize = graphHeight / maxValue;
@@ -358,7 +354,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                             ctx.fillStyle = "#000";
                             for (var i = 0; i <= maxValue; i += 25) {
                                 var y = canvas.height - 40 - i * stepSize; // Adjusted for padding
-                                ctx.fillText(i, 5, y);
+                                ctx.fillText(i, 20, y);
                             }
                             ctx.closePath();
                             ctx.stroke();
@@ -421,6 +417,9 @@ function getMyColor($dataDuration, $componentDataDuration)
                                 tooltip.style.display = "none";
                             });
                         </script>
+                        <?php if ($dataDuration == DataDuration::LIVE) { ?>
+                            <script src="/resources/autorefresh.js" type="text/javascript"></script>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
