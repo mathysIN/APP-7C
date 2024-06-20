@@ -1,3 +1,5 @@
+const refreshDelay = 3000;
+
 async function autoRefresh() {
   await fetch(location.href)
     .then((response) => {
@@ -24,7 +26,7 @@ async function autoRefresh() {
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
-  setTimeout(autoRefresh, 5000);
+  setTimeout(autoRefresh, refreshDelay);
 }
 
-setTimeout(autoRefresh, 5000);
+setTimeout(autoRefresh, refreshDelay);
