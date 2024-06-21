@@ -1,4 +1,4 @@
-const refreshDelay = 3000;
+const refreshDelay = 5000;
 
 async function autoRefresh() {
   await fetch(location.href)

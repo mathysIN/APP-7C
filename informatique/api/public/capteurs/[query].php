@@ -210,10 +210,37 @@ function getMyColor($dataDuration, $componentDataDuration)
 
                             var now = new Date();
 
+                            function getFutureTimeOnMinMultipleOf(minMultiple) {
+                                const now = new Date();
+
+                                if (minMultiple === 0) {
+                                    return now;
+                                }
+
+                                const minutes = now.getMinutes();
+                                const seconds = now.getSeconds();
+                                const totalMinutes = minutes + seconds / 60;
+
+                                let roundedMinutes = totalMinutes + (minMultiple - (totalMinutes % minMultiple)) % minMultiple;
+
+                                if (roundedMinutes <= totalMinutes) {
+                                    roundedMinutes += minMultiple;
+                                }
+
+                                const roundedDate = new Date(now);
+                                const roundedMinutesFloor = Math.floor(roundedMinutes);
+                                const roundedSeconds = (roundedMinutes - roundedMinutesFloor) * 60;
+                                roundedDate.setMinutes(roundedMinutesFloor);
+                                roundedDate.setSeconds(roundedSeconds);
+                                roundedDate.setMilliseconds(0);
+
+                                return roundedDate;
+                            }
+
                             function aggregateData(data, intervalMinutes, numIntervals) {
                                 const intervalMs = intervalMinutes * 60 * 1000;
 
-                                const endTime = new Date().getTime();
+                                const endTime = getFutureTimeOnMinMultipleOf(intervalMinutes).getTime();
                                 const result = [];
 
                                 for (var i = 0; i < numIntervals; i++) {
@@ -248,7 +275,7 @@ function getMyColor($dataDuration, $componentDataDuration)
                             }
 
                             <?php if ($dataDuration == DataDuration::LIVE) : ?>
-                                data = aggregateData(baseData, 0.5, 12);
+                                data = aggregateData(baseData, 0.25, 12);
                             <?php elseif ($dataDuration == DataDuration::HOUR) : ?>
                                 data = aggregateData(baseData, 1, 12);
                             <?php elseif ($dataDuration == DataDuration::DAY) : ?>
